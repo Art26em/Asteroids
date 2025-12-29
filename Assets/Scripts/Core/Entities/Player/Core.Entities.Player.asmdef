@@ -1,3 +1,4 @@
 ﻿{
-  "name": "Core.Entities.Player"
+  "name": "Core.Entities.Player",
+  "references":[ "GUID:3eebbc5fbdd449bf806e22af1d7efac4" ]
 }
