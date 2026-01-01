@@ -1,8 +1,8 @@
 ﻿
-namespace Core.Entities.Player
+namespace Core.Entities
 {
     public class Player
     {
-        private Health.Health  _health;
+        private Health _health;
     }
 }

@@ -4,17 +4,27 @@ namespace Core.AnimationsControllers
 {
     public class PlayerAnimationSettings
     {
-        public Sprite PlayerIdleSprite {get; private set;}
-        public Sprite PlayerMovingSprite {get; private set;}
-        public Sprite PlayerRollLeftSprite {get; private set;}
-        public Sprite PlayerRollRightSprite {get; private set;}
-
-        public PlayerAnimationSettings(Sprite playerIdleSprite, Sprite playerMovingSprite, Sprite playerRollLeftSprite, Sprite playerRollRightSprite)
+        public readonly GameObject Player;
+        public readonly float PlayerMoveInSpeed;
+        public Vector3 PlayerStartPosition;
+        public Vector3 PlayerTargetPosition;
+        
+        public PlayerAnimationSettings(
+            GameObject player,
+            float playerMoveInSpeed,
+            Vector3 playerStartPosition,
+            Vector3 playerTargetPosition)
         {
-            PlayerIdleSprite = playerIdleSprite;
-            PlayerMovingSprite = playerMovingSprite;
-            PlayerRollLeftSprite = playerRollLeftSprite;
-            PlayerRollRightSprite = playerRollRightSprite;
+            Player = player;
+            PlayerMoveInSpeed = playerMoveInSpeed;
+            PlayerStartPosition = playerStartPosition;
+            PlayerTargetPosition = playerTargetPosition;
         }
+        
+        public SpriteRenderer GetPlayerSpriteRenderer()
+        {
+            return Player.GetComponent<SpriteRenderer>();
+        }
+        
     }
 }

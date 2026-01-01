@@ -1,10 +1,9 @@
 {
-    "name": "Core.AnimationsControllers",
+    "name": "Core.Entities.Player.Movement",
     "rootNamespace": "",
     "references": [
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:dcca34c070f7452cbf50e094b7be245f",
-        "GUID:263910f62144d6247a2c9457c741ecc4"
+        "GUID:909f0358c6da4c2b937dd719662b9507",
+        "GUID:dcca34c070f7452cbf50e094b7be245f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

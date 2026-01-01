@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Health
+﻿namespace Core.Entities
 {
     public class Health
     {

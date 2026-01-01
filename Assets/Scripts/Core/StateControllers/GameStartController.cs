@@ -5,7 +5,7 @@ namespace Core.StateControllers
     public class GameStartController
     {
         private readonly AnimationsController _animationsController;
-
+        
         public GameStartController(AnimationsController animationsController)
         {
             _animationsController = animationsController;
@@ -15,5 +15,6 @@ namespace Core.StateControllers
         {
             _animationsController.OnGameStart();    
         }
+        
     }
 }
