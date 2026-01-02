@@ -1,4 +1,17 @@
-﻿{
-  "name": "Core.Entities.Player",
-  "references":[ "GUID:3eebbc5fbdd449bf806e22af1d7efac4" ]
+{
+    "name": "Core.Entities.Player",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3eebbc5fbdd449bf806e22af1d7efac4",
+        "GUID:c2f74a92a74b4a3aae25bb0eac18aa55"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
