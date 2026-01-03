@@ -6,6 +6,7 @@ using Core.SpriteControllers;
 using Core.StateControllers;
 using UnityEngine;
 using Zenject;
+using Zenject.SpaceFighter;
 
 namespace Installers
 {
@@ -31,6 +32,7 @@ namespace Installers
         public override void InstallBindings()
         {
             InstallControllers();
+            InstallPlayer();
         }
         
         private void InstallControllers()
@@ -66,6 +68,11 @@ namespace Installers
             Container.Bind<GameOverController>().FromNew().AsSingle().WithArguments(animationController);
             Container.Bind<PlayerMover>().FromInstance(playerMover).AsSingle();
             Container.Bind<PlayerInputController>().AsSingle();
+        }
+        
+        private void InstallPlayer()
+        {
+            Container.Bind<Player>().FromNew().AsSingle();
         }
         
     }
