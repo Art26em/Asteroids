@@ -1,6 +1,9 @@
 ﻿
+using System;
+
 namespace Core.Entities
 {
+    [Serializable]
     public class Player
     {
         private Health _health;

@@ -2,6 +2,7 @@
 {
     public class PlayerConfigLoader
     {
+        private string _defaultFileName;
         
     }
 }
