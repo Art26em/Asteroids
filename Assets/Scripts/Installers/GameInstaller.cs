@@ -1,12 +1,12 @@
 using Core.AnimationsControllers;
 using Core.AnimationsSettings;
 using Core.Entities;
+using Core.Entities.Player;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
 using Core.StateControllers;
 using UnityEngine;
 using Zenject;
-using Zenject.SpaceFighter;
 
 namespace Installers
 {
@@ -72,7 +72,7 @@ namespace Installers
         
         private void InstallPlayer()
         {
-            Container.Bind<Player>().FromNew().AsSingle();
+            Container.Bind<PlayerStats>().FromInstance(new PlayerStats()).AsSingle();
         }
         
     }

@@ -2,10 +2,10 @@
 {
     public class Health
     {
-        private float _currentHealth;
-        private float _maxHealth;
+        private int _currentHealth;
+        private int _maxHealth;
 
-        public Health(float maxHealth)
+        public Health(int maxHealth)
         {
             _currentHealth = maxHealth;
             _maxHealth = maxHealth;
@@ -21,12 +21,12 @@
             return _maxHealth;
         }
         
-        public void IncreaseHealth(float amount)
+        public void IncreaseHealth(int amount)
         {
             _currentHealth += amount;
         }
 
-        public void DecreaseHealth(float amount)
+        public void DecreaseHealth(int amount)
         {
             _currentHealth -= amount;
         }
