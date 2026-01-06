@@ -2,33 +2,28 @@
 {
     public class Speed
     {
-        private float _currentSpeed;
-        private float _maxSpeed;
+        public float CurrentSpeed {get; private set;}
+        public float MaxSpeed {get; private set;}
+        public float Acceleration {get; private set;}
+        public float Deceleration {get; private set;}
+        
 
-        public Speed(float maxSpeed)
+        public Speed(float maxSpeed,  float acceleration = 1f, float deceleration = 1f)
         {
-            _currentSpeed = 0;
-            _maxSpeed = maxSpeed;
-        }
-
-        public float GetCurrentSpeed()
-        {
-            return _currentSpeed;
-        }
-
-        public float GetMaxSpeed()
-        {
-            return _maxSpeed;
+            CurrentSpeed = 0;
+            MaxSpeed = maxSpeed;
+            Acceleration = acceleration;
+            Deceleration = deceleration;
         }
         
         public void IncreaseCurrentSpeed(float amount)
         {
-            _currentSpeed += amount;
+            CurrentSpeed += amount;
         }
 
         public void DecreaseCurrentSpeed(float amount)
         {
-            _currentSpeed -= amount;
+            CurrentSpeed -= amount;
         }
     }
 }

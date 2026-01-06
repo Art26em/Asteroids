@@ -16,6 +16,11 @@ namespace Core.Entities
         
 		private void Update()
         {
+            var isMoving = Input.GetKey(KeyCode.W) || 
+                           Input.GetKey(KeyCode.A) || 
+                           Input.GetKey(KeyCode.S) || 
+                           Input.GetKey(KeyCode.D);
+            
             if (Input.GetKeyDown(KeyCode.W))
             {
                 _playerMover.MoveForward();
@@ -23,7 +28,7 @@ namespace Core.Entities
 
             if (Input.GetKeyUp(KeyCode.W))
             {
-                _playerMover.StopMoveForward();
+                _playerMover.StopMoveForward(isMoving);
             }
             
 			if (Input.GetKeyDown(KeyCode.A))
@@ -33,7 +38,7 @@ namespace Core.Entities
                 
             if (Input.GetKeyUp(KeyCode.A))
             {
-                _playerMover.StopMoveLeft();
+                _playerMover.StopMoveLeft(isMoving);
             }
             
 			if (Input.GetKeyDown(KeyCode.S))
@@ -43,7 +48,7 @@ namespace Core.Entities
 
             if (Input.GetKeyUp(KeyCode.S))
             {
-                _playerMover.StopMoveBackward();
+                _playerMover.StopMoveBackward(isMoving);
             }
             
 			if (Input.GetKeyDown(KeyCode.D))
@@ -53,7 +58,7 @@ namespace Core.Entities
 
             if (Input.GetKeyUp(KeyCode.D))
             {
-                _playerMover.StopMoveRight();
+                _playerMover.StopMoveRight(isMoving);
             }
             
         }

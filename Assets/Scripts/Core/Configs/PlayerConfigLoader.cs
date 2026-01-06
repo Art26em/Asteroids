@@ -7,8 +7,13 @@ namespace Core.Configs
     {
         private const string DefaultFileName = "playerConfig.json";
         private const string DefaultDirectoryName = "Resources";
-        private PlayerData _playerData;
+        private PlayerData _defaultPlayerData;
 
+        public PlayerConfigLoader(PlayerData defaultPlayerData)
+        {
+            _defaultPlayerData = defaultPlayerData;
+        }
+        
         private string GetFilePath()
         {
             return Path.Combine(
@@ -28,9 +33,8 @@ namespace Core.Configs
                 return settings;
             }
 
-            var defaultPlayerData = new PlayerData();
-            SaveConfigs(defaultPlayerData);
-            return defaultPlayerData;
+            SaveConfigs(_defaultPlayerData);
+            return _defaultPlayerData;
 
         }
 

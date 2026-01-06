@@ -11,9 +11,9 @@ namespace Core.Entities
         
         private PlayerConfigLoader _playerConfigLoader;
         
-        public PlayerStats()
+        public PlayerStats(PlayerConfigLoader playerConfigLoader)
         {
-            _playerConfigLoader = new PlayerConfigLoader();
+            _playerConfigLoader = playerConfigLoader;
             LoadConfigs();
         }
 

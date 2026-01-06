@@ -1,3 +1,4 @@
+using Core.Entities.Physics;
 using Core.SpriteControllers;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Core.Entities.Player.Movement
        private readonly PlayerSpriteController _playerSpriteController;
        private Transform _playerTransform;
        private SpriteRenderer _playerSpriteRenderer;
+       private MovementPhysics _movementPhysics;
        
        public PlayerMover(GameObject player, PlayerSpriteController playerSpriteController)
        {
@@ -19,11 +21,15 @@ namespace Core.Entities.Player.Movement
        public void MoveForward()
        {
            _playerSpriteController.SetPlayerMovingSprite(ref _playerSpriteRenderer);
+           
        }
        
-       public void StopMoveForward()
+       public void StopMoveForward(bool isMoving)
        {
-           _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);
+           if (!isMoving)
+           { 
+               _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           }
        }
        
        public void MoveBackward()
@@ -31,9 +37,12 @@ namespace Core.Entities.Player.Movement
            _playerSpriteController.SetPlayerMovingSprite(ref _playerSpriteRenderer);    
        }
        
-       public void StopMoveBackward()
+       public void StopMoveBackward(bool isMoving)
        {
-           _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           if (!isMoving)
+           { 
+               _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           }   
        }
        
        public void MoveLeft()
@@ -41,9 +50,12 @@ namespace Core.Entities.Player.Movement
            _playerSpriteController.SetPlayerRollLeftSprite(ref _playerSpriteRenderer);    
        }
        
-       public void StopMoveLeft()
+       public void StopMoveLeft(bool isMoving)
        {
-           _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           if (!isMoving)
+           { 
+               _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           }    
        }
        
        public void MoveRight()
@@ -51,9 +63,12 @@ namespace Core.Entities.Player.Movement
            _playerSpriteController.SetPlayerRollRightSprite(ref _playerSpriteRenderer);    
        }
        
-       public void StopMoveRight()
+       public void StopMoveRight(bool isMoving)
        {
-           _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           if (!isMoving)
+           { 
+               _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);    
+           }   
        }
        
     }

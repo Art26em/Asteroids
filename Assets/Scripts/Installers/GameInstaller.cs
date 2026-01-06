@@ -1,5 +1,6 @@
 using Core.AnimationsControllers;
 using Core.AnimationsSettings;
+using Core.Configs;
 using Core.Entities;
 using Core.Entities.Player;
 using Core.Entities.Player.Movement;
@@ -31,8 +32,8 @@ namespace Installers
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
-            InstallControllers();
             InstallPlayer();
+            InstallControllers();
         }
         
         private void InstallControllers()
@@ -72,7 +73,8 @@ namespace Installers
         
         private void InstallPlayer()
         {
-            Container.Bind<PlayerStats>().FromInstance(new PlayerStats()).AsSingle();
+            var playerConfigLoader = new PlayerConfigLoader(new PlayerData());
+            Container.Bind<PlayerStats>().FromInstance(new PlayerStats(playerConfigLoader)).AsSingle();
         }
         
     }
