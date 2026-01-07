@@ -11,11 +11,15 @@ namespace Core.Entities.Player.Movement
        private SpriteRenderer _playerSpriteRenderer;
        private MovementPhysics _movementPhysics;
        
-       public PlayerMover(GameObject player, PlayerSpriteController playerSpriteController)
+       public PlayerMover(
+           GameObject player, 
+           PlayerSpriteController playerSpriteController, 
+           MovementPhysics movementPhysics)
        {
            _playerTransform = player.GetComponent<Transform>();
            _playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
            _playerSpriteController = playerSpriteController;
+           _movementPhysics = movementPhysics;
        }
 
        public void MoveForward()

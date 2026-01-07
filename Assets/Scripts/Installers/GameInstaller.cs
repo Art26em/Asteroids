@@ -2,6 +2,7 @@ using Core.AnimationsControllers;
 using Core.AnimationsSettings;
 using Core.Configs;
 using Core.Entities;
+using Core.Entities.Physics;
 using Core.Entities.Player;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
@@ -61,7 +62,7 @@ namespace Installers
                 playerAnimationSettings, 
                 playerSpriteController);
             
-            var playerMover = new PlayerMover(player, playerSpriteController);
+            var playerMover = new PlayerMover(player, playerSpriteController, new MovementPhysics());
             
             Container.BindInstance(playerSpriteController);
             Container.Bind<AnimationsController>().FromInstance(animationController).AsSingle();
