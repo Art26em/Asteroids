@@ -35,6 +35,7 @@ namespace Installers
         {
             InstallPlayer();
             InstallControllers();
+			InstallEnemies();
         }
         
         private void InstallControllers()
@@ -78,5 +79,9 @@ namespace Installers
             Container.Bind<PlayerStats>().FromInstance(new PlayerStats(playerConfigLoader)).AsSingle();
         }
         
+		private void InstallEnemies()
+		{
+
+		}
     }
 }
