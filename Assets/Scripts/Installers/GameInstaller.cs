@@ -2,8 +2,6 @@ using Core.AnimationsControllers;
 using Core.AnimationsSettings;
 using Core.Configs;
 using Core.Entities;
-using Core.Entities.Physics;
-using Core.Entities.Player;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
 using Core.StateControllers;
@@ -21,19 +19,18 @@ namespace Installers
         [SerializeField] private Sprite playerRollRightSprite;
         [SerializeField] private GameObject player;
         [SerializeField] private float playerMoveInSpeed;
-        [SerializeField] private Vector3 playerStartPosition;
-        [SerializeField] private Vector3 playerTargetPosition;
+        [SerializeField] private Vector2 playerStartPosition;
+        [SerializeField] private Vector2 playerTargetPosition;
         
         [Header("Earth animations settings")]
         [SerializeField] private Transform earth;
         [SerializeField] private float earthMoveOutSpeed;
-        [SerializeField] private Vector3 earthStartPosition;
-        [SerializeField] private Vector3 earthTargetPosition;
+        [SerializeField] private Vector2 earthStartPosition;
+        [SerializeField] private Vector2 earthTargetPosition;
         
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
-            InstallPlayer();
             InstallControllers();
 			InstallEnemies();
         }
@@ -46,6 +43,9 @@ namespace Installers
                 earthStartPosition,
                 earthTargetPosition);
 
+            var playerConfigLoader = new PlayerConfigLoader(new PlayerData());
+            var playerStats = new PlayerStats(playerConfigLoader);
+            
             var playerAnimationSettings = new PlayerAnimationSettings(
                 player,
                 playerMoveInSpeed,
@@ -63,20 +63,15 @@ namespace Installers
                 playerAnimationSettings, 
                 playerSpriteController);
             
-            var playerMover = new PlayerMover(player, playerSpriteController, new MovementPhysics());
+            var playerMover = new PlayerMover(player, playerSpriteController, playerTargetPosition, playerStats);
             
             Container.BindInstance(playerSpriteController);
+            Container.Bind<PlayerStats>().FromInstance(playerStats).AsSingle();
             Container.Bind<AnimationsController>().FromInstance(animationController).AsSingle();
             Container.Bind<GameStartController>().FromNew().AsSingle().WithArguments(animationController);
             Container.Bind<GameOverController>().FromNew().AsSingle().WithArguments(animationController);
             Container.Bind<PlayerMover>().FromInstance(playerMover).AsSingle();
             Container.Bind<PlayerInputController>().AsSingle();
-        }
-        
-        private void InstallPlayer()
-        {
-            var playerConfigLoader = new PlayerConfigLoader(new PlayerData());
-            Container.Bind<PlayerStats>().FromInstance(new PlayerStats(playerConfigLoader)).AsSingle();
         }
         
 		private void InstallEnemies()

@@ -6,8 +6,8 @@ namespace Core.Entities
     [Serializable]
     public class PlayerStats
     {
-        private Health _health;
-        private Speed _speed;
+        public Health Health;
+        public Speed Speed;
         
         private PlayerConfigLoader _playerConfigLoader;
         
@@ -20,8 +20,8 @@ namespace Core.Entities
         private void LoadConfigs()
         {
             var playerData = _playerConfigLoader.LoadConfigs();
-            _health = new Health(playerData.MaxHealth);
-            _speed = new Speed(playerData.MaxSpeed);
+            Health = new Health(playerData.MaxHealth);
+            Speed = new Speed(playerData.MaxSpeed);
         }
     }
 }
