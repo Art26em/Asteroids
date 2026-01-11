@@ -1,11 +1,11 @@
 ﻿namespace Core.Entities
 {
-    public class Health
+    public class HealthStats
     {
         private int _currentHealth;
         private int _maxHealth;
 
-        public Health(int maxHealth)
+        public HealthStats(int maxHealth)
         {
             _currentHealth = maxHealth;
             _maxHealth = maxHealth;

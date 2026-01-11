@@ -1,13 +1,14 @@
 ﻿using System;
 using Core.Configs;
+using Core.Entities.Speed;
 
-namespace Core.Entities
+namespace Core.Entities.Player
 {
     [Serializable]
     public class PlayerStats
     {
-        public Health Health;
-        public Speed Speed;
+        public HealthStats HealthStats;
+        public SpeedStats SpeedStats;
         
         private PlayerConfigLoader _playerConfigLoader;
         
@@ -20,8 +21,8 @@ namespace Core.Entities
         private void LoadConfigs()
         {
             var playerData = _playerConfigLoader.LoadConfigs();
-            Health = new Health(playerData.MaxHealth);
-            Speed = new Speed(playerData.MaxSpeed);
+            HealthStats = new HealthStats(playerData.MaxHealth);
+            SpeedStats = new SpeedStats(playerData.MaxSpeed);
         }
     }
 }

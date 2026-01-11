@@ -22,6 +22,10 @@ namespace Core.Entities
             {
                 _playerMover.Move(input, Time.deltaTime);    
             }
+            else
+            {
+                _playerMover.SetDefaultPlayerSprite();
+            }
         }
 
         private Vector2 GetMovementInput()

@@ -7,14 +7,14 @@ namespace Core.Configs
     {
         private const string DefaultFileName = "playerConfig.json";
         private const string DefaultDirectoryName = "Resources";
-        private PlayerData _defaultPlayerData;
+        private readonly PlayerData _defaultPlayerData;
 
         public PlayerConfigLoader(PlayerData defaultPlayerData)
         {
             _defaultPlayerData = defaultPlayerData;
         }
         
-        private string GetFilePath()
+        private static string GetFilePath()
         {
             return Path.Combine(
                 Application.persistentDataPath,
@@ -47,6 +47,7 @@ namespace Core.Configs
             {
                 if (directoryName != null) Directory.CreateDirectory(directoryName);
             }
+            
             var json = JsonUtility.ToJson(playerData);
             File.WriteAllText(filePath, json);
         }

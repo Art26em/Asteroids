@@ -30,9 +30,9 @@ namespace Core.Entities.Player.Movement
                Velocity = Vector2.zero,    
            };
            
-           _acceleration = playerStats.Speed.Acceleration;
-           _deceleration = playerStats.Speed.Deceleration;
-           _maxSpeed = playerStats.Speed.MaxSpeed;
+           _acceleration = playerStats.SpeedStats.Acceleration;
+           _deceleration = playerStats.SpeedStats.Deceleration;
+           _maxSpeed = playerStats.SpeedStats.MaxSpeed;
        }
 
        public void Move(Vector2 inputDirection, float deltaTime)
@@ -75,8 +75,13 @@ namespace Core.Entities.Player.Movement
 
            if (inputDirection is { y: 0, x: 0 })
            {
-               _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);
+               SetDefaultPlayerSprite();
            }
+       }
+
+       public void SetDefaultPlayerSprite()
+       {
+           _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);
        }
     }
 }

@@ -2,6 +2,7 @@ using Core.AnimationsControllers;
 using Core.AnimationsSettings;
 using Core.Configs;
 using Core.Entities;
+using Core.Entities.Player;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
 using Core.StateControllers;
