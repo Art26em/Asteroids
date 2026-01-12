@@ -8,8 +8,6 @@ namespace Core.Entities.Player.Movement
     public class PlayerMover
     { 
        private readonly GameObject _playerObject;
-       private readonly PlayerSpriteController _playerSpriteController;
-       private SpriteRenderer _playerSpriteRenderer;
        private MovementState _movementState;
        private readonly float _acceleration;
        private readonly float _deceleration;
@@ -17,13 +15,10 @@ namespace Core.Entities.Player.Movement
        
        public PlayerMover(
            GameObject playerObject,
-           PlayerSpriteController playerSpriteController,
            Vector2 startPosition,
            PlayerStats playerStats)
        {
            _playerObject = playerObject;
-           _playerSpriteRenderer = playerObject.GetComponent<SpriteRenderer>();
-           _playerSpriteController = playerSpriteController;
            _movementState = new MovementState()
            {
                Position = startPosition,
@@ -37,8 +32,6 @@ namespace Core.Entities.Player.Movement
 
        public void Move(Vector2 inputDirection, float deltaTime)
        {
-           UpdatePlayerSprite(inputDirection);
-           
            _movementState.Velocity = MovementPhysics.CalculateVelocity(
                _movementState.Velocity,
                inputDirection,
@@ -55,33 +48,6 @@ namespace Core.Entities.Player.Movement
            _playerObject.transform.position = _movementState.Position;
            
        }
-
-       private void UpdatePlayerSprite(Vector2 inputDirection)
-       {
-           switch (inputDirection.x)
-           {
-               case > 0:
-                   _playerSpriteController.SetPlayerRollRightSprite(ref _playerSpriteRenderer);
-                   break;
-               case < 0:
-                   _playerSpriteController.SetPlayerRollLeftSprite(ref _playerSpriteRenderer);
-                   break;
-           }
-
-           if (inputDirection.y != 0)
-           {
-               _playerSpriteController.SetPlayerMovingSprite(ref _playerSpriteRenderer);
-           }
-
-           if (inputDirection is { y: 0, x: 0 })
-           {
-               SetDefaultPlayerSprite();
-           }
-       }
-
-       public void SetDefaultPlayerSprite()
-       {
-           _playerSpriteController.SetPlayerIdleSprite(ref _playerSpriteRenderer);
-       }
+       
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using Core.StateControllers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -9,13 +11,14 @@ namespace UI.Views
     [RequireComponent(typeof(CanvasGroup))]
     public class StartScreen : MonoBehaviour
     {
-        [SerializeField] float screenFadeOutStep;
-        [SerializeField] Button startButton;
-        [SerializeField] Button quitButton;
+        [SerializeField] private float screenFadeOutStep;
+        [SerializeField] private Button startButton;
+        [SerializeField] private Button quitButton;
         
         private GameStartController _gameStartController;
         private CanvasGroup _canvasGroup;
-
+        private CancellationTokenSource _cancellationTokenSource;
+        
         [Inject]
         private void Construct(GameStartController gameStartController)
         {
@@ -44,14 +47,21 @@ namespace UI.Views
 
         private async UniTask FadeOutScreen()
         {
-            while (_canvasGroup.alpha >= 0)
+            _cancellationTokenSource = new CancellationTokenSource();
+            try
             {
-              _canvasGroup.alpha -= screenFadeOutStep;
-              if (_canvasGroup.alpha <= 0)
-              {
-                  gameObject.SetActive(false);
-              }
-              await UniTask.Yield(PlayerLoopTiming.Update);  
+                while (_canvasGroup.alpha >= 0)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
+                    _canvasGroup.alpha -= screenFadeOutStep;
+                    if (_canvasGroup.alpha <= 0)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
             }
         }
         
@@ -64,7 +74,33 @@ namespace UI.Views
         {
             startButton.onClick.RemoveAllListeners(); 
             quitButton.onClick.RemoveAllListeners();
+            SafeCancelAndDispose();
         }
+
+        private void OnDestroy()
+        {
+            SafeCancelAndDispose();
+        }
+        
+        private void SafeCancelAndDispose()
+        {
+            if (_cancellationTokenSource == null) return;
+            try
+            {
+                if (!_cancellationTokenSource.IsCancellationRequested)
+                    _cancellationTokenSource.Cancel();
+            }
+            catch (ObjectDisposedException) { }
+            
+            try
+            {
+                _cancellationTokenSource.Dispose();
+            }
+            catch (ObjectDisposedException) { }
+            
+            _cancellationTokenSource = null;
+        }
+        
         
     }
 }

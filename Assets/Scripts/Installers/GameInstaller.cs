@@ -18,7 +18,7 @@ namespace Installers
         [SerializeField] private Sprite playerMovingSprite;
         [SerializeField] private Sprite playerRollLeftSprite;
         [SerializeField] private Sprite playerRollRightSprite;
-        [SerializeField] private GameObject player;
+        [SerializeField] private GameObject playerObject;
         [SerializeField] private float playerMoveInSpeed;
         [SerializeField] private Vector2 playerStartPosition;
         [SerializeField] private Vector2 playerTargetPosition;
@@ -48,23 +48,25 @@ namespace Installers
             var playerStats = new PlayerStats(playerConfigLoader);
             
             var playerAnimationSettings = new PlayerAnimationSettings(
-                player,
+                playerObject,
                 playerMoveInSpeed,
                 playerStartPosition,
                 playerTargetPosition);
 
+            var playerSpriteRenderer = playerObject.GetComponent<SpriteRenderer>();
             var playerSpriteController = new PlayerSpriteController(
                 playerIdleSprite,
                 playerMovingSprite,
                 playerRollLeftSprite,
-                playerRollRightSprite);
+                playerRollRightSprite,
+                playerSpriteRenderer);
             
             var animationController = new AnimationsController(
                 earthAnimationSettings, 
                 playerAnimationSettings, 
                 playerSpriteController);
             
-            var playerMover = new PlayerMover(player, playerSpriteController, playerTargetPosition, playerStats);
+            var playerMover = new PlayerMover(playerObject, playerTargetPosition, playerStats);
             
             Container.BindInstance(playerSpriteController);
             Container.Bind<PlayerStats>().FromInstance(playerStats).AsSingle();

@@ -1,4 +1,4 @@
 {
 	"name": "Core.Entities.Player.Controllers",
-	"references":[ "GUID:d03e36413c8c7334f9ecd11acb5f8f6a" ]
+	"references":[ "GUID:d03e36413c8c7334f9ecd11acb5f8f6a", "GUID:dcca34c070f7452cbf50e094b7be245f" ]
 }

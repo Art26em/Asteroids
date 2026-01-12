@@ -8,33 +8,64 @@ namespace Core.SpriteControllers
         private readonly Sprite _playerMovingSprite;
         private readonly Sprite _playerRollLeftSprite;
         private readonly Sprite _playerRollRightSprite;
+        private readonly SpriteRenderer _playerSpriteRenderer;
 
-        public PlayerSpriteController(Sprite playerIdleSprite, Sprite playerMovingSprite, Sprite playerRollLeftSprite, Sprite playerRollRightSprite)
+        public PlayerSpriteController(
+            Sprite playerIdleSprite, 
+            Sprite playerMovingSprite, 
+            Sprite playerRollLeftSprite, 
+            Sprite playerRollRightSprite,
+            SpriteRenderer playerSpriteRenderer)
         {
             _playerIdleSprite = playerIdleSprite;
             _playerMovingSprite = playerMovingSprite;
             _playerRollLeftSprite = playerRollLeftSprite;
             _playerRollRightSprite = playerRollRightSprite;
+            _playerSpriteRenderer = playerSpriteRenderer;
         }
 
-        public void SetPlayerIdleSprite(ref SpriteRenderer spriteRenderer)
+        public void UpdatePlayerSprite(Vector2 inputDirection)
         {
-            spriteRenderer.sprite = _playerIdleSprite;
+            if (inputDirection.y != 0)
+            {
+                SetPlayerMovingSprite();
+            }
+
+            if (inputDirection is { y: 0, x: 0 })
+            {
+                SetPlayerIdleSprite();
+            }
+           
+            switch (inputDirection.x)
+            {
+                case > 0:
+                    SetPlayerRollRightSprite();
+                    break;
+                case < 0:
+                    SetPlayerRollLeftSprite();
+                    break;
+            }
+           
         }
 
-        public void SetPlayerMovingSprite(ref SpriteRenderer spriteRenderer)
+        public void SetPlayerIdleSprite()
         {
-            spriteRenderer.sprite = _playerMovingSprite;
+            _playerSpriteRenderer.sprite = _playerIdleSprite;
         }
 
-        public void SetPlayerRollLeftSprite(ref SpriteRenderer spriteRenderer)
+        public void SetPlayerMovingSprite()
         {
-            spriteRenderer.sprite = _playerRollLeftSprite;
+            _playerSpriteRenderer.sprite = _playerMovingSprite;
         }
 
-        public void SetPlayerRollRightSprite(ref SpriteRenderer spriteRenderer)
+        public void SetPlayerRollLeftSprite()
         {
-            spriteRenderer.sprite = _playerRollRightSprite;
+            _playerSpriteRenderer.sprite = _playerRollLeftSprite;
+        }
+
+        public void SetPlayerRollRightSprite()
+        {
+            _playerSpriteRenderer.sprite = _playerRollRightSprite;
         }
     }
 }

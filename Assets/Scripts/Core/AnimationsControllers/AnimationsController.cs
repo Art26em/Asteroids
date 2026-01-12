@@ -33,7 +33,7 @@ namespace Core.AnimationsControllers
 
         private async UniTask MoveOutEarth()
         {
-            var journeyLength = Vector3.Distance(
+            var journeyLength = Vector2.Distance(
                 _earthAnimationSettings.EarthStartPosition,
                 _earthAnimationSettings.EarthTargetPosition);
             var startTime = Time.time;
@@ -64,7 +64,7 @@ namespace Core.AnimationsControllers
 
         private async UniTask MoveInPlayer()
         {
-            var journeyLength = Vector3.Distance(
+            var journeyLength = Vector2.Distance(
                 _playerAnimationSettings.PlayerStartPosition,
                 _playerAnimationSettings.PlayerTargetPosition);
             var startTime = Time.time;
@@ -74,14 +74,14 @@ namespace Core.AnimationsControllers
             {
                 // Отключаем возможность перемещаться во время анимации
                 _playerInputController.enabled = false;
-                _playerSpriteController.SetPlayerMovingSprite(ref playerSpriteRenderer);
+                _playerSpriteController.SetPlayerMovingSprite();
                 
                 // Рассчитываем пройденное расстояние
                 var distanceCovered = (Time.time - startTime) * _playerAnimationSettings.PlayerMoveInSpeed;
                 var fractionOfJourney = distanceCovered / journeyLength;
 
                 // Плавное перемещение с использованием Lerp
-                _playerAnimationSettings.Player.transform.position = Vector3.Lerp(
+                _playerAnimationSettings.Player.transform.position = Vector2.Lerp(
                     _playerAnimationSettings.PlayerStartPosition,
                     _playerAnimationSettings.PlayerTargetPosition,
                     fractionOfJourney);
@@ -91,7 +91,7 @@ namespace Core.AnimationsControllers
                 {
                     _playerAnimationSettings.Player.transform.position = _playerAnimationSettings.PlayerTargetPosition;
                     _playerInputController.enabled = true;
-                    _playerSpriteController.SetPlayerIdleSprite(ref playerSpriteRenderer);
+                    _playerSpriteController.SetPlayerIdleSprite();
                     break;
                 }
 

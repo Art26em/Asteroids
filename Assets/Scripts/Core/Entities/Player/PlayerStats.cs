@@ -22,7 +22,7 @@ namespace Core.Entities.Player
         {
             var playerData = _playerConfigLoader.LoadConfigs();
             HealthStats = new HealthStats(playerData.MaxHealth);
-            SpeedStats = new SpeedStats(playerData.MaxSpeed);
+            SpeedStats = new SpeedStats(playerData.MaxSpeed, playerData.Acceleration, playerData.Deceleration);
         }
     }
 }
