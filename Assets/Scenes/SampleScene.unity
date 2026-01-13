@@ -815,7 +815,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248718499}
   m_Enabled: 1
-  m_Alpha: 0.9
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -5887,7 +5887,7 @@ MonoBehaviour:
   playerMovingSprite: {fileID: 21300000, guid: 38e804ccf0f8caa449b5912eef08b3d9, type: 3}
   playerRollLeftSprite: {fileID: 21300000, guid: da9db9126d4714f43bb974aa41d84579, type: 3}
   playerRollRightSprite: {fileID: 21300000, guid: 0bc0d78c58255cd48849d27fb958bff1, type: 3}
-  player: {fileID: 2119816616}
+  playerObject: {fileID: 2119816616}
   playerMoveInSpeed: 1
   playerStartPosition: {x: 0, y: -6}
   playerTargetPosition: {x: 0, y: -4}
@@ -6187,7 +6187,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119816616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c0825f92135414cabf8695310156e8, type: 3}
   m_Name: 

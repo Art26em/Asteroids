@@ -35,16 +35,16 @@ namespace Core.SpriteControllers
             {
                 SetPlayerIdleSprite();
             }
-           
-            switch (inputDirection.x)
+
+            if (inputDirection.x > 0)
             {
-                case > 0:
-                    SetPlayerRollRightSprite();
-                    break;
-                case < 0:
-                    SetPlayerRollLeftSprite();
-                    break;
-            }
+                SetPlayerRollRightSprite();    
+            }    
+                
+            if (inputDirection.x < 0)
+            {
+                SetPlayerRollRightSprite();    
+            } 
            
         }
 
@@ -58,12 +58,12 @@ namespace Core.SpriteControllers
             _playerSpriteRenderer.sprite = _playerMovingSprite;
         }
 
-        public void SetPlayerRollLeftSprite()
+        private void SetPlayerRollLeftSprite()
         {
             _playerSpriteRenderer.sprite = _playerRollLeftSprite;
         }
 
-        public void SetPlayerRollRightSprite()
+        private void SetPlayerRollRightSprite()
         {
             _playerSpriteRenderer.sprite = _playerRollRightSprite;
         }

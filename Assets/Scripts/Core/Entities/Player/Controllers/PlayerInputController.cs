@@ -1,6 +1,9 @@
+using System;
+using System.Threading;
 using Core.Entities.Player.Controllers;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -21,14 +24,15 @@ namespace Core.Entities
 		private void Update()
         {
             var input = GetMovementInput();
-            _playerMover?.Move(input, Time.deltaTime);
+            Debug.Log(input);
+            _playerMover?.Move(input, Time.deltaTime); 
             _playerSpriteController?.UpdatePlayerSprite(input);
         }
-
+        
         private Vector2 GetMovementInput()
         {
             return new Vector2(Input.GetAxis(AxisNames.Horizontal), Input.GetAxis(AxisNames.Vertical));
         }
-        
+
     }
 }

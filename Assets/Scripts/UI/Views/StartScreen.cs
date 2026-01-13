@@ -50,15 +50,12 @@ namespace UI.Views
             _cancellationTokenSource = new CancellationTokenSource();
             try
             {
-                while (_canvasGroup.alpha >= 0)
+                while (_canvasGroup.alpha > 0)
                 {
-                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
                     _canvasGroup.alpha -= screenFadeOutStep;
-                    if (_canvasGroup.alpha <= 0)
-                    {
-                        gameObject.SetActive(false);
-                    }
+                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
                 }
+                gameObject.SetActive(false);
             }
             catch (OperationCanceledException)
             {
@@ -100,7 +97,6 @@ namespace UI.Views
             
             _cancellationTokenSource = null;
         }
-        
         
     }
 }
