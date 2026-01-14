@@ -1,5 +1,6 @@
 ﻿using Core.AnimationsSettings;
 using Core.Entities;
+using Core.Entities.Player.Controllers;
 using Core.SpriteControllers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -68,7 +69,6 @@ namespace Core.AnimationsControllers
                 _playerAnimationSettings.PlayerStartPosition,
                 _playerAnimationSettings.PlayerTargetPosition);
             var startTime = Time.time;
-            var playerSpriteRenderer = _playerAnimationSettings.GetPlayerSpriteRenderer();
             
             while (_playerAnimationSettings.Player.transform.position != _playerAnimationSettings.PlayerTargetPosition)
             {

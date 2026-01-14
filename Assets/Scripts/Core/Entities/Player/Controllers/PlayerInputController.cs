@@ -1,13 +1,9 @@
-using System;
-using System.Threading;
-using Core.Entities.Player.Controllers;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace Core.Entities
+namespace Core.Entities.Player.Controllers
 {
     public class PlayerInputController : MonoBehaviour
     {
@@ -23,10 +19,8 @@ namespace Core.Entities
         
 		private void Update()
         {
-            var input = GetMovementInput();
-            Debug.Log(input);
-            _playerMover?.Move(input, Time.deltaTime); 
-            _playerSpriteController?.UpdatePlayerSprite(input);
+            _playerMover?.Move(GetMovementInput(), Time.deltaTime); 
+            _playerSpriteController?.UpdatePlayerSprite();
         }
         
         private Vector2 GetMovementInput()

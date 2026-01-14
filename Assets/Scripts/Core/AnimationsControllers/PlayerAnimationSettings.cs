@@ -21,10 +21,5 @@ namespace Core.AnimationsControllers
             PlayerTargetPosition = playerTargetPosition;
         }
         
-        public SpriteRenderer GetPlayerSpriteRenderer()
-        {
-            return Player.GetComponent<SpriteRenderer>();
-        }
-        
     }
 }

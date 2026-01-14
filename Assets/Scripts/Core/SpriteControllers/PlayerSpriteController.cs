@@ -24,28 +24,31 @@ namespace Core.SpriteControllers
             _playerSpriteRenderer = playerSpriteRenderer;
         }
 
-        public void UpdatePlayerSprite(Vector2 inputDirection)
+        public void UpdatePlayerSprite()
         {
-            if (inputDirection.y != 0)
+            var isMovingY = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S);
+            var isMovingLeft = Input.GetKey(KeyCode.A);
+            var isMovingRight = Input.GetKey(KeyCode.D);
+            
+            if (isMovingY && _playerSpriteRenderer.sprite != _playerMovingSprite)
             {
                 SetPlayerMovingSprite();
             }
 
-            if (inputDirection is { y: 0, x: 0 })
+            if (isMovingLeft && _playerSpriteRenderer.sprite != _playerRollLeftSprite)
             {
-                SetPlayerIdleSprite();
-            }
-
-            if (inputDirection.x > 0)
-            {
-                SetPlayerRollRightSprite();    
+                SetPlayerRollLeftSprite();    
             }    
                 
-            if (inputDirection.x < 0)
+            if (isMovingRight && _playerSpriteRenderer.sprite != _playerRollRightSprite)
             {
                 SetPlayerRollRightSprite();    
             } 
-           
+            
+            if (!isMovingY && !isMovingLeft &&!isMovingRight && _playerSpriteRenderer.sprite != _playerIdleSprite)
+            {
+                SetPlayerIdleSprite();
+            }
         }
 
         public void SetPlayerIdleSprite()
