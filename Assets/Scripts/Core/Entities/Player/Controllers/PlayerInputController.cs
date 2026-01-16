@@ -36,8 +36,7 @@ namespace Core.Entities.Player.Controllers
            var viewportPosition = _camera.WorldToViewportPoint(transform.position);
            if (viewportPosition.x < 0)
            {
-               viewportPosition.x = 1;
-               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
+               transform.position = new Vector3(0, transform.position.y, transform.position.z);
            }
            // if (viewportPosition.x > 1)
            // {
@@ -54,7 +53,6 @@ namespace Core.Entities.Player.Controllers
                viewportPosition.y = 0;
                transform.position = _camera.ViewportToWorldPoint(viewportPosition);
            }
-           Debug.Log(viewportPosition);
         }
 
         private Vector2 GetMovementInput()
