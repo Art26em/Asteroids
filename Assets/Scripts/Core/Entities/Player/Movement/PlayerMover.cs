@@ -1,30 +1,22 @@
 using Core.Entities.Physics;
-using Core.SpriteControllers;
 using UnityEngine;
-using Zenject;
 
 namespace Core.Entities.Player.Movement
 {
     public class PlayerMover
     { 
        private readonly GameObject _playerObject;
-       private MovementState _movementState;
+       private readonly PlayerStats _playerStats;
        private readonly float _acceleration;
        private readonly float _deceleration;
        private readonly float _maxSpeed;
        
        public PlayerMover(
            GameObject playerObject,
-           Vector2 startPosition,
            PlayerStats playerStats)
        {
+           _playerStats = playerStats;
            _playerObject = playerObject;
-           _movementState = new MovementState()
-           {
-               Position = startPosition,
-               Velocity = Vector2.zero,    
-           };
-           
            _acceleration = playerStats.SpeedStats.Acceleration;
            _deceleration = playerStats.SpeedStats.Deceleration;
            _maxSpeed = playerStats.SpeedStats.MaxSpeed;
@@ -32,20 +24,18 @@ namespace Core.Entities.Player.Movement
 
        public void Move(Vector2 inputDirection, float deltaTime)
        {
-           _movementState.Velocity = MovementPhysics.CalculateVelocity(
-               _movementState.Velocity,
+           _playerStats.SpeedStats.CurrentVelocity = MovementPhysics.CalculateVelocity(
+               _playerStats.SpeedStats.CurrentVelocity,
                inputDirection,
                _acceleration,
                _deceleration,
                _maxSpeed,
                deltaTime);
 
-           _movementState.Position = MovementPhysics.CalculatePosition(
-               _movementState.Position,
-               _movementState.Velocity,
+           _playerObject.transform.position = MovementPhysics.CalculatePosition(
+               _playerObject.transform.position,
+               _playerStats.SpeedStats.CurrentVelocity,
                deltaTime);
-           
-           _playerObject.transform.position = _movementState.Position;
            
        }
        

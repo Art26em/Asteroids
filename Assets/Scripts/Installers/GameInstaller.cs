@@ -66,7 +66,7 @@ namespace Installers
                 playerAnimationSettings, 
                 playerSpriteController);
             
-            var playerMover = new PlayerMover(playerObject, playerTargetPosition, playerStats);
+            var playerMover = new PlayerMover(playerObject, playerStats);
             
             Container.BindInstance(playerSpriteController);
             Container.Bind<PlayerStats>().FromInstance(playerStats).AsSingle();

@@ -1,4 +1,3 @@
-using System;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
 using UnityEngine;
@@ -36,13 +35,16 @@ namespace Core.Entities.Player.Controllers
            var viewportPosition = _camera.WorldToViewportPoint(transform.position);
            if (viewportPosition.x < 0)
            {
-               transform.position = new Vector3(0, transform.position.y, transform.position.z);
+               viewportPosition.x = 1;
+               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
            }
-           // if (viewportPosition.x > 1)
-           // {
-           //     viewportPosition.x = 0;
-           //     transform.position = _camera.ViewportToWorldPoint(viewportPosition);
-           // }
+           
+           if (viewportPosition.x > 1)
+           {
+               viewportPosition.x = 0;
+               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
+           }
+              
            if (viewportPosition.y < 0)
            {
                viewportPosition.y = 1;
