@@ -57,9 +57,7 @@ namespace UI.Views
                 }
                 gameObject.SetActive(false);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) {}
         }
         
         private void OnQuit()
@@ -87,13 +85,13 @@ namespace UI.Views
                 if (!_cancellationTokenSource.IsCancellationRequested)
                     _cancellationTokenSource.Cancel();
             }
-            catch (ObjectDisposedException) { }
+            catch (ObjectDisposedException) {}
             
             try
             {
                 _cancellationTokenSource.Dispose();
             }
-            catch (ObjectDisposedException) { }
+            catch (ObjectDisposedException) {}
             
             _cancellationTokenSource = null;
         }
