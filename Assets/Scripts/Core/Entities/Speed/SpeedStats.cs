@@ -10,7 +10,6 @@ namespace Core.Entities.Speed
         public float Acceleration {get; private set;}
         public float Deceleration {get; private set;}
         
-
         public SpeedStats(float maxSpeed,  float acceleration = 1f, float deceleration = 1f)
         {
             CurrentVelocity = new Vector2(0, 0);

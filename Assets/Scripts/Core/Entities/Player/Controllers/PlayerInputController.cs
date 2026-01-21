@@ -1,5 +1,6 @@
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
+using Core.World;
 using UnityEngine;
 using Zenject;
 
@@ -9,54 +10,26 @@ namespace Core.Entities.Player.Controllers
     {
     	private PlayerMover _playerMover;
         private PlayerSpriteController _playerSpriteController;
-        private Camera _camera;
+        private WorldBoundsChecker _worldBoundsChecker;
 
         [Inject]
-        private void Construct(PlayerMover playerMover, PlayerSpriteController playerSpriteController)
+        private void Construct(
+            PlayerMover playerMover, 
+            PlayerSpriteController playerSpriteController,
+            WorldBoundsChecker worldBoundsChecker)
         {
             _playerMover = playerMover;
             _playerSpriteController = playerSpriteController;
+            _worldBoundsChecker = worldBoundsChecker;
         }
-
-        private void Awake()
-        {
-            _camera = Camera.main;
-        }
-
+        
         private void Update()
         {
             _playerMover?.Move(GetMovementInput(), Time.deltaTime); 
             _playerSpriteController?.UpdatePlayerSprite();
-			CheckPlayerWorldPosition();
+            transform.position = _worldBoundsChecker.CheckPlayerWorldPosition(transform.position);
         }
-
-        private void CheckPlayerWorldPosition()
-        {
-           var viewportPosition = _camera.WorldToViewportPoint(transform.position);
-           if (viewportPosition.x < 0)
-           {
-               viewportPosition.x = 1;
-               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
-           }
-           
-           if (viewportPosition.x > 1)
-           {
-               viewportPosition.x = 0;
-               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
-           }
-              
-           if (viewportPosition.y < 0)
-           {
-               viewportPosition.y = 1;
-               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
-           } 
-           if (viewportPosition.y > 1)
-           {
-               viewportPosition.y = 0;
-               transform.position = _camera.ViewportToWorldPoint(viewportPosition);
-           }
-        }
-
+        
         private Vector2 GetMovementInput()
         {
             return new Vector2(Input.GetAxis(AxisNames.Horizontal), Input.GetAxis(AxisNames.Vertical));
