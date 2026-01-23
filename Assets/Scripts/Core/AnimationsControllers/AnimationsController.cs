@@ -43,6 +43,8 @@ namespace Core.AnimationsControllers
                 _earthAnimationSettings.EarthTargetPosition);
             var startTime = Time.time;
 
+            _earthAnimCancellationTokenSource = new CancellationTokenSource();
+            
             try
             {
                 while (_earthAnimationSettings.Earth.position != _earthAnimationSettings.EarthTargetPosition)
@@ -79,6 +81,8 @@ namespace Core.AnimationsControllers
                 _playerAnimationSettings.PlayerTargetPosition);
             var startTime = Time.time;
 
+            _playerAnimCancellationTokenSource = new CancellationTokenSource();
+            
             try
             {
                 while (_playerAnimationSettings.Player.transform.position != _playerAnimationSettings.PlayerTargetPosition)

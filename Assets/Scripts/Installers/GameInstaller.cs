@@ -6,6 +6,7 @@ using Core.Entities.Player.Controllers;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
 using Core.StateControllers;
+using Core.World;
 using UnityEngine;
 using Zenject;
 
@@ -74,6 +75,7 @@ namespace Installers
             Container.Bind<GameStartController>().FromNew().AsSingle().WithArguments(animationController);
             Container.Bind<GameOverController>().FromNew().AsSingle().WithArguments(animationController);
             Container.Bind<PlayerMover>().FromInstance(playerMover).AsSingle();
+            Container.Bind<WorldBoundsChecker>().FromNew().AsSingle();
             Container.Bind<PlayerInputController>().AsSingle();
         }
         
