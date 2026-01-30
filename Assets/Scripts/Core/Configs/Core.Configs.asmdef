@@ -1,3 +1,17 @@
-﻿{
-  "name": "Core.Configs"
+{
+    "name": "Core.Configs",
+    "rootNamespace": "",
+    "references": [
+        "GUID:44588e771624429ba0d9582320133ad5",
+        "GUID:4c1352867ca64d5e8b5ceb0dce8cb46f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

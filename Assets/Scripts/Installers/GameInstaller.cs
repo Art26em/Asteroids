@@ -45,8 +45,8 @@ namespace Installers
                 earthStartPosition,
                 earthTargetPosition);
 
-            var playerConfigLoader = new PlayerConfigLoader(new PlayerData());
-            var playerStats = new PlayerStats(playerConfigLoader);
+            var playerConfigManager = new ConfigManager<PlayerData>();
+            var playerStats = new PlayerStats(playerConfigManager);
             
             var playerAnimationSettings = new PlayerAnimationSettings(
                 playerObject,
@@ -72,10 +72,10 @@ namespace Installers
             Container.BindInstance(playerSpriteController);
             Container.Bind<PlayerStats>().FromInstance(playerStats).AsSingle();
             Container.Bind<AnimationsController>().FromInstance(animationController).AsSingle();
-            Container.Bind<GameStartController>().FromNew().AsSingle().WithArguments(animationController);
-            Container.Bind<GameOverController>().FromNew().AsSingle().WithArguments(animationController);
+            Container.Bind<GameStartController>().AsSingle().WithArguments(animationController);
+            Container.Bind<GameOverController>().AsSingle().WithArguments(animationController);
             Container.Bind<PlayerMover>().FromInstance(playerMover).AsSingle();
-            Container.Bind<WorldBoundsChecker>().FromNew().AsSingle();
+            Container.Bind<WorldBoundsChecker>().AsSingle();
             Container.Bind<PlayerInputController>().AsSingle();
         }
         

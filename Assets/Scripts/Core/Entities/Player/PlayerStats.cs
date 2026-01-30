@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Configs;
+using Core.Entities.Health;
 using Core.Entities.Speed;
 
 namespace Core.Entities.Player
@@ -10,19 +11,15 @@ namespace Core.Entities.Player
         public HealthStats HealthStats;
         public SpeedStats SpeedStats;
         
-        private PlayerConfigLoader _playerConfigLoader;
+        private ConfigManager<PlayerData> _configManager;
         
-        public PlayerStats(PlayerConfigLoader playerConfigLoader)
+        public PlayerStats(ConfigManager<PlayerData> configManager)
         {
-            _playerConfigLoader = playerConfigLoader;
-            LoadConfigs();
+            _configManager = configManager;
+            var playerData = configManager.LoadConfigs(ConfigsSettings.PlayerConfigName);
+            HealthStats = playerData.HealthStats;
+            SpeedStats = playerData.SpeedStats;
         }
-
-        private void LoadConfigs()
-        {
-            var playerData = _playerConfigLoader.LoadConfigs();
-            HealthStats = new HealthStats(playerData.MaxHealth);
-            SpeedStats = new SpeedStats(playerData.MaxSpeed, playerData.Acceleration, playerData.Deceleration);
-        }
+        
     }
 }
