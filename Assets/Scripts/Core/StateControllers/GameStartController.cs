@@ -8,14 +8,16 @@ namespace Core.StateControllers
         private readonly AnimationsController _animationsController;
         private readonly AsteroidSpawner _asteroidSpawner;
         
-        public GameStartController(AnimationsController animationsController)
+        public GameStartController(AnimationsController animationsController, AsteroidSpawner asteroidSpawner)
         {
             _animationsController = animationsController;
+            _asteroidSpawner = asteroidSpawner;
         }
 
         public void StartGame()
         {
-            _animationsController.OnGameStart();    
+            _animationsController.OnGameStart();  
+            _asteroidSpawner.StartSpawning();
         }
         
     }

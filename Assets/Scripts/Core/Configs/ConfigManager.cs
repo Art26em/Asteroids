@@ -19,13 +19,13 @@ namespace Core.Configs
             }
             
             var defaultData = new T();
-            SaveConfigs(new T());
+            SaveConfigs(defaultData, configName);
             return defaultData;
         }
 
-        private void SaveConfigs(T data)
+        private void SaveConfigs(T data, string configName)
         {
-            var filePath = GetFilePath(ConfigsSettings.PlayerConfigName);
+            var filePath = GetFilePath(configName);
             var directoryName = Path.GetDirectoryName(filePath);
 
             if (!Directory.Exists(directoryName))

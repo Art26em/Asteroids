@@ -1,9 +1,12 @@
 using Core.AnimationsControllers;
 using Core.AnimationsSettings;
 using Core.Configs;
+using Core.Entities.Asteroids.Movement;
 using Core.Entities.Player;
 using Core.Entities.Player.Controllers;
 using Core.Entities.Player.Movement;
+using Core.Factories;
+using Core.Spawners;
 using Core.SpriteControllers;
 using Core.StateControllers;
 using Core.World;
@@ -30,15 +33,41 @@ namespace Installers
         [SerializeField] private Vector2 earthStartPosition;
         [SerializeField] private Vector2 earthTargetPosition;
         
+        [Header("Asteroids settings")]
+        [SerializeField] private GameObject[] largeAsteroidPrefabs;
+        [SerializeField] private GameObject[] mediumAsteroidPrefabs;
+        [SerializeField] private GameObject[] smallAsteroidPrefabs;
+        [SerializeField] private GameObject asteroidsContainer;
+        [SerializeField] private Transform[] asteroidSpawnPositions;
+        
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
-            InstallControllers();
-			InstallEnemies();
-        }
-        
-        private void InstallControllers()
-        {
+            // Asteroids settings
+            var asteroidsConfigManager = new ConfigManager<AsteroidsData>();
+            var asteroidsData = asteroidsConfigManager.LoadConfigs(ConfigsSettings.AsteroidsConfigName);
+
+            var asteroidMover = new AsteroidMover(
+                asteroidsData.MovingSpeedX, 
+                asteroidsData.MovingSpeedY, 
+                asteroidsData.RotationSpeed);
+            
+            var asteroidFactory = new AsteroidFactory(
+                largeAsteroidPrefabs,
+                mediumAsteroidPrefabs,
+                smallAsteroidPrefabs,
+                asteroidsContainer);
+            
+            var asteroidSpawner = new AsteroidSpawner(
+                asteroidFactory, 
+                asteroidMover, 
+                asteroidSpawnPositions,
+                asteroidsData.TimeToSpawn);
+            
+            Container.Bind<AsteroidMover>().FromInstance(asteroidMover).AsSingle();
+            Container.Bind<AsteroidFactory>().FromInstance(asteroidFactory).AsSingle();
+            Container.Bind<AsteroidSpawner>().FromInstance(asteroidSpawner).AsSingle();  
+            
             var earthAnimationSettings = new EarthAnimationSettings(
                 earth,
                 earthMoveOutSpeed,
@@ -46,7 +75,8 @@ namespace Installers
                 earthTargetPosition);
 
             var playerConfigManager = new ConfigManager<PlayerData>();
-            var playerStats = new PlayerStats(playerConfigManager);
+            var playerData = playerConfigManager.LoadConfigs(ConfigsSettings.PlayerConfigName);
+            var playerStats = new PlayerStats(playerData);
             
             var playerAnimationSettings = new PlayerAnimationSettings(
                 playerObject,
@@ -72,16 +102,12 @@ namespace Installers
             Container.BindInstance(playerSpriteController);
             Container.Bind<PlayerStats>().FromInstance(playerStats).AsSingle();
             Container.Bind<AnimationsController>().FromInstance(animationController).AsSingle();
-            Container.Bind<GameStartController>().AsSingle().WithArguments(animationController);
+            Container.Bind<GameStartController>().AsSingle().WithArguments(animationController, asteroidSpawner);
             Container.Bind<GameOverController>().AsSingle().WithArguments(animationController);
             Container.Bind<PlayerMover>().FromInstance(playerMover).AsSingle();
             Container.Bind<WorldBoundsChecker>().AsSingle();
             Container.Bind<PlayerInputController>().AsSingle();
         }
         
-		private void InstallEnemies()
-		{
-			// Some logic
-		}
     }
 }

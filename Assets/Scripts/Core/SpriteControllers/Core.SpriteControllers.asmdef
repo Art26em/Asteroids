@@ -1,3 +1,16 @@
-﻿{
-  "name": "Core.SpriteControllers"
+{
+    "name": "Core.SpriteControllers",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6103ceab244d478388270c07f62789ba"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

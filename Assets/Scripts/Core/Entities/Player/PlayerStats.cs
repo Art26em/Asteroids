@@ -11,12 +11,8 @@ namespace Core.Entities.Player
         public HealthStats HealthStats;
         public SpeedStats SpeedStats;
         
-        private ConfigManager<PlayerData> _configManager;
-        
-        public PlayerStats(ConfigManager<PlayerData> configManager)
+        public PlayerStats(PlayerData playerData)
         {
-            _configManager = configManager;
-            var playerData = configManager.LoadConfigs(ConfigsSettings.PlayerConfigName);
             HealthStats = playerData.HealthStats;
             SpeedStats = playerData.SpeedStats;
         }

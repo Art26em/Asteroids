@@ -1,8 +1,9 @@
-﻿
+﻿using UnityEngine;
+
 namespace Core.Entities.Asteroids
 {
-    public abstract class Asteroid 
+    public class Asteroid : MonoBehaviour
     {
-            
+                
     }
 }

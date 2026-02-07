@@ -70,7 +70,7 @@ namespace Core.AnimationsControllers
                     await UniTask.Yield(PlayerLoopTiming.Update, _earthAnimCancellationTokenSource.Token);
                 }
             }
-            catch (OperationCanceledException e) {}
+            catch (OperationCanceledException) {}
             
         }
 
@@ -115,7 +115,7 @@ namespace Core.AnimationsControllers
 
                 }
             }
-            catch (OperationCanceledException e) {}
+            catch (OperationCanceledException) {}
             
         }
 

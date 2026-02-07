@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Threading;
+using Core.Entities.Asteroids.Movement;
 using Core.Factories;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Core.Spawners
 {
     public class AsteroidSpawner
     {
-        private AsteroidFactory _factory;
-        private float _timeToSpawn;
-        private Vector2[] _spawnPositions;
+        private readonly AsteroidFactory _factory;
+        private readonly AsteroidMover _mover;
+        private readonly Transform[] _spawnPositions;
+        private float _spawnTime;
 
         private CancellationTokenSource _cancellationTokenSource;
         private float _elapsedTime;
-        
-        [Inject]
-        private void Construct(AsteroidFactory factory,  float timeToSpawn, Vector2[] spawnPositions)
+
+        public AsteroidSpawner(AsteroidFactory factory, AsteroidMover mover, Transform[] spawnPositions, float spawnTime)
         {
             _factory = factory;
-            _timeToSpawn = timeToSpawn;
+            _mover = mover;
             _spawnPositions = spawnPositions;
+            _spawnTime = spawnTime;
         }
 
         private bool IsTimeToSpawn()
         {
-            if (_elapsedTime >= _timeToSpawn)
+            if (_elapsedTime >= _spawnTime)
             {
                 _elapsedTime = 0;
                 return true;
@@ -51,6 +53,8 @@ namespace Core.Spawners
                     if (IsTimeToSpawn())
                     {
                         var asteroid = _factory.Create();
+                        asteroid.transform.position = _spawnPositions[Random.Range(0, _spawnPositions.Length)].position;
+                        _mover.StartMoving(asteroid);
                     } 
                     await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
                 }
