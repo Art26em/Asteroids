@@ -13,6 +13,7 @@
         
         public void IncreaseHealth(int amount)
         {
+            if (CurrentHealth + amount > MaxHealth) return;
             CurrentHealth += amount;
         }
 

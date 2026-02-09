@@ -1,19 +1,15 @@
-﻿namespace Core.Configs
+﻿using Core.Entities.Health;
+
+namespace Core.Configs
 {
     public class AsteroidsData
     {
-        public readonly float MovingSpeedX;
-        public readonly float MovingSpeedY;
-        public readonly float RotationSpeed;
-        public readonly float TimeToSpawn;
-
-        public AsteroidsData()
-        {
-            MovingSpeedX = 0.1f;
-            MovingSpeedY = -0.1f;
-            RotationSpeed = 0.2f;
-            TimeToSpawn = 5;    
-        }
-        
+        public float MovingSpeedX;
+        public float MovingSpeedY;
+        public float RotationSpeed;
+        public float TimeToSpawn;
+        public int Damage;
+        public HealthStats HealthStats;
+        public int AsteroidPoolSize;
     }
 }

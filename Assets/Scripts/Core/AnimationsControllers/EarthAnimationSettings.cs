@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core.AnimationsSettings
+namespace Core.AnimationsControllers
 {
     public class EarthAnimationSettings
     {

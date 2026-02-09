@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Core.AnimationsSettings;
 using Core.Entities.Player.Controllers;
 using Core.SpriteControllers;
 using Cysharp.Threading.Tasks;
@@ -32,6 +31,7 @@ namespace Core.AnimationsControllers
 
         public void OnGameStart()
         {
+            _earthAnimationSettings.Earth.gameObject.SetActive(true);
             _ = MoveOutEarth();
             _ = MoveInPlayer();
         }
@@ -63,6 +63,7 @@ namespace Core.AnimationsControllers
                     if (fractionOfJourney >= 1f)
                     {
                         _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthTargetPosition;
+                        _earthAnimationSettings.Earth.gameObject.SetActive(false);
                         break;
                     }
 

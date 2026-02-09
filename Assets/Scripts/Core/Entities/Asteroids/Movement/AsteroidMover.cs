@@ -29,17 +29,19 @@ namespace Core.Entities.Asteroids.Movement
         private async UniTask Move(GameObject gameObject)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            var rotationDirection = new Random().Next(0, 1) == 1 ? Vector3.forward : Vector3.back;
-            var directionX = new Random().Next(0, 1) == 1 ? _movingSpeedX : -_movingSpeedX;
+            var rotationDirection = new Random().Next(2) == 0 ? Vector3.forward : Vector3.back;
+            var directionX = new Random().Next(2) == 0 ? _movingSpeedX : -_movingSpeedX;
             directionX *= Time.deltaTime;
             
             try
             {
-                while (gameObject.activeSelf)
+                while (Application.isPlaying)
                 {
-                    gameObject.transform.Translate(directionX, _movingSpeedY * Time.deltaTime, 0);
+                    gameObject.transform.position += new Vector3(directionX, -_movingSpeedY * Time.deltaTime, 0);
                     gameObject.transform.Rotate(rotationDirection, _rotationSpeed * Time.deltaTime);
-                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);    
+                    
+                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
+                    if (!Application.isPlaying) break;
                 }
                 SafeCancelAndDispose();
             }

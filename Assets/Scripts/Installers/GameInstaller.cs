@@ -1,11 +1,12 @@
 using Core.AnimationsControllers;
-using Core.AnimationsSettings;
 using Core.Configs;
+using Core.Entities.Asteroids;
 using Core.Entities.Asteroids.Movement;
 using Core.Entities.Player;
 using Core.Entities.Player.Controllers;
 using Core.Entities.Player.Movement;
 using Core.Factories;
+using Core.ObjectPools;
 using Core.Spawners;
 using Core.SpriteControllers;
 using Core.StateControllers;
@@ -30,8 +31,8 @@ namespace Installers
         [Header("Earth animations settings")]
         [SerializeField] private Transform earth;
         [SerializeField] private float earthMoveOutSpeed;
-        [SerializeField] private Vector2 earthStartPosition;
-        [SerializeField] private Vector2 earthTargetPosition;
+        [SerializeField] private Vector3 earthStartPosition;
+        [SerializeField] private Vector3 earthTargetPosition;
         
         [Header("Asteroids settings")]
         [SerializeField] private GameObject[] largeAsteroidPrefabs;
@@ -47,6 +48,9 @@ namespace Installers
             var asteroidsConfigManager = new ConfigManager<AsteroidsData>();
             var asteroidsData = asteroidsConfigManager.LoadConfigs(ConfigsSettings.AsteroidsConfigName);
 
+            // var asteroidPool = new ObjectPool<Asteroid>(
+            //     asteroidsData.AsteroidPoolSize,);
+            
             var asteroidMover = new AsteroidMover(
                 asteroidsData.MovingSpeedX, 
                 asteroidsData.MovingSpeedY, 
@@ -64,6 +68,7 @@ namespace Installers
                 asteroidSpawnPositions,
                 asteroidsData.TimeToSpawn);
             
+            Container.Bind<AsteroidsData>().FromInstance(asteroidsData).AsSingle();
             Container.Bind<AsteroidMover>().FromInstance(asteroidMover).AsSingle();
             Container.Bind<AsteroidFactory>().FromInstance(asteroidFactory).AsSingle();
             Container.Bind<AsteroidSpawner>().FromInstance(asteroidSpawner).AsSingle();  

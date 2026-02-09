@@ -13,7 +13,7 @@ namespace Core.Spawners
         private readonly AsteroidFactory _factory;
         private readonly AsteroidMover _mover;
         private readonly Transform[] _spawnPositions;
-        private float _spawnTime;
+        private readonly float _spawnTime;
 
         private CancellationTokenSource _cancellationTokenSource;
         private float _elapsedTime;
@@ -28,12 +28,9 @@ namespace Core.Spawners
 
         private bool IsTimeToSpawn()
         {
-            if (_elapsedTime >= _spawnTime)
-            {
-                _elapsedTime = 0;
-                return true;
-            }   
-            return false;
+            if (_elapsedTime < _spawnTime) return false;
+            _elapsedTime = 0;
+            return true;
         }
 
         public void StartSpawning()
@@ -47,7 +44,7 @@ namespace Core.Spawners
             _elapsedTime = 0;
             try
             {
-                while (true)
+                while (Application.isPlaying)
                 {
                     _elapsedTime += Time.deltaTime;
                     if (IsTimeToSpawn())
@@ -57,15 +54,11 @@ namespace Core.Spawners
                         _mover.StartMoving(asteroid);
                     } 
                     await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
+                    if (!Application.isPlaying) break; 
                 }
                 
             }
             catch (OperationCanceledException) {}
-        }
-        
-        private void OnDestroy()
-        {
-            SafeCancelAndDispose();
         }
         
         private void SafeCancelAndDispose()

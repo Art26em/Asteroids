@@ -958,11 +958,11 @@ Transform:
   m_GameObject: {fileID: 1460744762}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 10.5, z: 0}
+  m_LocalPosition: {x: 0, y: 10.5, z: 1}
   m_LocalScale: {x: 0.82322, y: 1.1294711, z: 0.82322}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1915880695}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &1460744764
 ParticleSystemRenderer:
@@ -5957,11 +5957,11 @@ Transform:
   m_GameObject: {fileID: 1708658373}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -15, z: 0}
+  m_LocalPosition: {x: 0, y: -15, z: 1}
   m_LocalScale: {x: 1.4097868, y: 1.4097869, z: 1.4097868}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1915880695}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1846287815
 GameObject:
@@ -6002,8 +6002,8 @@ MonoBehaviour:
   playerTargetPosition: {x: 0, y: -4}
   earth: {fileID: 1708658375}
   earthMoveOutSpeed: 1
-  earthStartPosition: {x: 0, y: -15}
-  earthTargetPosition: {x: 0, y: -18}
+  earthStartPosition: {x: 0, y: -15, z: 1}
+  earthTargetPosition: {x: 0, y: -18, z: 1}
   largeAsteroidPrefabs:
   - {fileID: 1938044076923969111, guid: 7ddee826358c7e241bcf8cd5c326cbe7, type: 3}
   - {fileID: 5666703033050768405, guid: 80afe4b27d96052469d9e046f5467354, type: 3}
@@ -6043,39 +6043,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1394909249}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1915880694
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1915880695}
-  m_Layer: 0
-  m_Name: Background
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1915880695
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915880694}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1460744763}
-  - {fileID: 1708658375}
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1951168114
 GameObject:
@@ -6426,7 +6393,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 1915880695}
+  - {fileID: 1460744763}
+  - {fileID: 1708658375}
   - {fileID: 1052848239}
   - {fileID: 1394909249}
   - {fileID: 1134065336}

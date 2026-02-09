@@ -1,5 +1,4 @@
-﻿using Core.Entities.Player.Controllers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Core.SpriteControllers
 {
@@ -27,9 +26,10 @@ namespace Core.SpriteControllers
 
         public void UpdatePlayerSprite()
         {
-            var isMovingY = Input.GetAxis(AxisNames.Vertical) != 0;
-            var isMovingLeft = Input.GetAxis(AxisNames.Horizontal) < 0;
-            var isMovingRight = Input.GetAxis(AxisNames.Horizontal) > 0;;
+            var isMovingY = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || 
+                            Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow);
+            var isMovingLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+            var isMovingRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
             
             if (isMovingY && _playerSpriteRenderer.sprite != _playerMovingSprite)
             {
