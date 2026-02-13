@@ -13,6 +13,7 @@ namespace Core.AnimationsControllers
         private readonly PlayerAnimationSettings _playerAnimationSettings;
         private readonly PlayerSpriteController _playerSpriteController;
         private readonly PlayerInputController _playerInputController;
+        private readonly ParticleSystem _space;
         
         private CancellationTokenSource _earthAnimCancellationTokenSource;
         private CancellationTokenSource _playerAnimCancellationTokenSource;
@@ -20,13 +21,15 @@ namespace Core.AnimationsControllers
         public AnimationsController(
             EarthAnimationSettings earthAnimationSettings,
             PlayerAnimationSettings playerAnimationSettings, 
-            PlayerSpriteController playerSpriteController)
+            PlayerSpriteController playerSpriteController,
+            ParticleSystem space)
         {
             _earthAnimationSettings = earthAnimationSettings;
             _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthStartPosition;
             _playerAnimationSettings = playerAnimationSettings;
             _playerInputController = _playerAnimationSettings.Player.GetComponent<PlayerInputController>();
             _playerSpriteController = playerSpriteController;
+            _space = space;
         }
 
         public void OnGameStart()
@@ -64,6 +67,7 @@ namespace Core.AnimationsControllers
                     {
                         _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthTargetPosition;
                         _earthAnimationSettings.Earth.gameObject.SetActive(false);
+                        _space.Pause();
                         break;
                     }
 

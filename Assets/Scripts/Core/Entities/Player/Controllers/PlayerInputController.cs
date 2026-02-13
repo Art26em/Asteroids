@@ -1,6 +1,6 @@
+using Core.Entities.Player.Fighting.Weapons;
 using Core.Entities.Player.Movement;
 using Core.SpriteControllers;
-using Core.World;
 using UnityEngine;
 using Zenject;
 
@@ -10,30 +10,37 @@ namespace Core.Entities.Player.Controllers
     {
     	private PlayerMover _playerMover;
         private PlayerSpriteController _playerSpriteController;
-        private WorldBoundsChecker _worldBoundsChecker;
+        private Blasters _blasters;
 
         [Inject]
         private void Construct(
             PlayerMover playerMover, 
             PlayerSpriteController playerSpriteController,
-            WorldBoundsChecker worldBoundsChecker)
+            Blasters blasters)
         {
             _playerMover = playerMover;
             _playerSpriteController = playerSpriteController;
-            _worldBoundsChecker = worldBoundsChecker;
+            _blasters = blasters;
         }
         
         private void Update()
         {
-            _playerMover?.Move(GetMovementInput(), Time.deltaTime); 
-            _playerSpriteController?.UpdatePlayerSprite();
-            transform.position = _worldBoundsChecker.CheckPlayerWorldPosition(transform.position);
-        }
-        
-        private Vector2 GetMovementInput()
-        {
-            return new Vector2(Input.GetAxis(AxisNames.Horizontal), Input.GetAxis(AxisNames.Vertical));
-        }
+            if (Input.GetAxis(AxisNames.Vertical) != 0)
+            {
+                _playerMover?.HandleMoving();
+                _playerSpriteController?.UpdatePlayerSprite();
+            }
+            
+            if (Input.GetAxis(AxisNames.Horizontal) != 0)
+            {
+                _playerMover?.HandleRotating();
+            }
 
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _blasters.Shoot();
+            }
+            
+        }
     }
 }

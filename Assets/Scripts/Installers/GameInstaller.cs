@@ -4,9 +4,10 @@ using Core.Entities.Asteroids;
 using Core.Entities.Asteroids.Movement;
 using Core.Entities.Player;
 using Core.Entities.Player.Controllers;
+using Core.Entities.Player.Fighting.Projectiles;
+using Core.Entities.Player.Fighting.Weapons;
 using Core.Entities.Player.Movement;
 using Core.Factories;
-using Core.ObjectPools;
 using Core.Spawners;
 using Core.SpriteControllers;
 using Core.StateControllers;
@@ -21,46 +22,47 @@ namespace Installers
         [Header("Player animations settings")]
         [SerializeField] private Sprite playerIdleSprite;
         [SerializeField] private Sprite playerMovingSprite;
-        [SerializeField] private Sprite playerRollLeftSprite;
-        [SerializeField] private Sprite playerRollRightSprite;
         [SerializeField] private GameObject playerObject;
         [SerializeField] private float playerMoveInSpeed;
         [SerializeField] private Vector2 playerStartPosition;
         [SerializeField] private Vector2 playerTargetPosition;
         
-        [Header("Earth animations settings")]
+        [Header("Space animations settings")]
         [SerializeField] private Transform earth;
         [SerializeField] private float earthMoveOutSpeed;
         [SerializeField] private Vector3 earthStartPosition;
         [SerializeField] private Vector3 earthTargetPosition;
+        [SerializeField] private ParticleSystem space;
         
         [Header("Asteroids settings")]
-        [SerializeField] private GameObject[] largeAsteroidPrefabs;
-        [SerializeField] private GameObject[] mediumAsteroidPrefabs;
-        [SerializeField] private GameObject[] smallAsteroidPrefabs;
+        [SerializeField] private LargeAsteroid largeAsteroidPrefab;
+        [SerializeField] private MediumAsteroid mediumAsteroidPrefab;
+        [SerializeField] private SmallAsteroid smallAsteroidPrefab;
         [SerializeField] private GameObject asteroidsContainer;
         [SerializeField] private Transform[] asteroidSpawnPositions;
+        
+        [Header("Weapons settings")]
+        [SerializeField] private Bullet bulletPrefab;
+        [SerializeField] private Transform bulletsContainer;
+        [SerializeField] private Transform shootPoint;
         
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
+            var worldBoundsChecker = new WorldBoundsChecker();
+            
             // Asteroids settings
             var asteroidsConfigManager = new ConfigManager<AsteroidsData>();
             var asteroidsData = asteroidsConfigManager.LoadConfigs(ConfigsSettings.AsteroidsConfigName);
-
-            // var asteroidPool = new ObjectPool<Asteroid>(
-            //     asteroidsData.AsteroidPoolSize,);
             
-            var asteroidMover = new AsteroidMover(
-                asteroidsData.MovingSpeedX, 
-                asteroidsData.MovingSpeedY, 
-                asteroidsData.RotationSpeed);
+            var asteroidMover = new AsteroidMover(asteroidsData, worldBoundsChecker);
             
             var asteroidFactory = new AsteroidFactory(
-                largeAsteroidPrefabs,
-                mediumAsteroidPrefabs,
-                smallAsteroidPrefabs,
-                asteroidsContainer);
+                largeAsteroidPrefab,
+                mediumAsteroidPrefab,
+                smallAsteroidPrefab,
+                asteroidsContainer, 
+                asteroidsData.AsteroidPoolSize);
             
             var asteroidSpawner = new AsteroidSpawner(
                 asteroidFactory, 
@@ -72,6 +74,12 @@ namespace Installers
             Container.Bind<AsteroidMover>().FromInstance(asteroidMover).AsSingle();
             Container.Bind<AsteroidFactory>().FromInstance(asteroidFactory).AsSingle();
             Container.Bind<AsteroidSpawner>().FromInstance(asteroidSpawner).AsSingle();  
+            
+            // Weapons settings
+            var projectilesConfigManager = new ConfigManager<ProjectilesData>();
+            var projectData = projectilesConfigManager.LoadConfigs(ConfigsSettings.ProjectilesConfigName);
+            var blasters = new Blasters(bulletPrefab, projectData.MagazineSize, bulletsContainer, shootPoint);
+            Container.Bind<Blasters>().FromInstance(blasters).AsSingle();
             
             var earthAnimationSettings = new EarthAnimationSettings(
                 earth,
@@ -93,16 +101,15 @@ namespace Installers
             var playerSpriteController = new PlayerSpriteController(
                 playerIdleSprite,
                 playerMovingSprite,
-                playerRollLeftSprite,
-                playerRollRightSprite,
                 playerSpriteRenderer);
             
             var animationController = new AnimationsController(
                 earthAnimationSettings, 
                 playerAnimationSettings, 
-                playerSpriteController);
+                playerSpriteController,
+                space);
             
-            var playerMover = new PlayerMover(playerObject, playerStats);
+            var playerMover = new PlayerMover(playerObject, playerStats, worldBoundsChecker);
             
             Container.BindInstance(playerSpriteController);
             Container.Bind<PlayerStats>().FromInstance(playerStats).AsSingle();
@@ -110,7 +117,7 @@ namespace Installers
             Container.Bind<GameStartController>().AsSingle().WithArguments(animationController, asteroidSpawner);
             Container.Bind<GameOverController>().AsSingle().WithArguments(animationController);
             Container.Bind<PlayerMover>().FromInstance(playerMover).AsSingle();
-            Container.Bind<WorldBoundsChecker>().AsSingle();
+            Container.Bind<WorldBoundsChecker>().FromInstance(worldBoundsChecker).AsSingle();
             Container.Bind<PlayerInputController>().AsSingle();
         }
         

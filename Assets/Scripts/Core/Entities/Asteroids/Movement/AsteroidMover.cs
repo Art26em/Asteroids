@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using Core.Configs;
+using Core.World;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = System.Random;
@@ -11,19 +13,20 @@ namespace Core.Entities.Asteroids.Movement
         private readonly float _movingSpeedX;
         private readonly float _movingSpeedY;
         private readonly float _rotationSpeed;
-        
+        private readonly WorldBoundsChecker _worldBoundsChecker;
         private CancellationTokenSource _cancellationTokenSource;
-
-        public AsteroidMover(float movingSpeedX, float movingSpeedY, float rotationSpeed)
+        
+        public AsteroidMover(AsteroidsData asteroidsData, WorldBoundsChecker worldBoundsChecker)
         {
-            _movingSpeedX = movingSpeedX;
-            _movingSpeedY = movingSpeedY;
-            _rotationSpeed = rotationSpeed;
+            _movingSpeedX = asteroidsData.MovingSpeedX;
+            _movingSpeedY = asteroidsData.MovingSpeedY;
+            _rotationSpeed = asteroidsData.RotationSpeed;
+            _worldBoundsChecker = worldBoundsChecker;
         }
 
-        public void StartMoving(GameObject gameObject)
+        public void StartMoving(Asteroid asteroid)
         { 
-            _ = Move(gameObject);    
+            _ = Move(asteroid.gameObject);    
         }
 
         private async UniTask Move(GameObject gameObject)
@@ -39,6 +42,9 @@ namespace Core.Entities.Asteroids.Movement
                 {
                     gameObject.transform.position += new Vector3(directionX, -_movingSpeedY * Time.deltaTime, 0);
                     gameObject.transform.Rotate(rotationDirection, _rotationSpeed * Time.deltaTime);
+
+                    var newPos = _worldBoundsChecker.GetObjectWorldPosition(gameObject.transform.position);
+                    gameObject.transform.position = newPos;
                     
                     await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
                     if (!Application.isPlaying) break;

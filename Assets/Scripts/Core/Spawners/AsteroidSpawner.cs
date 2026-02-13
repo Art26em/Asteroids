@@ -49,14 +49,17 @@ namespace Core.Spawners
                     _elapsedTime += Time.deltaTime;
                     if (IsTimeToSpawn())
                     {
-                        var asteroid = _factory.Create();
-                        asteroid.transform.position = _spawnPositions[Random.Range(0, _spawnPositions.Length)].position;
-                        _mover.StartMoving(asteroid);
-                    } 
+                        if (_factory.TryCreateLargeAsteroid(out var asteroid))
+                        {
+                            var spawnPoint = _spawnPositions[Random.Range(0, _spawnPositions.Length)]; 
+                            asteroid.transform.position = spawnPoint.position;
+                            _mover.StartMoving(asteroid);    
+                        }    
+                    }
+                    if (!Application.isPlaying) break;
                     await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
-                    if (!Application.isPlaying) break; 
                 }
-                
+                SafeCancelAndDispose();
             }
             catch (OperationCanceledException) {}
         }

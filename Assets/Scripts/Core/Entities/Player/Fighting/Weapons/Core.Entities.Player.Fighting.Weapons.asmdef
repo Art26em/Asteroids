@@ -1,13 +1,10 @@
 {
-    "name": "Core.Entities.Player.Controllers",
+    "name": "Core.Entities.Player.Fighting.Weapons",
     "rootNamespace": "",
     "references": [
-        "GUID:d03e36413c8c7334f9ecd11acb5f8f6a",
-        "GUID:dcca34c070f7452cbf50e094b7be245f",
+        "GUID:5d888c28dde84384be4046d6d4008ce0",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:a3c2cd72820b4d1ea4e210161a0cf597",
-        "GUID:6103ceab244d478388270c07f62789ba",
-        "GUID:2f02fa7e719d44c98952c5be57bb5d48"
+        "GUID:e8ee0b9a6cd9439a8314bc9e91042262"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

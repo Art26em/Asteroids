@@ -12,6 +12,7 @@ namespace Core.Entities.Speed
         public float MaxSpeed { get; private set; } = 5;
         public float Acceleration { get; private set; } = 7;
         public float Deceleration { get; private set; } = 7;
+        public float RotationSpeed { get; private set; } = 160;
 
         public void IncreaseCurrentSpeed(float amount)
         {

@@ -16,7 +16,7 @@ namespace Core.Entities.Physics
             {
                 return Vector2.MoveTowards(currentVelocity, Vector2.zero, deceleration * deltaTime);    
             }
-            var targetVelocity = inputDirection.normalized * maxSpeed;
+            var targetVelocity = inputDirection.normalized * maxSpeed ;
             return Vector2.MoveTowards(currentVelocity, targetVelocity, acceleration * deltaTime);
         }
 

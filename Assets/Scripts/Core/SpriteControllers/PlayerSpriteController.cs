@@ -6,21 +6,15 @@ namespace Core.SpriteControllers
     {
         private readonly Sprite _playerIdleSprite;
         private readonly Sprite _playerMovingSprite;
-        private readonly Sprite _playerRollLeftSprite;
-        private readonly Sprite _playerRollRightSprite;
         private readonly SpriteRenderer _playerSpriteRenderer;
 
         public PlayerSpriteController(
             Sprite playerIdleSprite, 
             Sprite playerMovingSprite, 
-            Sprite playerRollLeftSprite, 
-            Sprite playerRollRightSprite,
             SpriteRenderer playerSpriteRenderer)
         {
             _playerIdleSprite = playerIdleSprite;
             _playerMovingSprite = playerMovingSprite;
-            _playerRollLeftSprite = playerRollLeftSprite;
-            _playerRollRightSprite = playerRollRightSprite;
             _playerSpriteRenderer = playerSpriteRenderer;
         }
 
@@ -28,27 +22,15 @@ namespace Core.SpriteControllers
         {
             var isMovingY = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || 
                             Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow);
-            var isMovingLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
-            var isMovingRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
             
-            if (isMovingY && _playerSpriteRenderer.sprite != _playerMovingSprite)
+            switch (isMovingY)
             {
-                SetPlayerMovingSprite();
-            }
-
-            if (isMovingLeft && _playerSpriteRenderer.sprite != _playerRollLeftSprite)
-            {
-                SetPlayerRollLeftSprite();    
-            }    
-                
-            if (isMovingRight && _playerSpriteRenderer.sprite != _playerRollRightSprite)
-            {
-                SetPlayerRollRightSprite();    
-            } 
-            
-            if (!isMovingY && !isMovingLeft &&!isMovingRight && _playerSpriteRenderer.sprite != _playerIdleSprite)
-            {
-                SetPlayerIdleSprite();
+                case true when _playerSpriteRenderer.sprite != _playerMovingSprite:
+                    SetPlayerMovingSprite();
+                    break;
+                case false when _playerSpriteRenderer.sprite != _playerIdleSprite:
+                    SetPlayerIdleSprite();
+                    break;
             }
         }
 
@@ -61,15 +43,6 @@ namespace Core.SpriteControllers
         {
             _playerSpriteRenderer.sprite = _playerMovingSprite;
         }
-
-        private void SetPlayerRollLeftSprite()
-        {
-            _playerSpriteRenderer.sprite = _playerRollLeftSprite;
-        }
-
-        private void SetPlayerRollRightSprite()
-        {
-            _playerSpriteRenderer.sprite = _playerRollRightSprite;
-        }
+        
     }
 }

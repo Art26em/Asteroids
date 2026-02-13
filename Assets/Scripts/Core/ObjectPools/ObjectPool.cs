@@ -4,21 +4,23 @@ using UnityEngine;
 
 namespace Core.ObjectPools
 {
-    public class ObjectPool<T> where T : Component, new()
+    public class ObjectPool<T> where T : Component
     {
-        private readonly List<T> _pool;
+        private readonly List<T> _pool = new();
 
         public void Add(T item)
         {
             _pool.Add(item);
         }
 
-        public T Get()
+        public bool TryGetItem(out T item)
         {
-            return _pool.FirstOrDefault(item => item.gameObject.activeInHierarchy);
+            item = _pool.FirstOrDefault(item => !item.gameObject.activeInHierarchy);
+            item?.gameObject.SetActive(true);
+            return item;
         }
 
-        public void Return(T item)
+        public void ReturnItemToPool(T item)
         {
             item.gameObject.SetActive(false);    
         }
