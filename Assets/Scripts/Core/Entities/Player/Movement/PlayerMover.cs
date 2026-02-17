@@ -7,7 +7,7 @@ namespace Core.Entities.Player.Movement
 {
     public class PlayerMover
     { 
-       private readonly GameObject _playerObject;
+       private readonly PlayerObject _playerObject;
        private readonly PlayerStats _playerStats;
        private readonly WorldBoundsChecker _worldBoundsChecker;
        private readonly float _acceleration;
@@ -16,9 +16,8 @@ namespace Core.Entities.Player.Movement
        private readonly float _rotationSpeed;
        
        public PlayerMover(
-           GameObject playerObject,
-           PlayerStats playerStats,
-           WorldBoundsChecker worldBoundsChecker)
+           PlayerObject playerObject,
+           PlayerStats playerStats)
        {
            _playerStats = playerStats;
            _playerObject = playerObject;
@@ -26,7 +25,7 @@ namespace Core.Entities.Player.Movement
            _deceleration = playerStats.SpeedStats.Deceleration;
            _maxSpeed = playerStats.SpeedStats.MaxSpeed;
            _rotationSpeed = playerStats.SpeedStats.RotationSpeed;
-           _worldBoundsChecker = worldBoundsChecker;
+           _worldBoundsChecker = new WorldBoundsChecker();
        }
 
        public void HandleMoving()

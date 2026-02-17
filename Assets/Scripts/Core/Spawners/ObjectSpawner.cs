@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Threading;
-using Core.Entities.Asteroids.Movement;
 using Core.Factories;
+using Core.ObjectMovers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Core.Spawners
 {
-    public class AsteroidSpawner
+    public class ObjectSpawner<T> where T : Component
     {
-        private readonly AsteroidFactory _factory;
-        private readonly AsteroidMover _mover;
-        private readonly Transform[] _spawnPositions;
+        private readonly ObjectFactory<T> _factory;
+        private readonly IMover<T> _mover;
+        private Transform[] _spawnPositions;
         private readonly float _spawnTime;
 
         private CancellationTokenSource _cancellationTokenSource;
         private float _elapsedTime;
-
-        public AsteroidSpawner(AsteroidFactory factory, AsteroidMover mover, Transform[] spawnPositions, float spawnTime)
+        
+        public ObjectSpawner(ObjectFactory<T> factory, IMover<T> mover, Transform[] spawnPositions, float spawnTime = 0)
         {
             _factory = factory;
             _mover = mover;
@@ -26,6 +26,11 @@ namespace Core.Spawners
             _spawnTime = spawnTime;
         }
 
+        public void SetSpawnPositions(Transform[] spawnPositions)
+        {
+            _spawnPositions = spawnPositions;
+        }
+        
         private bool IsTimeToSpawn()
         {
             if (_elapsedTime < _spawnTime) return false;
@@ -33,12 +38,26 @@ namespace Core.Spawners
             return true;
         }
 
-        public void StartSpawning()
+        public void StartObjectsSpawning(bool autoSpawn = true)
         {
-            _ = SpawnAsteroids();
+            if (autoSpawn)
+            {
+                _ = SpawnObjects();
+            }
+            else
+            {
+                foreach (var spawnPoint in _spawnPositions)
+                {
+                    if (!_factory.TryCreateObject(out var item)) break;
+                    item.gameObject.SetActive(true);
+                    item.transform.position = spawnPoint.position;
+                    item.transform.rotation = spawnPoint.rotation;
+                    _mover.StartObjectMoving(item);
+                }
+            }
         }
         
-        private async UniTask SpawnAsteroids()
+        private async UniTask SpawnObjects()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _elapsedTime = 0;
@@ -49,11 +68,11 @@ namespace Core.Spawners
                     _elapsedTime += Time.deltaTime;
                     if (IsTimeToSpawn())
                     {
-                        if (_factory.TryCreateLargeAsteroid(out var asteroid))
+                        if (_factory.TryCreateObject(out var item))
                         {
                             var spawnPoint = _spawnPositions[Random.Range(0, _spawnPositions.Length)]; 
-                            asteroid.transform.position = spawnPoint.position;
-                            _mover.StartMoving(asteroid);    
+                            item.transform.position = spawnPoint.position;
+                            _mover.StartObjectMoving(item);    
                         }    
                     }
                     if (!Application.isPlaying) break;

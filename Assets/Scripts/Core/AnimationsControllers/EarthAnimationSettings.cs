@@ -12,13 +12,20 @@ namespace Core.AnimationsControllers
         public EarthAnimationSettings(
             Transform earth,
             float earthMoveOutSpeed, 
-            Vector3 earthStartPosition, 
-            Vector3 earthTargetPosition)
+            Vector3[] earthStartTargetPositions)
         {
             EarthMoveOutSpeed = earthMoveOutSpeed;
             Earth = earth;
-            EarthStartPosition = earthStartPosition;
-            EarthTargetPosition = earthTargetPosition;
+            if (earthStartTargetPositions == null || earthStartTargetPositions.Length < 2)
+            {
+                EarthStartPosition = new Vector3(0, 0, 0);
+                EarthTargetPosition = new Vector3(0, 0, 0); 
+            }
+            else
+            {
+                EarthStartPosition = earthStartTargetPositions[0];
+                EarthTargetPosition = earthStartTargetPositions[1];
+            }
         }
     }
 }

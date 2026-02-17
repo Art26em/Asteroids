@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Core.Configs;
+using Core.ObjectMovers;
 using Core.World;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -8,23 +9,23 @@ using Random = System.Random;
 
 namespace Core.Entities.Asteroids.Movement
 {
-    public class AsteroidMover
+    public class LargeAsteroidMover : IMover<LargeAsteroid>
     {
-        private readonly float _movingSpeedX;
-        private readonly float _movingSpeedY;
-        private readonly float _rotationSpeed;
+        protected float MovingSpeedX;
+        protected float MovingSpeedY;
+        protected float RotationSpeed;
         private readonly WorldBoundsChecker _worldBoundsChecker;
         private CancellationTokenSource _cancellationTokenSource;
         
-        public AsteroidMover(AsteroidsData asteroidsData, WorldBoundsChecker worldBoundsChecker)
+        public LargeAsteroidMover(AsteroidsData asteroidsData, WorldBoundsChecker worldBoundsChecker)
         {
-            _movingSpeedX = asteroidsData.MovingSpeedX;
-            _movingSpeedY = asteroidsData.MovingSpeedY;
-            _rotationSpeed = asteroidsData.RotationSpeed;
+            MovingSpeedX = asteroidsData.LargeAsteroidMovingSpeedX;
+            MovingSpeedY = asteroidsData.LargeAsteroidMovingSpeedY;
+            RotationSpeed = asteroidsData.LargeAsteroidRotationSpeed;
             _worldBoundsChecker = worldBoundsChecker;
         }
 
-        public void StartMoving(Asteroid asteroid)
+        public void StartObjectMoving(LargeAsteroid asteroid)
         { 
             _ = Move(asteroid.gameObject);    
         }
@@ -33,15 +34,15 @@ namespace Core.Entities.Asteroids.Movement
         {
             _cancellationTokenSource = new CancellationTokenSource();
             var rotationDirection = new Random().Next(2) == 0 ? Vector3.forward : Vector3.back;
-            var directionX = new Random().Next(2) == 0 ? _movingSpeedX : -_movingSpeedX;
+            var directionX = new Random().Next(2) == 0 ? MovingSpeedX : -MovingSpeedX;
             directionX *= Time.deltaTime;
             
             try
             {
                 while (Application.isPlaying)
                 {
-                    gameObject.transform.position += new Vector3(directionX, -_movingSpeedY * Time.deltaTime, 0);
-                    gameObject.transform.Rotate(rotationDirection, _rotationSpeed * Time.deltaTime);
+                    gameObject.transform.position += new Vector3(directionX, -MovingSpeedY * Time.deltaTime, 0);
+                    gameObject.transform.Rotate(rotationDirection, RotationSpeed * Time.deltaTime);
 
                     var newPos = _worldBoundsChecker.GetObjectWorldPosition(gameObject.transform.position);
                     gameObject.transform.position = newPos;

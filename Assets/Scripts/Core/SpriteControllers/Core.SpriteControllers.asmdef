@@ -2,7 +2,8 @@
     "name": "Core.SpriteControllers",
     "rootNamespace": "",
     "references": [
-        "GUID:6103ceab244d478388270c07f62789ba"
+        "GUID:6103ceab244d478388270c07f62789ba",
+        "GUID:96c413c5404875a4cb77d228c8537b9e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

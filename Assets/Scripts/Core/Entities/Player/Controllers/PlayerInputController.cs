@@ -25,16 +25,9 @@ namespace Core.Entities.Player.Controllers
         
         private void Update()
         {
-            if (Input.GetAxis(AxisNames.Vertical) != 0)
-            {
-                _playerMover?.HandleMoving();
-                _playerSpriteController?.UpdatePlayerSprite();
-            }
-            
-            if (Input.GetAxis(AxisNames.Horizontal) != 0)
-            {
-                _playerMover?.HandleRotating();
-            }
+            _playerMover?.HandleMoving();
+            _playerSpriteController?.UpdatePlayerSprite();
+            _playerMover?.HandleRotating();
 
             if (Input.GetKeyDown(KeyCode.Space))
             {

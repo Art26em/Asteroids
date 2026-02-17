@@ -1,3 +1,14 @@
-﻿{
-  "name": "Core.Entities.Asteroids"
+{
+    "name": "Core.Entities.Asteroids",
+    "rootNamespace": "",
+    "references": ["GUID:e8ee0b9a6cd9439a8314bc9e91042262"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

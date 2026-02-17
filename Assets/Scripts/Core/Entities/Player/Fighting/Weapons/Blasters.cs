@@ -1,47 +1,23 @@
-﻿using System.Threading;
-using Core.Entities.Player.Fighting.Projectiles;
+﻿using Core.Entities.Player.Fighting.Projectiles;
 using Core.ObjectPools;
-using Cysharp.Threading.Tasks;
+using Core.Spawners;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using Zenject;
 
 namespace Core.Entities.Player.Fighting.Weapons
 {
     public class Blasters
     {
-        private readonly ObjectPool<Bullet> _magazine;
-        private readonly Transform _shootPoint;
-        private CancellationTokenSource _cancellationTokenSource;
+        private readonly ObjectSpawner<Bullet> _spawner;
 
-        public Blasters(Bullet bulletPrefab, int magazineSize, Transform container, Transform shootPoint)
+        public Blasters(ObjectSpawner<Bullet> spawner)
         {
-            _shootPoint = shootPoint;
-            _magazine = new ObjectPool<Bullet>();
-            
-            for (int i = 0; i < magazineSize; i++)
-            {
-                var bullet = Object.Instantiate(bulletPrefab, container);
-                bullet.gameObject.SetActive(false);
-                _magazine.Add(bullet);
-            }
+            _spawner = spawner;
         }
-
+        
         public void Shoot()
         {
-            if (!_magazine.TryGetItem(out var bullet)) return;
-            bullet.gameObject.SetActive(true);
-            bullet.transform.position = _shootPoint.position;
-            _ = MoveBullets(bullet);
-        }
-
-        // ReSharper disable Unity.PerformanceAnalysis
-        private async UniTask MoveBullets(Bullet bullet)
-        {
-            while (bullet.isActiveAndEnabled)
-            {
-                bullet.transform.Translate(_shootPoint.up * (bullet.Speed * Time.deltaTime),Space.World);
-                await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
-            }
+            _spawner.StartObjectsSpawning(false);
         }
         
     }

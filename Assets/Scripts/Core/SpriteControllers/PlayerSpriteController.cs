@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Core.Entities.Player;
+using UnityEngine;
 
 namespace Core.SpriteControllers
 {
@@ -9,13 +10,15 @@ namespace Core.SpriteControllers
         private readonly SpriteRenderer _playerSpriteRenderer;
 
         public PlayerSpriteController(
-            Sprite playerIdleSprite, 
-            Sprite playerMovingSprite, 
-            SpriteRenderer playerSpriteRenderer)
+            Sprite[] playerIdleMovingSprites, 
+            PlayerObject playerObject)
         {
-            _playerIdleSprite = playerIdleSprite;
-            _playerMovingSprite = playerMovingSprite;
-            _playerSpriteRenderer = playerSpriteRenderer;
+            if (playerIdleMovingSprites.Length > 1)
+            {
+                _playerIdleSprite = playerIdleMovingSprites[0];
+                _playerMovingSprite = playerIdleMovingSprites[1];    
+            }
+            _playerSpriteRenderer = playerObject.GetComponent<SpriteRenderer>();
         }
 
         public void UpdatePlayerSprite()

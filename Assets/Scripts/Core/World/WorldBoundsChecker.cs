@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Core.ObjectPools;
+using UnityEngine;
 
 namespace Core.World
 {
@@ -35,6 +36,18 @@ namespace Core.World
             }
 
             return objectWorldPosition;
+        }
+
+        public void ReturnObjectToPool<T>(Vector3 objectWorldPosition, T item, ObjectPool<T> objectPool) where T : Component
+        {
+            var viewportPosition = _camera.WorldToViewportPoint(objectWorldPosition);
+            
+            if (viewportPosition.x < 0 || viewportPosition.x > 1 || viewportPosition.y < 0  || viewportPosition.y > 1)
+            {
+                viewportPosition.x = 1;
+                objectPool.ReturnItemToPool(item);
+            }
+            
         }
         
     }

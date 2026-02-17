@@ -1,4 +1,5 @@
 ﻿using Core.AnimationsControllers;
+using Core.Entities.Asteroids;
 using Core.Spawners;
 
 namespace Core.StateControllers
@@ -6,9 +7,9 @@ namespace Core.StateControllers
     public class GameStartController
     {
         private readonly AnimationsController _animationsController;
-        private readonly AsteroidSpawner _asteroidSpawner;
+        private readonly ObjectSpawner<LargeAsteroid> _asteroidSpawner;
         
-        public GameStartController(AnimationsController animationsController, AsteroidSpawner asteroidSpawner)
+        public GameStartController(AnimationsController animationsController, ObjectSpawner<LargeAsteroid> asteroidSpawner)
         {
             _animationsController = animationsController;
             _asteroidSpawner = asteroidSpawner;
@@ -17,7 +18,7 @@ namespace Core.StateControllers
         public void StartGame()
         {
             _animationsController.OnGameStart();  
-            _asteroidSpawner.StartSpawning();
+            _asteroidSpawner.StartObjectsSpawning();
         }
         
     }
