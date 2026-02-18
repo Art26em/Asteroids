@@ -30,7 +30,7 @@ namespace Core.Entities.Asteroids.Movement
             _ = Move(asteroid.gameObject);    
         }
 
-        private async UniTask Move(GameObject gameObject)
+        protected async UniTask Move(GameObject gameObject)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             var rotationDirection = new Random().Next(2) == 0 ? Vector3.forward : Vector3.back;
