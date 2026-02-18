@@ -1,0 +1,16 @@
+{
+  "LargeAsteroidMovingSpeedX" : 0.2,
+  "LargeAsteroidMovingSpeedY" : 0.5,
+  "LargeAsteroidRotationSpeed" : 8,
+  "LargeAsteroidPoolSize": 5,
+  "MediumAsteroidMovingSpeedX" : 0.4,
+  "MediumAsteroidMovingSpeedY" : 1,
+  "MediumAsteroidRotationSpeed" : 10,
+  "MediumAsteroidPoolSize": 15,
+  "TimeToSpawn" : 10,
+  "Damage": 1,
+  "HealthStats": {
+    "MaxHealth": 1,
+    "CurrentHealth": 1
+  }
+}

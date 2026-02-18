@@ -1,0 +1,13 @@
+{
+  "HealthStats": {
+    "MaxHealth": 3,
+    "CurrentHealth": 3
+  },
+  "SpeedStats": {
+    "CurrentSpeed": 0.0,
+    "MaxSpeed": 5.0,
+    "Acceleration": 7.0,
+    "Deceleration": 7.0,
+    "RotationSpeed" : 200
+  }
+}
