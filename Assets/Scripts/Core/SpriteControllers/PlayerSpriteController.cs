@@ -1,4 +1,4 @@
-﻿using Core.Entities.Player;
+﻿using Core.PlayerPresentation;
 using UnityEngine;
 
 namespace Core.SpriteControllers
@@ -9,9 +9,7 @@ namespace Core.SpriteControllers
         private readonly Sprite _playerMovingSprite;
         private readonly SpriteRenderer _playerSpriteRenderer;
 
-        public PlayerSpriteController(
-            Sprite[] playerIdleMovingSprites, 
-            PlayerObject playerObject)
+        public PlayerSpriteController(Sprite[] playerIdleMovingSprites, PlayerObject playerObject)
         {
             if (playerIdleMovingSprites.Length > 1)
             {

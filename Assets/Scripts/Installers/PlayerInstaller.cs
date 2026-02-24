@@ -1,20 +1,23 @@
 using Core.Configs;
-using Core.Entities.Player;
-using Core.Entities.Player.Controllers;
-using Core.Entities.Player.Movement;
+using Core.ObjectMovers;
+using Core.PlayerLogic;
+using Core.PlayerPresentation;
 using Zenject;
 
-public class PlayerInstaller : MonoInstaller
+namespace Installers
 {
-    // ReSharper disable Unity.PerformanceAnalysis
-    public override void InstallBindings()
+    public class PlayerInstaller : MonoInstaller
     {
-        var playerConfigManager = new ConfigManager<PlayerData>();
-        var playerData = playerConfigManager.LoadConfigs(ConfigsSettings.PlayerConfigName);
+        // ReSharper disable Unity.PerformanceAnalysis
+        public override void InstallBindings()
+        {
+            var playerConfigManager = new ConfigManager<PlayerData>();
+            var playerData = playerConfigManager.LoadConfigs(ConfigsSettings.PlayerConfigName);
             
-        Container.Bind<PlayerData>().FromInstance(playerData).AsSingle();
-        Container.Bind<PlayerStats>().AsSingle();
-        Container.Bind<PlayerMover>().AsSingle();
-        Container.Bind<PlayerInputController>().AsSingle();
+            Container.Bind<PlayerData>().FromInstance(playerData).AsSingle();
+            Container.Bind<PlayerStats>().AsSingle();
+            Container.Bind<PlayerMover>().AsSingle();
+            Container.Bind<PlayerInputController>().FromComponentInHierarchy().AsSingle();
+        }
     }
 }

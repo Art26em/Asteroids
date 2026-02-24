@@ -1,0 +1,4 @@
+﻿{
+  "name": "Core.WeaponsLogic",
+  "references":[ "GUID:d802a1d900314a7dae959a89b944072a", "GUID:afb9acca5ee74b18b2ec3bd40980ebc8" ]
+}

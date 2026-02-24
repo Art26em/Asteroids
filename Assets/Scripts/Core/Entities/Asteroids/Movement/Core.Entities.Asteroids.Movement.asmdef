@@ -1,9 +1,0 @@
-﻿{
-  "name": "Core.Entities.Asteroids.Movement",
-  "references":[ 
-    "GUID:f51ebe6a0ceec4240a699833d6309b23", 
-    "GUID:abcf19b40f574f2f938c53cfc7a8539e", 
-    "GUID:6103ceab244d478388270c07f62789ba", 
-    "GUID:a3c2cd72820b4d1ea4e210161a0cf597", 
-    "GUID:822525b1a03441279a3cc9150ee0a0f0" ]
-}

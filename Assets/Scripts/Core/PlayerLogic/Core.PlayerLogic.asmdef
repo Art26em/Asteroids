@@ -1,0 +1,19 @@
+{
+    "name": "Core.PlayerLogic",
+    "rootNamespace": "",
+    "references": [
+        "GUID:822525b1a03441279a3cc9150ee0a0f0",
+        "GUID:dcca34c070f7452cbf50e094b7be245f",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:f0cc5a4a3300408d84198ee94461624e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

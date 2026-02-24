@@ -1,4 +1,0 @@
-﻿{
-  "name": "Core.Entities.Enemies",
-  "references":[ "GUID:e8ee0b9a6cd9439a8314bc9e91042262", "GUID:44588e771624429ba0d9582320133ad5", "GUID:4c1352867ca64d5e8b5ceb0dce8cb46f", "GUID:6103ceab244d478388270c07f62789ba" ]
-}

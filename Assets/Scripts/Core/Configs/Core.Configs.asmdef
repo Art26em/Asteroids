@@ -2,8 +2,8 @@
     "name": "Core.Configs",
     "rootNamespace": "",
     "references": [
-        "GUID:44588e771624429ba0d9582320133ad5",
-        "GUID:4c1352867ca64d5e8b5ceb0dce8cb46f"
+        "GUID:82c51dcc9f24461bb2b34367dbd4a24f",
+        "GUID:f62c59d1243b46efa8521f6c6540b2fd"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

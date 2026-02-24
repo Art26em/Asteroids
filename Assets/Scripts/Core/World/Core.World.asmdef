@@ -1,4 +1,4 @@
 ﻿{
   "name": "Core.World",
-  "references":[ "GUID:5d888c28dde84384be4046d6d4008ce0" ]
+  "references":[ "GUID:5d888c28dde84384be4046d6d4008ce0", "GUID:e6f20ac5d5b64da19abc5d549ff823c3", "GUID:afb9acca5ee74b18b2ec3bd40980ebc8" ]
 }

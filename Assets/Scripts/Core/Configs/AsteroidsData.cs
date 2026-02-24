@@ -1,5 +1,4 @@
-﻿using Core.Entities.Health;
-
+﻿    
 namespace Core.Configs
 {
     public class AsteroidsData
@@ -16,6 +15,6 @@ namespace Core.Configs
         
         public float TimeToSpawn;
         public int Damage;
-        public HealthStats HealthStats;
+        //public HealthStats HealthStats;
     }
 }

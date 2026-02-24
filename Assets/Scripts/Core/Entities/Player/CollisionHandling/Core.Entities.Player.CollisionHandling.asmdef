@@ -1,4 +1,0 @@
-{
-	"name": "Core.Entities.Player.CollisionHandling",
-	"references":[ "GUID:96c413c5404875a4cb77d228c8537b9e", "GUID:abcf19b40f574f2f938c53cfc7a8539e", "GUID:44588e771624429ba0d9582320133ad5", "GUID:6103ceab244d478388270c07f62789ba" ]
-}

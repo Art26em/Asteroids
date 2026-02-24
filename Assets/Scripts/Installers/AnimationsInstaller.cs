@@ -1,5 +1,6 @@
 using Core.AnimationsControllers;
-using Core.Entities.Player;
+using Core.AnimationsSettings;
+using Core.PlayerPresentation;
 using Core.SpriteControllers;
 using UnityEngine;
 using Zenject;

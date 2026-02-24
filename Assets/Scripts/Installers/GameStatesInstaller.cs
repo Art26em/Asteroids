@@ -1,12 +1,16 @@
 using Core.StateControllers;
 using Zenject;
 
-public class GameStatesInstaller : MonoInstaller
+namespace Installers
 {
-    // ReSharper disable Unity.PerformanceAnalysis
-    public override void InstallBindings()
+    public class GameStatesInstaller : MonoInstaller
     {
-        Container.Bind<GameStartController>().AsSingle();
-        Container.Bind<GameOverController>().AsSingle();
+        // ReSharper disable Unity.PerformanceAnalysis
+        public override void InstallBindings()
+        {
+            Container.Bind<GameStateController>().AsSingle();
+            Container.Bind<GameStartController>().AsSingle();
+            Container.Bind<GameOverController>().AsSingle();
+        }
     }
 }

@@ -1,22 +1,37 @@
 ﻿using System;
 using System.Threading;
-using Core.Entities.Player.Controllers;
+using Core.AnimationsSettings;
+using Core.PlayerLogic;
 using Core.SpriteControllers;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace Core.AnimationsControllers
 {
     public class AnimationsController
     {
-        private readonly EarthAnimationSettings _earthAnimationSettings;
-        private readonly PlayerAnimationSettings _playerAnimationSettings;
-        private readonly PlayerSpriteController _playerSpriteController;
-        private readonly PlayerInputController _playerInputController;
+        private EarthAnimationSettings _earthAnimationSettings;
+        private PlayerAnimationSettings _playerAnimationSettings;
+        private PlayerSpriteController _playerSpriteController;
+        private PlayerInputController _playerInputController;
         private readonly ParticleSystem _space;
         
         private CancellationTokenSource _earthAnimCancellationTokenSource;
         private CancellationTokenSource _playerAnimCancellationTokenSource;
+
+        [Inject]
+        private void Construct(
+            EarthAnimationSettings earthAnimationSettings,
+            PlayerAnimationSettings playerAnimationSettings,
+            PlayerSpriteController playerSpriteController,
+            PlayerInputController playerInputController)
+        {
+            _earthAnimationSettings = earthAnimationSettings;
+            _playerAnimationSettings = playerAnimationSettings;
+            _playerSpriteController = playerSpriteController;
+            _playerInputController = playerInputController;
+        }
         
         public AnimationsController(
             EarthAnimationSettings earthAnimationSettings,
@@ -99,13 +114,13 @@ namespace Core.AnimationsControllers
                     // Рассчитываем пройденное расстояние
                     var distanceCovered = (Time.time - startTime) * _playerAnimationSettings.PlayerMoveInSpeed;
                     var fractionOfJourney = distanceCovered / journeyLength;
-
+                
                     // Плавное перемещение с использованием Lerp
                     _playerAnimationSettings.Player.transform.position = Vector2.Lerp(
                         _playerAnimationSettings.PlayerStartPosition,
                         _playerAnimationSettings.PlayerTargetPosition,
                         fractionOfJourney);
-
+                
                     // Если достигли цели, выходим
                     if (fractionOfJourney >= 1f)
                     {
@@ -114,10 +129,9 @@ namespace Core.AnimationsControllers
                         _playerSpriteController.SetPlayerIdleSprite();
                         break;
                     }
-
+                
                     // Ждем один кадр
                     await UniTask.Yield(PlayerLoopTiming.Update, _playerAnimCancellationTokenSource.Token);
-
                 }
             }
             catch (OperationCanceledException) {}

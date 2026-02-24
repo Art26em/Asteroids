@@ -1,0 +1,4 @@
+﻿{
+  "name": "Core.ObjectMovers",
+  "references":[ "GUID:e6f20ac5d5b64da19abc5d549ff823c3", "GUID:6103ceab244d478388270c07f62789ba", "GUID:b480702751bd465b8fbb583d739b561f", "GUID:f62c59d1243b46efa8521f6c6540b2fd", "GUID:1a8c2fef9d504f5cb1887df0c438d746", "GUID:f51ebe6a0ceec4240a699833d6309b23", "GUID:afb9acca5ee74b18b2ec3bd40980ebc8", "GUID:5d888c28dde84384be4046d6d4008ce0" ]
+}

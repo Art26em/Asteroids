@@ -1,0 +1,4 @@
+﻿{
+  "name": "Core.PlayerPresentation",
+  "references":[ "GUID:82c51dcc9f24461bb2b34367dbd4a24f", "GUID:f62c59d1243b46efa8521f6c6540b2fd", "GUID:6103ceab244d478388270c07f62789ba" ]
+}

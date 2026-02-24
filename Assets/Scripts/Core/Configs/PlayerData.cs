@@ -1,5 +1,5 @@
-﻿using Core.Entities.Health;
-using Core.Entities.Speed;
+﻿using Core.HealthSystem;
+using Core.SpeedSystem;
 
 namespace Core.Configs
 {
