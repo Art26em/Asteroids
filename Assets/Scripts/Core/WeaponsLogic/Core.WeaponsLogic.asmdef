@@ -1,4 +1,19 @@
-﻿{
-  "name": "Core.WeaponsLogic",
-  "references":[ "GUID:d802a1d900314a7dae959a89b944072a", "GUID:afb9acca5ee74b18b2ec3bd40980ebc8" ]
+{
+    "name": "Core.WeaponsLogic",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d802a1d900314a7dae959a89b944072a",
+        "GUID:0fd8a88c5210446484215e17a35605e8",
+        "GUID:822525b1a03441279a3cc9150ee0a0f0",
+        "GUID:c2083dc55ff24dd1a3d1011c25919a7f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

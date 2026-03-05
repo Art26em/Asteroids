@@ -1,30 +1,47 @@
-﻿using Core.ObjectPools;
+﻿using Core.AsteroidsPresentation;
+using Core.Configs;
+using Core.ObjectPools;
+using Core.ProjectilesPresentation;
 using UnityEngine;
 using Zenject;
 
-namespace Core.Factories
+namespace Core.ObjectFactories
 {
     public class ObjectFactory<T> where T : Component
     {
         private T _objectPrefab;
-        private readonly ObjectPool<T> _objectPool;
+        private ObjectPool<T> _objectPool;
         private Transform _objectContainer;
-        private int objectCount;
-        
-        public  ObjectFactory(
-            T prefab, 
-            ObjectPool<T> pool, 
-            Transform container, 
-            int objectCount, 
-            DiContainer diContainer)
+
+        [Inject]
+        private void Construct(T prefab, ObjectPool<T> pool, DiContainer diContainer)
         {
             _objectPool = pool;
-            for (int i = 0; i < objectCount; i++)
+            var objectCount = 0;
+            Transform container = null;
+            var typeT = typeof(T);
+            
+            if (typeT.IsSubclassOf(typeof(Asteroid)))
             {
-                var item = diContainer.InstantiatePrefab(prefab, container).GetComponent<T>();
+                var asteroidsData = diContainer.Resolve<AsteroidsData>();
+                objectCount = typeT == typeof(LargeAsteroid) ? 
+                    asteroidsData.LargeAsteroidPoolSize :
+                    asteroidsData.MediumAsteroidPoolSize;
+                container = asteroidsData.AsteroidsContainer;    
+            } else if (typeT.IsSubclassOf(typeof(Projectile)))
+            {
+                objectCount = diContainer.Resolve<ProjectilesData>().MagazineSize;
+                container = diContainer.Resolve<ProjectilesData>().BulletsContainer;    
+            }
+            
+            for (var i = 0; i < objectCount; i++)
+            {
+                var item = container ? 
+                    diContainer.InstantiatePrefab(prefab, container).GetComponent<T>() : 
+                    diContainer.InstantiatePrefab(prefab).GetComponent<T>();
                 item.gameObject.SetActive(false);
                 _objectPool.Add(item); 
-            }
+            }    
         }
         
         public bool TryCreateObject(out T item)

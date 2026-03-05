@@ -15,14 +15,14 @@ namespace UI.Views
         [SerializeField] private Button startButton;
         [SerializeField] private Button quitButton;
         
-        private GameStartController _gameStartController;
+        private GameStateController _gameStateController;
         private CanvasGroup _canvasGroup;
         private CancellationTokenSource _cancellationTokenSource;
         
         [Inject]
-        private void Construct(GameStartController gameStartController)
+        private void Construct(GameStateController gameStateController)
         {
-            _gameStartController = gameStartController;
+            _gameStateController = gameStateController;
         }
         
         private void Awake()
@@ -42,7 +42,7 @@ namespace UI.Views
         {
             Time.timeScale = 1;
             _ = FadeOutScreen();
-            _gameStartController.StartGame();
+            _gameStateController.StartGame();
         }
 
         private async UniTask FadeOutScreen()

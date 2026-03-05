@@ -1,4 +1,5 @@
 ﻿using Core.ProjectilesPresentation;
+using Signals;
 using UnityEngine;
 
 namespace Core.AsteroidsPresentation
@@ -7,9 +8,10 @@ namespace Core.AsteroidsPresentation
     {
         protected override void HandleCollision(GameObject other)
         {
-            if (other.TryGetComponent(out Bullet asteroid))
+            if (other.TryGetComponent(out Bullet _))
             {
-                gameObject.SetActive(false);    
+                SignalBus.Fire(new LargeAsteroidDestroyedSignal(gameObject.transform));
+                gameObject.SetActive(false);  
             }
         }
     }

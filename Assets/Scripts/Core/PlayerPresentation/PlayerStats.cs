@@ -2,6 +2,7 @@
 using Core.Configs;
 using Core.HealthSystem;
 using Core.SpeedSystem;
+using Zenject;
 
 namespace Core.PlayerPresentation
 {
@@ -10,11 +11,12 @@ namespace Core.PlayerPresentation
     {
         public HealthStats HealthStats;
         public SpeedStats SpeedStats;
-        
-        public PlayerStats(PlayerData playerData)
+
+        [Inject]
+        private void Construct(PlayerData playerData)
         {
             HealthStats = playerData.HealthStats;
-            SpeedStats = playerData.SpeedStats;
+            SpeedStats = playerData.SpeedStats;    
         }
         
     }

@@ -1,9 +1,23 @@
-﻿namespace Core.Configs
+﻿using UnityEngine;
+
+namespace Core.Configs
 {
     public class ProjectilesData
     {
-        public int BulletSpeed { get; private set; } = 10;
-        public int BulletDamage { get; private set; } = 1;
-        public int MagazineSize { get; private set; } = 20;
+        public int BulletSpeed;
+        public int BulletDamage;
+        public int MagazineSize;
+        public Transform BulletsContainer;
+        public Transform[] BulletsShootPoints;
+        
+        public void SetContainer(Transform container)
+        {
+            BulletsContainer = container;
+        }
+
+        public void SetSpawnPositions(Transform[] spawnPositions)
+        {
+            BulletsShootPoints = spawnPositions;
+        }
     }
 }

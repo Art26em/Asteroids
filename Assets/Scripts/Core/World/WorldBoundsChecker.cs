@@ -16,7 +16,7 @@ namespace Core.World
         {
             if (other.TryGetComponent(out Bullet bullet))
             {
-                bullet.gameObject.SetActive(false);
+                //bullet.gameObject.SetActive(false);
             }
             else
             {

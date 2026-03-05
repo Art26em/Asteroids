@@ -3,8 +3,8 @@
 {
     public class HealthStats
     {
-        public int MaxHealth { get; private set; } = 3;
-        public int CurrentHealth { get; private set; } = 3;
+        public int MaxHealth;
+        public int CurrentHealth;
         
         public void SetMaxHealth(int value)
         {
@@ -12,13 +12,13 @@
             MaxHealth = value;
         }
         
-        public void IncreaseHealth(int amount)
+        public void IncreaseHealth(int amount = 1)
         {
             if (CurrentHealth + amount > MaxHealth) return;
             CurrentHealth += amount;
         }
     
-        public void DecreaseHealth(int amount)
+        public void DecreaseHealth(int amount = 1)
         {
             CurrentHealth -= amount;
         }

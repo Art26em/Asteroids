@@ -7,11 +7,11 @@ namespace Core.SpeedSystem
     {
         [JsonIgnore]
         public Vector2 CurrentVelocity = new(0, 0);
-        public float CurrentSpeed = 0;
-        public float MaxSpeed { get; private set; } = 5;
-        public float Acceleration { get; private set; } = 7;
-        public float Deceleration { get; private set; } = 7;
-        public float RotationSpeed { get; private set; } = 160;
+        public float CurrentSpeed;
+        public float MaxSpeed;
+        public float Acceleration;
+        public float Deceleration;
+        public float RotationSpeed;
         
         public void IncreaseCurrentSpeed(float amount)
         {

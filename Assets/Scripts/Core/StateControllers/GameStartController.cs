@@ -1,6 +1,5 @@
 ﻿using Core.AnimationsControllers;
-using Core.AsteroidsPresentation;
-using Core.Spawners;
+using Core.AsteroidsLogic;
 using Zenject;
 
 namespace Core.StateControllers
@@ -8,26 +7,21 @@ namespace Core.StateControllers
     public class GameStartController
     {
         private AnimationsController _animationsController;
-        private ObjectSpawner<LargeAsteroid> _asteroidSpawner;
+        private AsteroidsController _asteroidsController;
 
         [Inject]
-        private void Construct(AnimationsController animationsController, ObjectSpawner<LargeAsteroid> asteroidSpawner)
+        private void Construct(
+            AnimationsController animationsController, 
+            AsteroidsController asteroidsController)
         {
             _animationsController = animationsController;
-            _asteroidSpawner = asteroidSpawner;
-        }
-        
-        public GameStartController(AnimationsController animationsController, ObjectSpawner<LargeAsteroid> asteroidSpawner)
-        {
-            _animationsController = animationsController;
-            _asteroidSpawner = asteroidSpawner;
+            _asteroidsController = asteroidsController;
         }
         
         public void StartGame()
         {
             _animationsController.OnGameStart();  
-            _asteroidSpawner.StartObjectsSpawning();
+            _asteroidsController.StartAsteroidsSpawning();
         }
-        
     }
 }

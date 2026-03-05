@@ -7,6 +7,7 @@
   "MediumAsteroidMovingSpeedY" : 1,
   "MediumAsteroidRotationSpeed" : 10,
   "MediumAsteroidPoolSize": 15,
+  "MediumAsteroidCount": 3,
   "TimeToSpawn" : 10,
   "Damage": 1,
   "HealthStats": {

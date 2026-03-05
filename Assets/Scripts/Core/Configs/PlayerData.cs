@@ -5,7 +5,7 @@ namespace Core.Configs
 {
     public class PlayerData
     {
-        public readonly HealthStats HealthStats = new();
-        public readonly SpeedStats SpeedStats = new();
+        public HealthStats HealthStats;
+        public SpeedStats SpeedStats;
     }
 }

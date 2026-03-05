@@ -1,14 +1,9 @@
 {
-    "name": "Core.PlayerLogic",
+    "name": "Core.ProjectilesPresentation",
     "rootNamespace": "",
     "references": [
-        "GUID:822525b1a03441279a3cc9150ee0a0f0",
-        "GUID:dcca34c070f7452cbf50e094b7be245f",
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
-        "GUID:f0cc5a4a3300408d84198ee94461624e",
         "GUID:e6f20ac5d5b64da19abc5d549ff823c3",
-        "GUID:82c51dcc9f24461bb2b34367dbd4a24f",
-        "GUID:1a8c2fef9d504f5cb1887df0c438d746"
+        "GUID:6103ceab244d478388270c07f62789ba"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

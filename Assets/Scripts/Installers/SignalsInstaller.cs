@@ -10,6 +10,7 @@ namespace Installers
         {
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<GameStateChangedSignal>();
+            Container.DeclareSignal<LargeAsteroidDestroyedSignal>();
         }
     }
 }

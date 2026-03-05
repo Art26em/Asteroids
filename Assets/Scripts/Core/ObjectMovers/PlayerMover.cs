@@ -3,28 +3,30 @@ using Core.Entities.Physics;
 using Core.Physics;
 using Core.PlayerPresentation;
 using UnityEngine;
+using Zenject;
 
 namespace Core.ObjectMovers
 {
     public class PlayerMover
     { 
-       private readonly PlayerObject _playerObject;
-       private readonly PlayerStats _playerStats;
-       private readonly float _acceleration;
-       private readonly float _deceleration;
-       private readonly float _maxSpeed;
-       private readonly float _rotationSpeed;
-       
-       public PlayerMover(PlayerObject playerObject, PlayerStats playerStats)
+       private PlayerObject _playerObject;
+       private PlayerStats _playerStats;
+       private float _acceleration;
+       private float _deceleration;
+       private float _maxSpeed;
+       private float _rotationSpeed;
+
+       [Inject]
+       private void Construct(PlayerObject playerObject, PlayerStats playerStats)
        {
            _playerStats = playerStats;
            _playerObject = playerObject;
            _acceleration = playerStats.SpeedStats.Acceleration;
            _deceleration = playerStats.SpeedStats.Deceleration;
            _maxSpeed = playerStats.SpeedStats.MaxSpeed;
-           _rotationSpeed = playerStats.SpeedStats.RotationSpeed;
+           _rotationSpeed = playerStats.SpeedStats.RotationSpeed;    
        }
-
+       
        public void HandleMoving()
        {
            var inputDirection = Input.GetAxis(AxisNames.Vertical) * _playerObject.transform.up; 

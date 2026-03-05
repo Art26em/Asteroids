@@ -19,11 +19,6 @@ namespace Core.ObjectPools
             item?.gameObject.SetActive(true);
             return item;
         }
-
-        public void ReturnItemToPool(T item)
-        {
-            item.gameObject.SetActive(false);    
-        }
         
     }
 }
