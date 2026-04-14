@@ -22,7 +22,6 @@ namespace Core.AsteroidsLogic
         
         private SignalBus _signalBus;
         private float _elapsedTime;
-        private CancellationTokenSource _cancellationTokenSource;
         
         [Inject]
         public void Construct(
@@ -49,10 +48,10 @@ namespace Core.AsteroidsLogic
 
         private async UniTask SpawnAsteroids()
         {
-            _cancellationTokenSource = new CancellationTokenSource();
+            var cancellationTokenSource = new CancellationTokenSource();
             try
             {
-                while (Application.isPlaying && !_cancellationTokenSource.IsCancellationRequested)
+                while (Application.isPlaying && !cancellationTokenSource.IsCancellationRequested)
                 {
                     if (_largeAsteroidSpawner.IsTimeToSpawn(_elapsedTime, _asteroidsData.TimeToSpawn))
                     {
@@ -60,43 +59,45 @@ namespace Core.AsteroidsLogic
                         var spawnPoint = _asteroidsData.AsteroidSpawnPositions[pointIndex];
                         if (_largeAsteroidSpawner.TrySpawnObject(spawnPoint, out var spawnedObject))
                         {
-                            _largeAsteroidMover.StartObjectMoving(spawnedObject.gameObject);    
+                            _largeAsteroidMover.StartObjectMoving(spawnedObject.gameObject);
                         }
                         _elapsedTime = 0;
                     }
-                    _elapsedTime += Time.deltaTime;  
-                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
+                    _elapsedTime += Time.deltaTime;
+                    await UniTask.Yield(PlayerLoopTiming.Update, cancellationTokenSource.Token);
                 }
-                SafeCancelAndDispose();
             }
-            catch (OperationCanceledException){} 
+            catch (OperationCanceledException) {}
+            finally
+            {
+                cancellationTokenSource.Dispose();
+            }
         }
 
         private void OnLargeAsteroidDestroyed(LargeAsteroidDestroyedSignal signal)
         {
+            _ = SpawnObjectsWithDelay(signal.AsteroidTransform);
+        }
+        
+        
+        private async UniTask SpawnObjectsWithDelay(Transform spawnPoint)
+        {
+            var elapsedTime = 0f;
+            var delay = _asteroidsData.MediumAsteroidSpawnDelay;
+            while (elapsedTime < delay)
+            {
+                elapsedTime += Time.deltaTime;
+                await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+            }
+
             for (var i = 0; i < _asteroidsData.MediumAsteroidCount; i++)
             {
-                if (_mediumAsteroidSpawner.TrySpawnObject(signal.AsteroidTransform, out var spawnedObject))
+                if (_mediumAsteroidSpawner.TrySpawnObject(spawnPoint, out var spawnedObject))
                 {
                     _mediumAsteroidMover.StartObjectMoving(spawnedObject.gameObject);    
                 }
-            }        
-        }
-        
-        private void SafeCancelAndDispose()
-        {
-            if (_cancellationTokenSource == null) return;
+            }    
             
-            try
-            {
-                if (!_cancellationTokenSource.IsCancellationRequested)
-                {
-                    _cancellationTokenSource.Cancel();
-                }
-                _cancellationTokenSource.Dispose();
-            }
-            catch (ObjectDisposedException) {}
-            _cancellationTokenSource = null;
         }
         
     }

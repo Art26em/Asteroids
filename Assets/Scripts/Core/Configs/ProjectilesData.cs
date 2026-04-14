@@ -9,6 +9,8 @@ namespace Core.Configs
         public int MagazineSize;
         public Transform BulletsContainer;
         public Transform[] BulletsShootPoints;
+        public float LaserFireTime;
+        public float LaserReloadTime;
         
         public void SetContainer(Transform container)
         {

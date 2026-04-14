@@ -4,6 +4,7 @@ using Core.AnimationsSettings;
 using Core.PlayerLogic;
 using Core.SpriteControllers;
 using Cysharp.Threading.Tasks;
+using Signals;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,7 @@ namespace Core.AnimationsControllers
         private PlayerSpriteController _playerSpriteController;
         private PlayerInputController _playerInputController;
         private readonly ParticleSystem _space;
+        private SignalBus _signalBus;
         
         private CancellationTokenSource _earthAnimCancellationTokenSource;
         private CancellationTokenSource _playerAnimCancellationTokenSource;
@@ -25,12 +27,14 @@ namespace Core.AnimationsControllers
             EarthAnimationSettings earthAnimationSettings,
             PlayerAnimationSettings playerAnimationSettings,
             PlayerSpriteController playerSpriteController,
-            PlayerInputController playerInputController)
+            PlayerInputController playerInputController,
+            SignalBus signalBus)
         {
             _earthAnimationSettings = earthAnimationSettings;
             _playerAnimationSettings = playerAnimationSettings;
             _playerSpriteController = playerSpriteController;
             _playerInputController = playerInputController;
+            _signalBus = signalBus;
         }
         
         public AnimationsController(
@@ -83,6 +87,7 @@ namespace Core.AnimationsControllers
                         _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthTargetPosition;
                         _earthAnimationSettings.Earth.gameObject.SetActive(false);
                         _space.Pause();
+                        _signalBus.Fire<StartAnimationCompleted>();
                         break;
                     }
 
@@ -135,34 +140,6 @@ namespace Core.AnimationsControllers
                 }
             }
             catch (OperationCanceledException) {}
-            
         }
-
-        private void OnDestroy()
-        {
-            SafeCancelAndDispose();
-        }
-        
-        private void SafeCancelAndDispose()
-        {
-            if (_earthAnimCancellationTokenSource == null) return;
-            
-            try
-            {
-                if (!_earthAnimCancellationTokenSource.IsCancellationRequested)
-                    _earthAnimCancellationTokenSource.Cancel();
-                _earthAnimCancellationTokenSource.Dispose();
-                
-                if (!_playerAnimCancellationTokenSource.IsCancellationRequested)
-                    _playerAnimCancellationTokenSource.Cancel();
-                _playerAnimCancellationTokenSource.Dispose();
-                
-            }
-            catch (ObjectDisposedException) {}
-            
-            _earthAnimCancellationTokenSource = null;
-            _playerAnimCancellationTokenSource = null;
-        }
-        
     }
 }

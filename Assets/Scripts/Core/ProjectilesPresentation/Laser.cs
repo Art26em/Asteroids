@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-
-namespace Core.Entities.Player.Fighting.Projectiles
+﻿
+namespace Core.ProjectilesPresentation
 {
-    public class Laser : MonoBehaviour
+    public class Laser : Projectile
     {
         
     }

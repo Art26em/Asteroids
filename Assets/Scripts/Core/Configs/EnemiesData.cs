@@ -1,18 +1,29 @@
 ﻿using Core.HealthSystem;
 using Core.SpeedSystem;
+using UnityEngine;
 
 namespace Core.Configs
 {
     public class EnemiesData
     {
-        public readonly HealthStats HealthStats;
-        public readonly SpeedStats SpeedStats;
-
-        public EnemiesData(object enemyObject)
+        public Transform EnemiesContainer; 
+        public Transform[] EnemiesSpawnPoints; 
+        public HealthStats LightEnemyHealthStats;
+        public SpeedStats LightEnemySpeedStats;
+        public int LightEnemyPoolSize;
+        public int MediumEnemyPoolSize;
+        public int LightEnemyTimeToSpawn;
+        public int Damage;
+        
+        public void SetContainer(Transform container)
         {
-            if (enemyObject is not EnemiesData enemiesData) return;
-            HealthStats = enemiesData.HealthStats;
-            SpeedStats = enemiesData.SpeedStats;
+            EnemiesContainer = container;
         }
+
+        public void SetSpawnPositions(Transform[] spawnPositions)
+        {
+            EnemiesSpawnPoints = spawnPositions;
+        }
+        
     }
 }

@@ -4,11 +4,11 @@ namespace Signals
 {
     public struct GameStateChangedSignal
     {
-        private GameState _newGameState;
+        public GameState NewGameState;
 
         public GameStateChangedSignal(GameState newGameState)
         {
-            _newGameState = newGameState;
+            NewGameState = newGameState;
         }
     }
 }

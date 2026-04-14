@@ -4,7 +4,7 @@ namespace Signals
 {
     public struct LargeAsteroidDestroyedSignal
     {
-        public Transform AsteroidTransform;
+        public readonly Transform AsteroidTransform;
 
         public LargeAsteroidDestroyedSignal(Transform asteroidTransform)
         {

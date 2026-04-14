@@ -12,6 +12,9 @@ namespace Installers
         [Header("Projectiles")]
         [SerializeField] private Transform bulletsContainer;
         [SerializeField] private Transform[] shootPoints;
+        [Header("Enemies")]
+        [SerializeField] private Transform enemiesContainer;
+        [SerializeField] private Transform[] enemiesSpawnPositions;
         
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
@@ -29,9 +32,15 @@ namespace Installers
             projectilesData.SetContainer(bulletsContainer);
             projectilesData.SetSpawnPositions(shootPoints);
             
+            var enemiesConfigManager = new ConfigManager<EnemiesData>();
+            var enemiesData = enemiesConfigManager.LoadConfigs(ConfigsSettings.EnemiesConfigName);
+            enemiesData.SetContainer(enemiesContainer);
+            enemiesData.SetSpawnPositions(enemiesSpawnPositions);
+            
             Container.Bind<AsteroidsData>().FromInstance(asteroidsData).AsSingle();
             Container.Bind<PlayerData>().FromInstance(playerData).AsSingle();
             Container.Bind<ProjectilesData>().FromInstance(projectilesData).AsSingle();
+            Container.Bind<EnemiesData>().FromInstance(enemiesData).AsSingle();
         }
     }
 }

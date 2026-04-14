@@ -1,13 +1,22 @@
 {
-  "LargeAsteroidMovingSpeedX" : 0.2,
-  "LargeAsteroidMovingSpeedY" : 0.5,
-  "LargeAsteroidRotationSpeed" : 8,
+  "LargeAsteroidSpeedStats": {
+    "CurrentSpeed": 0.0,
+    "MaxSpeed": 1,
+    "Acceleration": 20.0,
+    "Deceleration": 10.0,
+    "RotationSpeed" : 0.25
+  },
   "LargeAsteroidPoolSize": 5,
-  "MediumAsteroidMovingSpeedX" : 0.4,
-  "MediumAsteroidMovingSpeedY" : 1,
-  "MediumAsteroidRotationSpeed" : 10,
+  "MediumAsteroidSpeedStats": {
+    "CurrentSpeed": 0.0,
+    "MaxSpeed": 2,
+    "Acceleration": 20.0,
+    "Deceleration": 10.0,
+    "RotationSpeed" : 0.30
+  },
   "MediumAsteroidPoolSize": 15,
   "MediumAsteroidCount": 3,
+  "MediumAsteroidSpawnDelay": 0.1,
   "TimeToSpawn" : 10,
   "Damage": 1,
   "HealthStats": {

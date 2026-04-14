@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using Core.AsteroidsPresentation;
 using Core.Configs;
+using Core.Physics;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -10,20 +12,6 @@ namespace Core.ObjectMovers
 {
     public class MediumAsteroidMover
     {
-        private float _movingSpeedX;
-        private float _movingSpeedY;
-        private float _rotationSpeed;
-        
-        private CancellationTokenSource _cancellationTokenSource;
-
-        [Inject]
-        private void Construct(AsteroidsData asteroidsData)
-        {
-            _movingSpeedX = asteroidsData.MediumAsteroidMovingSpeedX;
-            _movingSpeedY = asteroidsData.MediumAsteroidMovingSpeedY;
-            _rotationSpeed = asteroidsData.MediumAsteroidRotationSpeed;    
-        }
-        
         public void StartObjectMoving(GameObject gameObject)
         {
             _ = Move(gameObject);    
@@ -31,44 +19,39 @@ namespace Core.ObjectMovers
 
         private async UniTask Move(GameObject gameObject)
         {
-            _cancellationTokenSource = new CancellationTokenSource();
-            var rotationDirection = Random.Range(0, 2) == 0 ? Vector3.forward : Vector3.back;
-            var directionX = Random.Range(0, 2) == 0 ? _movingSpeedX : -_movingSpeedX;
-            var directionY = Random.Range(0, 2) == 0 ? _movingSpeedY : -_movingSpeedY;
+            if (!gameObject.TryGetComponent(out MediumAsteroid asteroid)) return;
+
+            var cancellationTokenSource = new CancellationTokenSource();
             
-            directionX *= Time.deltaTime;
-            directionY *= Time.deltaTime;
+            var asteroidSpeedStats = asteroid.SpeedStats;
+            var rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+            var rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
+            var rotationAngle = 0f;
+
+            asteroid.SpeedStats.CurrentVelocity = Random.insideUnitCircle.normalized * asteroidSpeedStats.MaxSpeed;
             
             try
             {
-                while (Application.isPlaying)
+                while (Application.isPlaying && gameObject.activeInHierarchy)
                 {
-                    gameObject.transform.position += new Vector3(directionX, directionY, 0);
-                    gameObject.transform.Rotate(rotationDirection, _rotationSpeed * Time.deltaTime);
-    
-                    await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
+                    rotationAngle = (rotationAngle + asteroidSpeedStats.RotationSpeed) * rotationDirection;
+                    
+                    var newPosition = MovementPhysics.GetNewPosition(
+                        rigidbody2D.position, 
+                        asteroid.SpeedStats);
+                    
+                    rigidbody2D.MoveRotation(rotationAngle);
+                    rigidbody2D.MovePosition(newPosition);
+                    
                     if (!Application.isPlaying) break;
+                    
+                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate, cancellationTokenSource.Token);
                 }
-                SafeCancelAndDispose();
             }
             catch (OperationCanceledException) {}
-        }
-        
-        private void SafeCancelAndDispose()
-        {
-            if (_cancellationTokenSource == null) return;
-            
-            try
-            {
-                if (!_cancellationTokenSource.IsCancellationRequested)
-                {
-                     _cancellationTokenSource.Cancel();
-                }
-                _cancellationTokenSource.Dispose();
+            finally{
+                cancellationTokenSource.Cancel();
             }
-            catch (ObjectDisposedException) {}
-            _cancellationTokenSource = null;
         }
-        
     }
 }

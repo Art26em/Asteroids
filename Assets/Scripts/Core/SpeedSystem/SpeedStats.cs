@@ -7,20 +7,12 @@ namespace Core.SpeedSystem
     {
         [JsonIgnore]
         public Vector2 CurrentVelocity = new(0, 0);
-        public float CurrentSpeed;
+        [JsonIgnore]
+        public Vector2 CurrentDirection => CurrentVelocity.normalized;
+        public float CurrentSpeed => CurrentVelocity.magnitude;
         public float MaxSpeed;
         public float Acceleration;
         public float Deceleration;
         public float RotationSpeed;
-        
-        public void IncreaseCurrentSpeed(float amount)
-        {
-            CurrentSpeed += amount;
-        }
-        
-        public void DecreaseCurrentSpeed(float amount)
-        {
-            CurrentSpeed -= amount;
-        }
     }
 }

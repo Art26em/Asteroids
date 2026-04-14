@@ -1,3 +1,4 @@
 ﻿{
-  "name": "Core.Physics"
+  "name": "Core.Physics",
+  "references":[ "GUID:f62c59d1243b46efa8521f6c6540b2fd" ]
 }

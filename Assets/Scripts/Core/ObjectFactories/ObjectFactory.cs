@@ -1,5 +1,6 @@
 ﻿using Core.AsteroidsPresentation;
 using Core.Configs;
+using Core.EnemiesPresentation;
 using Core.ObjectPools;
 using Core.ProjectilesPresentation;
 using UnityEngine;
@@ -32,6 +33,14 @@ namespace Core.ObjectFactories
             {
                 objectCount = diContainer.Resolve<ProjectilesData>().MagazineSize;
                 container = diContainer.Resolve<ProjectilesData>().BulletsContainer;    
+            }
+            else if(typeT.IsSubclassOf(typeof(Enemy)))
+            {
+                var enemiesData = diContainer.Resolve<EnemiesData>();
+                objectCount = typeT == typeof(LightEnemy) ? 
+                    enemiesData.LightEnemyPoolSize :
+                    enemiesData.MediumEnemyPoolSize;
+                container = enemiesData.EnemiesContainer;        
             }
             
             for (var i = 0; i < objectCount; i++)

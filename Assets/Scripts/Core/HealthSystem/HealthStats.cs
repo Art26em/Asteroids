@@ -14,13 +14,19 @@
         
         public void IncreaseHealth(int amount = 1)
         {
-            if (CurrentHealth + amount > MaxHealth) return;
             CurrentHealth += amount;
+            CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
         }
     
         public void DecreaseHealth(int amount = 1)
         {
             CurrentHealth -= amount;
         }
+
+        public bool IsDead()
+        {
+            return CurrentHealth <= 0;
+        }
+        
     }
 }

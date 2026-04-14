@@ -13,11 +13,5 @@ namespace Core.AsteroidsPresentation
             SignalBus = signalBus;
         }
         
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            HandleCollision(other.gameObject);
-        }
-        
-        protected virtual void HandleCollision(GameObject other) {}
     }
 }

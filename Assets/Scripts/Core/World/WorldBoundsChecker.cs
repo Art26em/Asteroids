@@ -14,9 +14,11 @@ namespace Core.World
 
         private void OnTriggerExit2D(Collider2D other)
         {
+            if (other.TryGetComponent(out Laser _)) return;
+            
             if (other.TryGetComponent(out Bullet bullet))
             {
-                //bullet.gameObject.SetActive(false);
+                bullet.gameObject.SetActive(false);
             }
             else
             {

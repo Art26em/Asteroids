@@ -1,0 +1,17 @@
+﻿{
+  "LightEnemyPoolSize": 15,
+  "MediumEnemyPoolSize": 15,
+  "LightEnemyTimeToSpawn" : 5,
+  "Damage": 1,
+  "LightEnemyHealthStats": {
+    "MaxHealth": 1,
+    "CurrentHealth": 1
+  },
+  "LightEnemySpeedStats": {
+    "CurrentSpeed": 0.0,
+    "MaxSpeed": 3.0,
+    "Acceleration": 3.0,
+    "Deceleration": 10.0,
+    "RotationSpeed" : 200
+  }
+}

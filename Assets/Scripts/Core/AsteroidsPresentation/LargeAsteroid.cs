@@ -1,18 +1,45 @@
-﻿using Core.ProjectilesPresentation;
+﻿using Core.Configs;
+using Core.Physics;
+using Core.ProjectilesPresentation;
+using Core.SpeedSystem;
+using Core.World;
 using Signals;
 using UnityEngine;
+using Zenject;
 
 namespace Core.AsteroidsPresentation
 {
     public class LargeAsteroid : Asteroid
     {
-        protected override void HandleCollision(GameObject other)
+        public SpeedStats SpeedStats;
+
+        [Inject]
+        private void Construct(AsteroidsData asteroidsData)
         {
-            if (other.TryGetComponent(out Bullet _))
+            SpeedStats = new SpeedStats
             {
-                SignalBus.Fire(new LargeAsteroidDestroyedSignal(gameObject.transform));
-                gameObject.SetActive(false);  
+                MaxSpeed = asteroidsData.LargeAsteroidSpeedStats.MaxSpeed,
+                Acceleration = asteroidsData.LargeAsteroidSpeedStats.Acceleration,
+                Deceleration = asteroidsData.LargeAsteroidSpeedStats.Deceleration,
+                RotationSpeed = asteroidsData.LargeAsteroidSpeedStats.RotationSpeed
+            };
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.TryGetComponent(out WorldBoundsChecker _)) return;
+            
+            if (other.gameObject.TryGetComponent(out Projectile _))
+            {
+                SignalBus.Fire(new LargeAsteroidDestroyedSignal(other.gameObject.transform));
+                gameObject.SetActive(false); 
+            }
+            else
+            {
+                var bounceDirection = CollisionPhysics.GetBounceDirection(SpeedStats, other);
+                SpeedStats.CurrentVelocity = bounceDirection * SpeedStats.CurrentSpeed;
             }
         }
+        
     }
 }

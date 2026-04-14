@@ -1,7 +1,8 @@
 using System;
 using System.Threading;
-using Core.StateControllers;
+using Core.States;
 using Cysharp.Threading.Tasks;
+using Signals;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -15,14 +16,14 @@ namespace UI.Views
         [SerializeField] private Button startButton;
         [SerializeField] private Button quitButton;
         
-        private GameStateController _gameStateController;
+        private SignalBus _signalBus;
         private CanvasGroup _canvasGroup;
         private CancellationTokenSource _cancellationTokenSource;
         
         [Inject]
-        private void Construct(GameStateController gameStateController)
+        private void Construct(SignalBus signalBus)
         {
-            _gameStateController = gameStateController;
+            _signalBus = signalBus;
         }
         
         private void Awake()
@@ -40,9 +41,9 @@ namespace UI.Views
 
         private void OnStart()
         {
+            _signalBus.Fire(new GameStateChangedSignal(GameState.Starting));
             Time.timeScale = 1;
             _ = FadeOutScreen();
-            _gameStateController.StartGame();
         }
 
         private async UniTask FadeOutScreen()

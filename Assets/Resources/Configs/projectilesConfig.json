@@ -1,5 +1,7 @@
 {
   "BulletSpeed": 10,
   "BulletDamage": 1,
-  "MagazineSize": 20
+  "MagazineSize": 20,
+  "LaserFireTime": 3,
+  "LaserReloadTime": 5  
 }

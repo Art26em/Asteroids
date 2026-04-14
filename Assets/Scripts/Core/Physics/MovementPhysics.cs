@@ -1,28 +1,44 @@
-﻿using UnityEngine;
+﻿using System;
+using Core.SpeedSystem;
+using UnityEngine;
 
 namespace Core.Physics
 {
     public static class MovementPhysics
     {
-        public static Vector2 CalculateVelocity(
-            Vector2 currentVelocity, 
-            Vector2 inputDirection,
-            float acceleration,
-            float deceleration,
-            float maxSpeed,
-            float deltaTime)
+        public static Vector2 GetNewPosition(Vector2 position, SpeedStats speedStats)
         {
-            if (inputDirection.sqrMagnitude <= 0f)
-            {
-                return Vector2.MoveTowards(currentVelocity, Vector2.zero, deceleration * deltaTime);    
-            }
-            var targetVelocity = inputDirection.normalized * maxSpeed ;
-            return Vector2.MoveTowards(currentVelocity, targetVelocity, acceleration * deltaTime);
+            return position + speedStats.CurrentVelocity * Time.deltaTime;
         }
         
-        public static Vector2 CalculatePosition(Vector2 position, Vector2 velocity, float deltaTime)
+        public static Vector2 GetNewAcceleratedVelocity(Vector2 inputDirection, SpeedStats speedStats)
         {
-            return position + velocity * deltaTime;
+            Vector2 newVelocity;
+            if (inputDirection.sqrMagnitude > 0f)
+            {
+                newVelocity = speedStats.CurrentVelocity + inputDirection * (speedStats.Acceleration * Time.deltaTime);
+                if (newVelocity.magnitude > speedStats.MaxSpeed)
+                {
+                    newVelocity = newVelocity.normalized * speedStats.MaxSpeed;       
+                }
+            }
+            else
+            {
+                var newSpeed = speedStats.CurrentSpeed - speedStats.Deceleration * Time.deltaTime;
+                newSpeed = Math.Max(0, newSpeed);
+                newVelocity = speedStats.CurrentDirection * newSpeed;
+            }
+            return newVelocity;
+        }
+
+        public static Vector2 GetNewSeekingVelocity(
+            Vector2 currentPosition, 
+            Vector2 targetPosition, 
+            SpeedStats speedStats)
+        {
+            return Vector2.MoveTowards(speedStats.CurrentVelocity,
+                (targetPosition - currentPosition).normalized * speedStats.MaxSpeed, 
+                speedStats.Acceleration * Time.deltaTime);
         }
         
     }

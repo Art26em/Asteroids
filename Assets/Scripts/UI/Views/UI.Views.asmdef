@@ -1,4 +1,20 @@
-﻿{
-  "name": "UI.Views",
-  "references":[ "GUID:f51ebe6a0ceec4240a699833d6309b23", "GUID:7acd3863dd374c05a50821b33a6ba226" ]
+{
+    "name": "UI.Views",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:357f75e5c8fc4fe5bfd4997a9a75d692",
+        "GUID:ff6b44d210a5411a98a83171adb29b6e",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

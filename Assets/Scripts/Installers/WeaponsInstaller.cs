@@ -13,6 +13,7 @@ namespace Installers
     public class WeaponsInstaller : MonoInstaller
     {
         [SerializeField] private Bullet bulletPrefab;
+        [SerializeField] private Laser laserPrefab;
         
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
@@ -24,6 +25,9 @@ namespace Installers
             Container.Bind<BulletMover>().AsSingle();
             Container.Bind<BulletsProvider>().AsSingle();
             Container.Bind<Blasters>().AsSingle();
+            
+            Container.Bind<Laser>().FromInstance(laserPrefab).AsSingle();
+            Container.Bind<LaserWeapon>().AsSingle();
         }
     }
 }

@@ -14,13 +14,13 @@ namespace Core.ProjectilesPresentation
         {
             Speed = projectilesData.BulletSpeed;
         }
-        
-        private void OnTriggerEnter2D(Collider2D other)
+
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.TryGetComponent(out PlayerObject _)) return;
+            if (other.gameObject.TryGetComponent(out PlayerObject _)) return;
             DestroyBullet();
         }
-        
+
         private void DestroyBullet()
         {
             gameObject.SetActive(false);
