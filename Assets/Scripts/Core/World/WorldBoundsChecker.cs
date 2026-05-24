@@ -20,7 +20,7 @@ namespace Core.World
             {
                 bullet.gameObject.SetActive(false);
             }
-            else
+            else 
             {
                 other.transform.position = GetObjectWorldPosition(other.transform.position);         
             }

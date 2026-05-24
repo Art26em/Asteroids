@@ -1,4 +1,5 @@
-﻿using Core.Configs;
+﻿using Core.Analytics;
+using Core.Configs;
 using UnityEngine;
 using Zenject;
 
@@ -41,6 +42,7 @@ namespace Installers
             Container.Bind<PlayerData>().FromInstance(playerData).AsSingle();
             Container.Bind<ProjectilesData>().FromInstance(projectilesData).AsSingle();
             Container.Bind<EnemiesData>().FromInstance(enemiesData).AsSingle();
+            Container.Bind<AnalyticsEventSender>().AsSingle();
         }
     }
 }

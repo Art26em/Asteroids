@@ -13,7 +13,7 @@ namespace Core.Configs
         public int LightEnemyPoolSize;
         public int MediumEnemyPoolSize;
         public int LightEnemyTimeToSpawn;
-        public int Damage;
+        public int LightEnemyScore;
         
         public void SetContainer(Transform container)
         {

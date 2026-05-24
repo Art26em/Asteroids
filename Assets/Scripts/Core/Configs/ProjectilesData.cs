@@ -5,12 +5,12 @@ namespace Core.Configs
     public class ProjectilesData
     {
         public int BulletSpeed;
-        public int BulletDamage;
         public int MagazineSize;
         public Transform BulletsContainer;
         public Transform[] BulletsShootPoints;
         public float LaserFireTime;
         public float LaserReloadTime;
+        public float BlastersReloadTime;
         
         public void SetContainer(Transform container)
         {

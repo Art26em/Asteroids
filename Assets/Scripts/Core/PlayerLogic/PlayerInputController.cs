@@ -1,4 +1,6 @@
+using Core.Configs;
 using Core.ObjectMovers;
+using Core.PlayerPresentation;
 using Core.SpriteControllers;
 using Core.WeaponsLogic;
 using UnityEngine;
@@ -8,19 +10,24 @@ namespace Core.PlayerLogic
 {
     public class PlayerInputController : MonoBehaviour
     {
-    	private PlayerMover _playerMover;
+        private PlayerObject _playerObject;
+        private PlayerMover _playerMover;
         private PlayerSpriteController _playerSpriteController;
         private Blasters _blasters;
         private LaserWeapon _laserWeapon;
+        private float _movementInput;
+        private float _rotationInput;
     
         [Inject]
         private void Construct(
             PlayerMover playerMover, 
+            PlayerObject playerObject,
             PlayerSpriteController playerSpriteController,
             Blasters blasters,
             LaserWeapon laserWeapon)
         {
             _playerMover = playerMover;
+            _playerObject = playerObject;
             _playerSpriteController = playerSpriteController;
             _blasters = blasters;
             _laserWeapon = laserWeapon;
@@ -28,10 +35,14 @@ namespace Core.PlayerLogic
         
         private void Update()
         {
-            _playerMover?.CalculateVelocity();
-            _playerSpriteController?.UpdatePlayerSprite();
-    
-            if (Input.GetMouseButtonDown(0))
+            if (!_playerObject.isInputEnabled) return;
+            
+            _movementInput = Input.GetAxis(AxisNames.Vertical);
+            _rotationInput = Input.GetAxis(AxisNames.Horizontal);
+            
+            _playerSpriteController?.UpdatePlayerSprite(_playerObject.isInputEnabled);
+            
+            if (Input.GetMouseButton(0))
             {
                 _blasters.Shoot();
             }
@@ -40,13 +51,12 @@ namespace Core.PlayerLogic
             {
                 _laserWeapon.Shoot();
             }
-            
         }
 
         private void FixedUpdate()
         {
-            _playerMover?.CalculatePosition(); 
-            _playerMover?.CalculateRotating();
+            _playerMover?.CalculateVelocity(_movementInput);
+            _playerMover?.CalculateRotating(_rotationInput);
         }
         
     }

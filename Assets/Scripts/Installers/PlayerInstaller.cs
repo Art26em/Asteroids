@@ -1,7 +1,7 @@
 using Core.ObjectMovers;
 using Core.PlayerLogic;
 using Core.PlayerPresentation;
-using UnityEngine.SocialPlatforms.Impl;
+using Core.ScoreSystem;
 using Zenject;
 
 namespace Installers
@@ -12,7 +12,7 @@ namespace Installers
         public override void InstallBindings()
         {
             Container.Bind<Score>().AsSingle();
-            Container.Bind<PlayerStats>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerStats>().AsSingle();
             Container.Bind<PlayerMover>().AsSingle();
             Container.Bind<PlayerInputController>().FromComponentInHierarchy().AsSingle();
         }

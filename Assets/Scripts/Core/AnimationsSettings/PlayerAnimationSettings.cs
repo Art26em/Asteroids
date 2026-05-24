@@ -5,17 +5,12 @@ namespace Core.AnimationsSettings
 {
     public class PlayerAnimationSettings
     {
-        public readonly PlayerObject Player;
         public readonly float PlayerMoveInSpeed;
         public Vector3 PlayerStartPosition;
         public Vector3 PlayerTargetPosition;
         
-        public PlayerAnimationSettings(
-            PlayerObject player,
-            float playerMoveInSpeed,
-            Vector3[] playerStartTargetPositions)
+        public PlayerAnimationSettings(float playerMoveInSpeed, Vector3[] playerStartTargetPositions)
         {
-            Player = player;
             PlayerMoveInSpeed = playerMoveInSpeed;
             if (playerStartTargetPositions == null || playerStartTargetPositions.Length < 2)
             {

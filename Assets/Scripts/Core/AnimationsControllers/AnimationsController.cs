@@ -2,6 +2,7 @@
 using System.Threading;
 using Core.AnimationsSettings;
 using Core.PlayerLogic;
+using Core.PlayerPresentation;
 using Core.SpriteControllers;
 using Cysharp.Threading.Tasks;
 using Signals;
@@ -13,9 +14,9 @@ namespace Core.AnimationsControllers
     public class AnimationsController
     {
         private EarthAnimationSettings _earthAnimationSettings;
+        private PlayerObject _playerObject;
         private PlayerAnimationSettings _playerAnimationSettings;
         private PlayerSpriteController _playerSpriteController;
-        private PlayerInputController _playerInputController;
         private readonly ParticleSystem _space;
         private SignalBus _signalBus;
         
@@ -25,15 +26,16 @@ namespace Core.AnimationsControllers
         [Inject]
         private void Construct(
             EarthAnimationSettings earthAnimationSettings,
+            PlayerObject playerObject,
             PlayerAnimationSettings playerAnimationSettings,
             PlayerSpriteController playerSpriteController,
             PlayerInputController playerInputController,
             SignalBus signalBus)
         {
             _earthAnimationSettings = earthAnimationSettings;
+            _playerObject = playerObject;
             _playerAnimationSettings = playerAnimationSettings;
             _playerSpriteController = playerSpriteController;
-            _playerInputController = playerInputController;
             _signalBus = signalBus;
         }
         
@@ -46,7 +48,6 @@ namespace Core.AnimationsControllers
             _earthAnimationSettings = earthAnimationSettings;
             _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthStartPosition;
             _playerAnimationSettings = playerAnimationSettings;
-            _playerInputController = _playerAnimationSettings.Player.GetComponent<PlayerInputController>();
             _playerSpriteController = playerSpriteController;
             _space = space;
         }
@@ -54,6 +55,9 @@ namespace Core.AnimationsControllers
         public void OnGameStart()
         {
             _earthAnimationSettings.Earth.gameObject.SetActive(true);
+            _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthStartPosition;
+            _playerObject.transform.position = _playerAnimationSettings.PlayerStartPosition;
+            
             _ = MoveOutEarth();
             _ = MoveInPlayer();
         }
@@ -105,23 +109,23 @@ namespace Core.AnimationsControllers
                 _playerAnimationSettings.PlayerStartPosition,
                 _playerAnimationSettings.PlayerTargetPosition);
             var startTime = Time.time;
-
+            
+            // Отключаем возможность перемещаться во время анимации
+            _playerObject.isInputEnabled = false;
+            _playerSpriteController.SetPlayerMovingSprite();
+            
             _playerAnimCancellationTokenSource = new CancellationTokenSource();
             
             try
             {
-                while (_playerAnimationSettings.Player.transform.position != _playerAnimationSettings.PlayerTargetPosition)
+                while (_playerObject.transform.position != _playerAnimationSettings.PlayerTargetPosition)
                 {
-                    // Отключаем возможность перемещаться во время анимации
-                    _playerInputController.enabled = false;
-                    _playerSpriteController.SetPlayerMovingSprite();
-                
                     // Рассчитываем пройденное расстояние
                     var distanceCovered = (Time.time - startTime) * _playerAnimationSettings.PlayerMoveInSpeed;
                     var fractionOfJourney = distanceCovered / journeyLength;
                 
                     // Плавное перемещение с использованием Lerp
-                    _playerAnimationSettings.Player.transform.position = Vector2.Lerp(
+                    _playerObject.transform.position = Vector2.Lerp(
                         _playerAnimationSettings.PlayerStartPosition,
                         _playerAnimationSettings.PlayerTargetPosition,
                         fractionOfJourney);
@@ -129,8 +133,8 @@ namespace Core.AnimationsControllers
                     // Если достигли цели, выходим
                     if (fractionOfJourney >= 1f)
                     {
-                        _playerAnimationSettings.Player.transform.position = _playerAnimationSettings.PlayerTargetPosition;
-                        _playerInputController.enabled = true;
+                        _playerObject.transform.position = _playerAnimationSettings.PlayerTargetPosition;
+                        _playerObject.isInputEnabled = true;
                         _playerSpriteController.SetPlayerIdleSprite();
                         break;
                     }

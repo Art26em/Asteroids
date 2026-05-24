@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2455594349274018742}
   - component: {fileID: -4431050700124126916}
   - component: {fileID: -8660269598630214277}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 327d0eacb1a04a1c9660a083199dca13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionEffect: {fileID: 8964512614366104286, guid: 32d53cb0cc55e594ca87978ec0fb78b3, type: 3}
 --- !u!50 &-8660269598630214277
 Rigidbody2D:
   serializedVersion: 4

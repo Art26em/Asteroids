@@ -1,3 +1,4 @@
 ﻿{
-  "name": "UI.ViewModels"
+  "name": "UI.ViewModels",
+  "references":[ "GUID:18d3291593394b77958bf1ca68eb2f0e", "GUID:560b04d1a97f54a4e82edc0cbbb69285", "GUID:d9b374b0d931455cb6ede9abbd8750f6", "GUID:e6f20ac5d5b64da19abc5d549ff823c3", "GUID:f0cc5a4a3300408d84198ee94461624e", "GUID:dbfd5abb32c741d098357d48adcf8972", "GUID:0d8beb7f090555447a6cf5ce9e54dbb4" ]
 }

@@ -1,4 +1,3 @@
-using Core.Configs;
 using Core.Physics;
 using Core.PlayerPresentation;
 using UnityEngine;
@@ -18,32 +17,36 @@ namespace Core.ObjectMovers
            _playerRigidbody = playerObject.GetComponent<Rigidbody2D>();
        }
        
-       public void CalculateVelocity()
+       public void CalculateVelocity(float input)
        {
-           var inputDirection = Input.GetAxis(AxisNames.Vertical) * _playerRigidbody.transform.up; 
+           var inputDirection = input * _playerRigidbody.transform.up;
            
            _playerStats.SpeedStats.CurrentVelocity = MovementPhysics.GetNewAcceleratedVelocity(
                inputDirection, 
                _playerStats.SpeedStats);
-        }
+       }
        
-        public void CalculatePosition()
-        {
-            var newPosition = MovementPhysics.GetNewPosition(
-                _playerRigidbody.position, 
-                _playerStats.SpeedStats);
-            _playerRigidbody.MovePosition(newPosition);    
-        }
+       public void CalculatePosition()
+       {
+           var newPosition = MovementPhysics.GetNewPosition(
+               _playerRigidbody.position, 
+               _playerStats.SpeedStats);
+            
+           _playerRigidbody.MovePosition(newPosition);
+           _playerStats.CurrentPosition = newPosition;
+       }
         
-        public void CalculateRotating()
-        {
-            var rotationChange = -Input.GetAxis(AxisNames.Horizontal) * 
-                                      _playerStats.SpeedStats.RotationSpeed * 
-                                      Time.fixedDeltaTime;
-            var angle = Quaternion.Euler(0, 0, rotationChange);
-            Quaternion newRotation = _playerRigidbody.gameObject.transform.rotation * angle;
-            _playerRigidbody.MoveRotation(newRotation);    
-        }
+       public void CalculateRotating(float input)
+       {
+           var rotationChange = -input * 
+                                _playerStats.SpeedStats.RotationSpeed * 
+                                Time.fixedDeltaTime;
+           var angle = Quaternion.Euler(0, 0, rotationChange);
+           Quaternion newRotation = _playerRigidbody.gameObject.transform.rotation * angle;
+            
+           _playerRigidbody.MoveRotation(newRotation);  
+           _playerStats.SpeedStats.CurrentRotation = newRotation.eulerAngles;
+       }
         
     }
 }

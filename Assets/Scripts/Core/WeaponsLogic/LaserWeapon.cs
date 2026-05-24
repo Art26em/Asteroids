@@ -1,4 +1,5 @@
-﻿using Core.Configs;
+﻿using System;
+using Core.Configs;
 using Core.ProjectilesPresentation;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace Core.WeaponsLogic
 {
     public class LaserWeapon
     {
+        public event Action<float> LaserReloading;
+        
         private Laser _laser;
         private float _laserFireTime;
         private float _laserReloadTime;
@@ -51,6 +54,8 @@ namespace Core.WeaponsLogic
             while (elapsedTime < _laserReloadTime)
             {
                 elapsedTime += Time.deltaTime;
+                var remainingTime = Math.Max(0, _laserReloadTime - elapsedTime);
+                LaserReloading?.Invoke(remainingTime);
                 await UniTask.Yield();
             }
             _canFire = true;

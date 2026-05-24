@@ -1,6 +1,7 @@
 {
   "BulletSpeed": 10,
   "BulletDamage": 1,
+  "BlastersReloadTime": 0.2,
   "MagazineSize": 20,
   "LaserFireTime": 3,
   "LaserReloadTime": 5  

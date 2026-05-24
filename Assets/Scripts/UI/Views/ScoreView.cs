@@ -1,10 +1,12 @@
-﻿using TMPro;
+﻿using MVVM;
+using TMPro;
 using UnityEngine;
 
 namespace UI.Views
 {
     public class ScoreView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text scoreText;   
+        [Data("Score")]
+        [SerializeField] public TMP_Text scoreText;   
     }
 }

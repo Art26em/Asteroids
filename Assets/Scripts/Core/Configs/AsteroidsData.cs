@@ -1,5 +1,4 @@
-﻿using Core.HealthSystem;
-using Core.SpeedSystem;
+﻿using Core.SpeedSystem;
 using UnityEngine;
 
 namespace Core.Configs
@@ -11,15 +10,15 @@ namespace Core.Configs
         
         public SpeedStats LargeAsteroidSpeedStats;
         public int LargeAsteroidPoolSize;
+        public int LargeAsteroidScore;
         
         public SpeedStats MediumAsteroidSpeedStats;
         public int MediumAsteroidPoolSize;
         public int MediumAsteroidCount;
+        public int MediumAsteroidScore;
 
         public float MediumAsteroidSpawnDelay;
         public float TimeToSpawn;
-        public int Damage;
-        public HealthStats HealthStats;
         
         public void SetContainer(Transform asteroidsContainer)
         {

@@ -7,6 +7,7 @@
     "RotationSpeed" : 0.25
   },
   "LargeAsteroidPoolSize": 5,
+  "LargeAsteroidScore": 1,
   "MediumAsteroidSpeedStats": {
     "CurrentSpeed": 0.0,
     "MaxSpeed": 2,
@@ -15,6 +16,7 @@
     "RotationSpeed" : 0.30
   },
   "MediumAsteroidPoolSize": 15,
+  "MediumAsteroidScore": 1,
   "MediumAsteroidCount": 3,
   "MediumAsteroidSpawnDelay": 0.1,
   "TimeToSpawn" : 10,

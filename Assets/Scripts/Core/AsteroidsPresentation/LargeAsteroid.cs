@@ -12,9 +12,11 @@ namespace Core.AsteroidsPresentation
     public class LargeAsteroid : Asteroid
     {
         public SpeedStats SpeedStats;
+        private SignalBus _signalBus;
+        private int _score;
 
         [Inject]
-        private void Construct(AsteroidsData asteroidsData)
+        private void Construct(AsteroidsData asteroidsData, SignalBus signalBus)
         {
             SpeedStats = new SpeedStats
             {
@@ -23,6 +25,8 @@ namespace Core.AsteroidsPresentation
                 Deceleration = asteroidsData.LargeAsteroidSpeedStats.Deceleration,
                 RotationSpeed = asteroidsData.LargeAsteroidSpeedStats.RotationSpeed
             };
+            _signalBus = signalBus;
+            _score = asteroidsData.LargeAsteroidScore;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -31,8 +35,11 @@ namespace Core.AsteroidsPresentation
             
             if (other.gameObject.TryGetComponent(out Projectile _))
             {
-                SignalBus.Fire(new LargeAsteroidDestroyedSignal(other.gameObject.transform));
-                gameObject.SetActive(false); 
+                _signalBus.Fire(new LargeAsteroidDestroyedSignal(other.gameObject.transform));
+                _signalBus.Fire(new ScoreIncreasedSignal(_score));
+
+                PlayExplosionEffect();
+                gameObject.SetActive(false);
             }
             else
             {

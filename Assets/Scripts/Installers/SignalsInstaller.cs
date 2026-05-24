@@ -13,6 +13,7 @@ namespace Installers
             Container.DeclareSignal<LargeAsteroidDestroyedSignal>();
             Container.DeclareSignal<LightEnemyDiedSignal>();
             Container.DeclareSignal<StartAnimationCompleted>();
+            Container.DeclareSignal<ScoreIncreasedSignal>();
         }
     }
 }
