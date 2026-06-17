@@ -20,7 +20,7 @@ namespace Installers
             Container.Bind<ObjectPool<LightEnemy>>().AsSingle();
             Container.Bind<ObjectFactory<LightEnemy>>().AsSingle();
             Container.Bind<ObjectSpawner<LightEnemy>>().AsSingle();
-            Container.Bind<LightEnemyMover>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LightEnemyMover>().AsSingle();
             Container.Bind<EnemiesController>().AsSingle();
         }
     }

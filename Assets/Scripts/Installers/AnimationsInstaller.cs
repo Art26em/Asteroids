@@ -1,5 +1,6 @@
 using Core.AnimationsControllers;
 using Core.AnimationsSettings;
+using Core.EffectsControllers;
 using Core.PlayerPresentation;
 using Core.SpriteControllers;
 using UnityEngine;
@@ -21,6 +22,11 @@ namespace Installers
         [SerializeField] private Vector3[] earthStartTargetPositions;
         [SerializeField] private ParticleSystem space;
         
+        [Header("Effects")]
+        [SerializeField] private ParticleSystem asteroidExplosionEffect;
+        [SerializeField] private ParticleSystem enemyExplosionEffect;
+        [SerializeField] private ParticleSystem playerInvulnerabilityEffect;
+        
         // ReSharper disable Unity.PerformanceAnalysis
         public override void InstallBindings()
         {
@@ -31,6 +37,8 @@ namespace Installers
             Container.Bind<PlayerAnimationSettings>().AsSingle().WithArguments(
                 playerMoveInSpeed, playerStartTargetPositions);
             Container.Bind<AnimationsController>().AsSingle().WithArguments(space);
+            Container.Bind<EffectsController>().AsSingle().WithArguments(
+                asteroidExplosionEffect, enemyExplosionEffect, playerInvulnerabilityEffect);
         }
         
     }

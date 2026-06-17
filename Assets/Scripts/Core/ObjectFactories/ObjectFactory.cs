@@ -1,5 +1,4 @@
 ﻿using Core.AsteroidsPresentation;
-using Core.Configs;
 using Core.EnemiesPresentation;
 using Core.ObjectPools;
 using Core.ProjectilesPresentation;
@@ -10,43 +9,39 @@ namespace Core.ObjectFactories
 {
     public class ObjectFactory<T> where T : Component
     {
-        private T _objectPrefab;
         private ObjectPool<T> _objectPool;
-        private Transform _objectContainer;
 
         [Inject]
-        private void Construct(T prefab, ObjectPool<T> pool, DiContainer diContainer)
+        private void Construct(T prefab, ObjectPool<T> pool, ObjectPoolSettings poolSettings, DiContainer diContainer)
         {
             _objectPool = pool;
-            var objectCount = 0;
-            Transform container = null;
-            var typeT = typeof(T);
+            IPoolSettings.Settings settings;
             
+            var typeT = typeof(T);
             if (typeT.IsSubclassOf(typeof(Asteroid)))
             {
-                var asteroidsData = diContainer.Resolve<AsteroidsData>();
-                objectCount = typeT == typeof(LargeAsteroid) ? 
-                    asteroidsData.LargeAsteroidPoolSize :
-                    asteroidsData.MediumAsteroidPoolSize;
-                container = asteroidsData.AsteroidsContainer;    
+                settings = typeT == typeof(LargeAsteroid) ? 
+                    poolSettings.GetSettings<LargeAsteroid>():
+                    poolSettings.GetSettings<MediumAsteroid>();
+                    
             } else if (typeT.IsSubclassOf(typeof(Projectile)))
             {
-                objectCount = diContainer.Resolve<ProjectilesData>().MagazineSize;
-                container = diContainer.Resolve<ProjectilesData>().BulletsContainer;    
+                settings = poolSettings.GetSettings<Bullet>();
             }
             else if(typeT.IsSubclassOf(typeof(Enemy)))
             {
-                var enemiesData = diContainer.Resolve<EnemiesData>();
-                objectCount = typeT == typeof(LightEnemy) ? 
-                    enemiesData.LightEnemyPoolSize :
-                    enemiesData.MediumEnemyPoolSize;
-                container = enemiesData.EnemiesContainer;        
+                settings = poolSettings.GetSettings<LightEnemy>();
             }
-            
-            for (var i = 0; i < objectCount; i++)
+            else
             {
-                var item = container ? 
-                    diContainer.InstantiatePrefab(prefab, container).GetComponent<T>() : 
+                settings.Count = 0;
+                settings.Container = null;
+            }
+
+            for (var i = 0; i < settings.Count; i++)
+            {
+                var item = settings.Container ? 
+                    diContainer.InstantiatePrefab(prefab, settings.Container).GetComponent<T>() : 
                     diContainer.InstantiatePrefab(prefab).GetComponent<T>();
                 item.gameObject.SetActive(false);
                 _objectPool.Add(item); 

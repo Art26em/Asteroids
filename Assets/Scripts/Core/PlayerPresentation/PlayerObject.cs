@@ -1,23 +1,31 @@
-﻿using UnityEngine;
+﻿using Core.EffectsControllers;
+using UnityEngine;
+using Zenject;
 
 namespace Core.PlayerPresentation
 {
     public class PlayerObject : MonoBehaviour
     {
-        [SerializeField] private ParticleSystem invulnerabilityRing;
+        public bool IsInputEnabled { get; set; } = true;
 
-        public bool isInputEnabled = true;
+        private EffectsController _effectsController;
+
+        [Inject]
+        private void Construct(EffectsController effectsController)
+        {
+            _effectsController = effectsController;    
+        }
         
         public void PlayInvulnerabilityEffect()
         {
-            invulnerabilityRing.Play();
-            isInputEnabled = false;
+            _effectsController.PlayerInvulnerabilityEffect.Play();
+            IsInputEnabled = false;
         }
 
         public void StopInvulnerabilityEffect()
         {
-            invulnerabilityRing.Stop();
-            isInputEnabled = true;
+            _effectsController.PlayerInvulnerabilityEffect.Stop();
+            IsInputEnabled = true;
         }
         
     }

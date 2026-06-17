@@ -1,5 +1,6 @@
 ﻿using Core.ProjectilesPresentation;
 using UnityEngine;
+using Zenject;
 
 namespace Core.World
 {
@@ -7,11 +8,12 @@ namespace Core.World
     {
         private Camera _camera;
 
-        private void Awake()
+        [Inject]
+        private void Construct(Camera worldCamera)
         {
-            _camera = Camera.main;
+            _camera = worldCamera;
         }
-
+        
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.TryGetComponent(out Laser _)) return;

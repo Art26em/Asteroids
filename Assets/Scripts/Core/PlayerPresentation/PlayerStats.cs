@@ -10,6 +10,7 @@ namespace Core.PlayerPresentation
     public class PlayerStats : IInitializable, IDisposable
     {
         public HealthStats HealthStats;
+        public int CurrentHealth() => HealthStats.CurrentHealth;
         public SpeedStats SpeedStats;
         public bool IsImmortal;
         public float InvincibilityTime;
@@ -75,11 +76,6 @@ namespace Core.PlayerPresentation
         private void OnRotationChanged()
         {
             RotationChanged?.Invoke(SpeedStats.CurrentRotation);
-        }
-
-        public int CurrentHealth()
-        {
-            return HealthStats.CurrentHealth;
         }
         
     }

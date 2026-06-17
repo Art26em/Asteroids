@@ -5,10 +5,10 @@ namespace Core.ScoreSystem
     public class Score
     {
         private int _scoreCount;
-        public int GetCurrentScore() => _scoreCount;
+        public int CurrentScore() => _scoreCount;
         public event Action<int> OnScoreChanged;
         
-        public void AddScore(int score = 1)
+        public void AddScore(int score)
         {
             if (score <= 0) return;
             _scoreCount += score;

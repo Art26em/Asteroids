@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Core.Configs;
-using Core.ObjectSpawners;
+﻿using Core.ObjectSpawners;
 using Core.ProjectilesPresentation;
+using UnityEngine;
 using Zenject;
 
 namespace Core.ProjectilesLogic
@@ -9,28 +8,16 @@ namespace Core.ProjectilesLogic
     public class BulletsProvider
     {
         private ObjectSpawner<Bullet> _objectSpawner;
-        private ProjectilesData _projectilesData;
 
         [Inject]
-        private void Construct(ObjectSpawner<Bullet> objectSpawner, ProjectilesData projectilesData)
+        private void Construct(ObjectSpawner<Bullet> objectSpawner)
         {
             _objectSpawner = objectSpawner;
-            _projectilesData = projectilesData;
         }
         
-        public List<Bullet> GetBullets()
+        public bool TryGetBullet(Transform spawnPoint, out Bullet bullet)
         {
-            var bullets = new List<Bullet>();
-            foreach (var spawnPoint in _projectilesData.BulletsShootPoints)
-            {
-                if (_objectSpawner.TrySpawnObject(spawnPoint, out var bullet))
-                {
-                    bullets.Add(bullet);
-                }     
-            }
-            return bullets;
+            return _objectSpawner.TrySpawnObject(spawnPoint, out bullet);
         }
-
-        
     }
 }

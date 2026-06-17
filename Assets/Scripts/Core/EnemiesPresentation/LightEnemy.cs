@@ -13,15 +13,14 @@ namespace Core.EnemiesPresentation
     [RequireComponent(typeof(Rigidbody2D))]
     public class LightEnemy : Enemy
     {
-        private HealthStats healthStats;
+        private HealthStats _healthStats;
         public SpeedStats SpeedStats;
-        private int _score;
         private SignalBus _signalBus;
         
         [Inject]
         private void Construct(EnemiesData enemiesData, SignalBus signalBus)
         {
-            healthStats = new HealthStats
+            _healthStats = new HealthStats
             {
                 MaxHealth = enemiesData.LightEnemyHealthStats.MaxHealth,
                 CurrentHealth = enemiesData.LightEnemyHealthStats.CurrentHealth
@@ -34,7 +33,6 @@ namespace Core.EnemiesPresentation
                 RotationSpeed = enemiesData.LightEnemySpeedStats.RotationSpeed
             };
             _signalBus = signalBus;
-            _score = enemiesData.LightEnemyScore;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -43,8 +41,8 @@ namespace Core.EnemiesPresentation
             
             if (collision.gameObject.TryGetComponent(out Projectile _))
             {
-                healthStats.DecreaseHealth();
-                if (healthStats.IsDead())
+                _healthStats.DecreaseHealth();
+                if (_healthStats.IsDead())
                 {
                     Die();
                 }
@@ -58,8 +56,6 @@ namespace Core.EnemiesPresentation
         private void Die()
         {
             _signalBus.Fire<LightEnemyDiedSignal>();
-            _signalBus.Fire(new ScoreIncreasedSignal(_score));
-
             PlayExplosionEffect();
             gameObject.SetActive(false);     
         }   

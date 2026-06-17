@@ -4,6 +4,7 @@ using Core.AsteroidsPresentation;
 using Core.Configs;
 using Core.ObjectMovers;
 using Core.ObjectSpawners;
+using Core.States;
 using Cysharp.Threading.Tasks;
 using Signals;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Core.AsteroidsLogic
         
         private SignalBus _signalBus;
         private float _elapsedTime;
+        private bool _isGameOver;
         
         [Inject]
         public void Construct(
@@ -45,6 +47,7 @@ namespace Core.AsteroidsLogic
         {
             _ = SpawnAsteroids();
             _signalBus.Subscribe<LargeAsteroidDestroyedSignal>(OnLargeAsteroidDestroyed);
+            _signalBus.Subscribe<GameStateChangedSignal>(OnGameStateChanged);
         }
 
         private async UniTask SpawnAsteroids()
@@ -54,7 +57,7 @@ namespace Core.AsteroidsLogic
             {
                 while (Application.isPlaying && !_cancellationTokenSource.IsCancellationRequested)
                 {
-                    if (_largeAsteroidSpawner.IsTimeToSpawn(_elapsedTime, _asteroidsData.TimeToSpawn))
+                    if (_largeAsteroidSpawner.IsSpawnIntervalElapsed(_elapsedTime, _asteroidsData.TimeToSpawn))
                     {
                         var pointIndex = Random.Range(0, _asteroidsData.AsteroidSpawnPositions.Length);
                         var spawnPoint = _asteroidsData.AsteroidSpawnPositions[pointIndex];
@@ -81,7 +84,6 @@ namespace Core.AsteroidsLogic
             _ = SpawnObjectsWithDelay(signal.AsteroidTransform);
         }
         
-        
         private async UniTask SpawnObjectsWithDelay(Transform spawnPoint)
         {
             var elapsedTime = 0f;
@@ -92,6 +94,8 @@ namespace Core.AsteroidsLogic
                 await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
             }
 
+            if (_isGameOver) return;
+            
             for (var i = 0; i < _asteroidsData.MediumAsteroidCount; i++)
             {
                 if (_mediumAsteroidSpawner.TrySpawnObject(spawnPoint, out var spawnedObject))
@@ -100,6 +104,15 @@ namespace Core.AsteroidsLogic
                 }
             }    
             
+        }
+
+        private void OnGameStateChanged(GameStateChangedSignal signal)
+        {
+            if (signal.NewGameState == GameState.GameOver)
+            {
+                _isGameOver = true;
+                _cancellationTokenSource.Cancel();
+            }
         }
         
     }

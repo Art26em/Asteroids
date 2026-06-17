@@ -4,8 +4,6 @@ using Core.States;
 using Cysharp.Threading.Tasks;
 using Signals;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Zenject;
 using Button = UnityEngine.UI.Button;
 
@@ -14,9 +12,9 @@ namespace UI.Views
     [RequireComponent(typeof(CanvasGroup))]
     public class StartScreen : MonoBehaviour
     {
-        [SerializeField] private float screenFadeOutStep;
-        [SerializeField] private Button startButton;
-        [SerializeField] private Button quitButton;
+        [SerializeField] private float _screenFadeOutStep;
+        [SerializeField] private Button _startButton;
+        [SerializeField] private Button _quitButton;
         
         private SignalBus _signalBus;
         private CanvasGroup _canvasGroup;
@@ -30,21 +28,25 @@ namespace UI.Views
         
         private void Awake()
         {
-            Time.timeScale = 0; 
             _canvasGroup = GetComponent<CanvasGroup>();
             _canvasGroup.alpha = 1;
+        }
+
+
+        private void Start()
+        {
+            _signalBus.Fire(new GameStateChangedSignal(GameState.Paused));
         }
         
         private void OnEnable()
         {
-            startButton.onClick.AddListener(OnStart);
-            quitButton.onClick.AddListener(OnQuit);
+            _startButton.onClick.AddListener(OnStart);
+            _quitButton.onClick.AddListener(OnQuit);
         }
 
         private void OnStart()
         {
             _signalBus.Fire(new GameStateChangedSignal(GameState.Starting));
-            Time.timeScale = 1;
             _ = FadeOutScreen();
         }
 
@@ -55,7 +57,7 @@ namespace UI.Views
             {
                 while (_canvasGroup.alpha > 0)
                 {
-                    _canvasGroup.alpha -= screenFadeOutStep;
+                    _canvasGroup.alpha -= _screenFadeOutStep;
                     await UniTask.Yield(PlayerLoopTiming.Update, _cancellationTokenSource.Token);
                 }
                 gameObject.SetActive(false);
@@ -70,8 +72,8 @@ namespace UI.Views
         
         private void OnDisable()
         {
-            startButton.onClick.RemoveAllListeners(); 
-            quitButton.onClick.RemoveAllListeners();
+            _startButton.onClick.RemoveAllListeners(); 
+            _quitButton.onClick.RemoveAllListeners();
             SafeCancelAndDispose();
         }
 

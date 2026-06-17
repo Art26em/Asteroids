@@ -12,8 +12,9 @@ namespace Installers
             Container.DeclareSignal<GameStateChangedSignal>();
             Container.DeclareSignal<LargeAsteroidDestroyedSignal>();
             Container.DeclareSignal<LightEnemyDiedSignal>();
-            Container.DeclareSignal<StartAnimationCompleted>();
+            Container.DeclareSignal<StartAnimationCompletedSignal>();
             Container.DeclareSignal<ScoreIncreasedSignal>();
+            Container.DeclareSignal<ObjectDisabledSignal>();
         }
     }
 }

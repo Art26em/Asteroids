@@ -1,3 +1,4 @@
 ﻿{
-  "name": "Core.ScoreSystem"
+  "name": "Core.ScoreSystem",
+  "references":[ "GUID:0d8beb7f090555447a6cf5ce9e54dbb4", "GUID:357f75e5c8fc4fe5bfd4997a9a75d692" ]
 }

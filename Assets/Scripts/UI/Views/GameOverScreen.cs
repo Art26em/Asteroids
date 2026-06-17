@@ -9,7 +9,6 @@ namespace UI.Views
         
         private void OnEnable()
         {
-            Time.timeScale = 0;
             exitButton.onClick.AddListener(ExitGame);
         }
 

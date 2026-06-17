@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Core.AnimationsSettings;
-using Core.PlayerLogic;
 using Core.PlayerPresentation;
 using Core.SpriteControllers;
 using Cysharp.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace Core.AnimationsControllers
         private PlayerObject _playerObject;
         private PlayerAnimationSettings _playerAnimationSettings;
         private PlayerSpriteController _playerSpriteController;
-        private readonly ParticleSystem _space;
+        private ParticleSystem _space;
         private SignalBus _signalBus;
         
         private CancellationTokenSource _earthAnimCancellationTokenSource;
@@ -29,29 +28,19 @@ namespace Core.AnimationsControllers
             PlayerObject playerObject,
             PlayerAnimationSettings playerAnimationSettings,
             PlayerSpriteController playerSpriteController,
-            PlayerInputController playerInputController,
-            SignalBus signalBus)
-        {
-            _earthAnimationSettings = earthAnimationSettings;
-            _playerObject = playerObject;
-            _playerAnimationSettings = playerAnimationSettings;
-            _playerSpriteController = playerSpriteController;
-            _signalBus = signalBus;
-        }
-        
-        public AnimationsController(
-            EarthAnimationSettings earthAnimationSettings,
-            PlayerAnimationSettings playerAnimationSettings, 
-            PlayerSpriteController playerSpriteController,
+            SignalBus signalBus,
             ParticleSystem space)
         {
             _earthAnimationSettings = earthAnimationSettings;
             _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthStartPosition;
+            
+            _playerObject = playerObject;
             _playerAnimationSettings = playerAnimationSettings;
             _playerSpriteController = playerSpriteController;
+            _signalBus = signalBus;
             _space = space;
         }
-
+        
         public void OnGameStart()
         {
             _earthAnimationSettings.Earth.gameObject.SetActive(true);
@@ -91,7 +80,7 @@ namespace Core.AnimationsControllers
                         _earthAnimationSettings.Earth.position = _earthAnimationSettings.EarthTargetPosition;
                         _earthAnimationSettings.Earth.gameObject.SetActive(false);
                         _space.Pause();
-                        _signalBus.Fire<StartAnimationCompleted>();
+                        _signalBus.Fire<StartAnimationCompletedSignal>();
                         break;
                     }
 
@@ -111,7 +100,7 @@ namespace Core.AnimationsControllers
             var startTime = Time.time;
             
             // Отключаем возможность перемещаться во время анимации
-            _playerObject.isInputEnabled = false;
+            _playerObject.IsInputEnabled = false;
             _playerSpriteController.SetPlayerMovingSprite();
             
             _playerAnimCancellationTokenSource = new CancellationTokenSource();
@@ -134,7 +123,7 @@ namespace Core.AnimationsControllers
                     if (fractionOfJourney >= 1f)
                     {
                         _playerObject.transform.position = _playerAnimationSettings.PlayerTargetPosition;
-                        _playerObject.isInputEnabled = true;
+                        _playerObject.IsInputEnabled = true;
                         _playerSpriteController.SetPlayerIdleSprite();
                         break;
                     }

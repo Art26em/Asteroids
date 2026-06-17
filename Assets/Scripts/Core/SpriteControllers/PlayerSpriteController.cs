@@ -19,16 +19,13 @@ namespace Core.SpriteControllers
             _playerSpriteRenderer = playerObject.GetComponent<SpriteRenderer>();
         }
 
-        public void UpdatePlayerSprite(bool isInputEnabled = true)
+        public void UpdatePlayerSprite(bool isInputEnabled, bool isMovingY)
         {
             if (!isInputEnabled)
             {
                 SetPlayerIdleSprite();
                 return;
             }
-            
-            var isMovingY = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || 
-                            Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow);
             
             switch (isMovingY)
             {

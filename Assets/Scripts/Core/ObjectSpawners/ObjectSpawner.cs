@@ -14,7 +14,7 @@ namespace Core.ObjectSpawners
             _factory = factory;
         }
         
-        public bool IsTimeToSpawn(float elapsedTime, float spawnTime)
+        public bool IsSpawnIntervalElapsed(float elapsedTime, float spawnTime)
         {
             return !(elapsedTime < spawnTime);
         }
