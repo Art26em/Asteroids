@@ -14,14 +14,14 @@ namespace Installers
         {
             Container.Bind<PlayerInputData>().AsSingle();
             
-            // if (Application.isMobilePlatform)
-            // {
-                 Container.Bind<IPlayerInputProvider>().To<PlayerMobileInputProvider>().AsSingle();    
-            // }
-            // else
-            // {
-            //     Container.Bind<IPlayerInputProvider>().To<PlayerKeyboardInputController>().AsSingle();    
-            // }
+            if (Application.isMobilePlatform)
+            {
+                Container.Bind<IPlayerInputProvider>().To<PlayerMobileInputProvider>().AsSingle();    
+            }
+            else
+            {
+                Container.Bind<IPlayerInputProvider>().To<PlayerKeyboardInputController>().AsSingle();    
+            }
             
             Container.Bind<Score>().AsSingle();
             Container.BindInterfacesAndSelfTo<ScoreController>().AsSingle();

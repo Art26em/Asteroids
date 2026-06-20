@@ -55,7 +55,7 @@ namespace Core.StateControllers
         private void OnStartAnimationCompleted(StartAnimationCompletedSignal _)
         {
             _gameScreen.gameObject.SetActive(true); 
-            //_buttonsContainer.gameObject.SetActive(Application.isMobilePlatform);
+            _buttonsContainer.gameObject.SetActive(Application.isMobilePlatform);
         }
         
     }

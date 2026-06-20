@@ -1,4 +1,4 @@
-﻿// using Core.Analytics;
+﻿using Core.Analytics;
 using Core.Configs;
 using Core.ObjectPools;
 using UnityEngine;
@@ -42,7 +42,7 @@ namespace Installers
             Container.Bind<ProjectilesData>().FromInstance(projectilesData).AsSingle();
             Container.Bind<EnemiesData>().FromInstance(enemiesData).AsSingle();
             Container.Bind<ObjectPoolSettings>().AsSingle();
-            // Container.Bind<AnalyticsEventSender>().AsSingle();
+            Container.Bind<AnalyticsEventSender>().AsSingle();
         }
     }
 }
