@@ -1,7 +1,4 @@
-﻿using Core.AsteroidsPresentation;
-using Core.EnemiesPresentation;
-using Core.ObjectPools;
-using Core.ProjectilesPresentation;
+﻿using Core.ObjectPools;
 using UnityEngine;
 using Zenject;
 

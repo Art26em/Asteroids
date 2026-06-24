@@ -32,12 +32,7 @@ namespace Core.ObjectMovers
             var asteroidSpeedStats = asteroid.SpeedStats;
             var rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 
-            const int directionsCount = 2;
-            const float clockWiseDirection = 1f;
-            const float counterClockWiseDirection = -1f;
-            var rotationDirection = Random.Range(0, directionsCount) == 0 
-                ? clockWiseDirection : counterClockWiseDirection;
-            
+            var rotationDirection = GetRotationDirection();
             var rotationAngle = 0f;
 
             asteroid.SpeedStats.CurrentVelocity = Random.insideUnitCircle.normalized * asteroidSpeedStats.MaxSpeed;
@@ -69,6 +64,16 @@ namespace Core.ObjectMovers
             finally{
                 cancellationTokenSource.Dispose();
             }
+        }
+
+        private float GetRotationDirection()
+        {
+            var directionsCount = 2;
+            var clockWiseDirection = 1f;
+            var counterClockWiseDirection = -1f;
+            var rotationDirection = Random.Range(0, directionsCount) == 0 
+                ? clockWiseDirection : counterClockWiseDirection;
+            return rotationDirection;
         }
 
         public void Initialize()
