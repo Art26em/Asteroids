@@ -59,7 +59,7 @@ namespace Core.AnimationsControllers
             var startTime = Time.time;
 
             _earthAnimCancellationTokenSource = new CancellationTokenSource();
-            
+
             try
             {
                 while (_earthAnimationSettings.Earth.position != _earthAnimationSettings.EarthTargetPosition)
@@ -87,9 +87,15 @@ namespace Core.AnimationsControllers
                     // Ждем один кадр
                     await UniTask.Yield(PlayerLoopTiming.Update, _earthAnimCancellationTokenSource.Token);
                 }
+                _earthAnimCancellationTokenSource.Cancel();
             }
-            catch (OperationCanceledException) {}
-            
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                _earthAnimCancellationTokenSource.Dispose();
+            }
         }
 
         private async UniTask MoveInPlayer()
@@ -104,7 +110,7 @@ namespace Core.AnimationsControllers
             _playerSpriteController.SetPlayerMovingSprite();
             
             _playerAnimCancellationTokenSource = new CancellationTokenSource();
-            
+
             try
             {
                 while (_playerObject.transform.position != _playerAnimationSettings.PlayerTargetPosition)
@@ -112,13 +118,13 @@ namespace Core.AnimationsControllers
                     // Рассчитываем пройденное расстояние
                     var distanceCovered = (Time.time - startTime) * _playerAnimationSettings.PlayerMoveInSpeed;
                     var fractionOfJourney = distanceCovered / journeyLength;
-                
+
                     // Плавное перемещение с использованием Lerp
                     _playerObject.transform.position = Vector2.Lerp(
                         _playerAnimationSettings.PlayerStartPosition,
                         _playerAnimationSettings.PlayerTargetPosition,
                         fractionOfJourney);
-                
+
                     // Если достигли цели, выходим
                     if (fractionOfJourney >= 1f)
                     {
@@ -127,12 +133,18 @@ namespace Core.AnimationsControllers
                         _playerSpriteController.SetPlayerIdleSprite();
                         break;
                     }
-                
+
                     // Ждем один кадр
                     await UniTask.Yield(PlayerLoopTiming.Update, _playerAnimCancellationTokenSource.Token);
                 }
+                _playerAnimCancellationTokenSource.Cancel();
             }
-            catch (OperationCanceledException) {}
+            catch (OperationCanceledException)
+            {
+            }
+            finally{
+                _playerAnimCancellationTokenSource.Dispose();
+            }
         }
     }
 }

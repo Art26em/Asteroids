@@ -4,15 +4,15 @@ namespace Core.ScoreSystem
 {
     public class Score
     {
-        private int _scoreCount;
-        public int CurrentScore() => _scoreCount;
+        public int CurrentScore { get; private set; }
+
         public event Action<int> OnScoreChanged;
         
         public void AddScore(int score)
         {
             if (score <= 0) return;
-            _scoreCount += score;
-            OnScoreChanged?.Invoke(_scoreCount);
+            CurrentScore += score;
+            OnScoreChanged?.Invoke(CurrentScore);
         }
     }
 }

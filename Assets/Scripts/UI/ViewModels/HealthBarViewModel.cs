@@ -23,7 +23,7 @@ namespace UI.ViewModels
         {
             _playerStats.HealthChanged += OnHealthChanged;
 
-            var currentHealth = _playerStats.CurrentHealth();
+            var currentHealth = _playerStats.CurrentHealth;
             for (var i = 0; i < currentHealth; i++)
             {
                 var model = new HealthItemViewModel();

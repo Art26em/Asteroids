@@ -84,10 +84,6 @@ namespace Core.PlayerLogic
             catch (OperationCanceledException)
             {
             }
-            finally
-            {
-                _cancellationTokenSource?.Dispose();
-            }
         }
 
         private async UniTask CalculateMovement()
@@ -105,10 +101,6 @@ namespace Core.PlayerLogic
             }
             catch (OperationCanceledException)
             {
-            }
-            finally
-            {
-                _cancellationTokenSource?.Dispose();
             }
         }
 

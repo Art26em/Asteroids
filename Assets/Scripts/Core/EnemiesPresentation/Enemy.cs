@@ -6,20 +6,12 @@ namespace Core.EnemiesPresentation
 {
     public abstract class Enemy : MonoBehaviour
     {
-        private EffectsController _effectsController;
+        protected EffectsController EffectsController;
 
         [Inject]
         private void Construct(EffectsController effectsController)
         {
-            _effectsController = effectsController;
+            EffectsController = effectsController;
         }
-        
-        protected void PlayExplosionEffect()
-        {
-            var explosion = Instantiate(
-                _effectsController.EnemyExplosionEffect, transform.position, Quaternion.identity);
-            explosion.Play();
-            Destroy(explosion.gameObject, explosion.main.duration + explosion.main.startLifetime.constant);
-        } 
     }
 }

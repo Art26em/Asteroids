@@ -41,7 +41,7 @@ namespace Installers
             Container.Bind<PlayerData>().FromInstance(playerData).AsSingle();
             Container.Bind<ProjectilesData>().FromInstance(projectilesData).AsSingle();
             Container.Bind<EnemiesData>().FromInstance(enemiesData).AsSingle();
-            Container.Bind<ObjectPoolSettings>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ObjectPoolSettings>().AsSingle();
             Container.Bind<AnalyticsEventSender>().AsSingle();
         }
     }

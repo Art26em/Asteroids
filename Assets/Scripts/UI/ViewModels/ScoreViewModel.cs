@@ -20,7 +20,7 @@ namespace UI.ViewModels
 
         public void Initialize()
         {
-            OnScoreChanged(_score.CurrentScore());
+            OnScoreChanged(_score.CurrentScore);
             _score.OnScoreChanged += OnScoreChanged;
         }
 

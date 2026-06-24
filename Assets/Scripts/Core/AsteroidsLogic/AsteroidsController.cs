@@ -108,11 +108,9 @@ namespace Core.AsteroidsLogic
 
         private void OnGameStateChanged(GameStateChangedSignal signal)
         {
-            if (signal.NewGameState == GameState.GameOver)
-            {
-                _isGameOver = true;
-                _cancellationTokenSource.Cancel();
-            }
+            if (signal.NewGameState != GameState.GameOver) return;
+            _isGameOver = true;
+            _cancellationTokenSource.Cancel();
         }
         
     }

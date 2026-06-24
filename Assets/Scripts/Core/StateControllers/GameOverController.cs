@@ -25,7 +25,7 @@ namespace Core.StateControllers
         public void OnGameOver()
         {
             _gameOverScreen.gameObject.SetActive(true);
-            _analyticsEventSender.PlayerDiedEvent(_score.CurrentScore());
+            _analyticsEventSender.PlayerDiedEvent(_score.CurrentScore);
         }
     }
 }

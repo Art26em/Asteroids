@@ -31,7 +31,13 @@ namespace Core.ObjectMovers
             
             var asteroidSpeedStats = asteroid.SpeedStats;
             var rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-            var rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
+
+            const int directionsCount = 2;
+            const float clockWiseDirection = 1f;
+            const float counterClockWiseDirection = -1f;
+            var rotationDirection = Random.Range(0, directionsCount) == 0 
+                ? clockWiseDirection : counterClockWiseDirection;
+            
             var rotationAngle = 0f;
 
             asteroid.SpeedStats.CurrentVelocity = Random.insideUnitCircle.normalized * asteroidSpeedStats.MaxSpeed;
@@ -77,12 +83,9 @@ namespace Core.ObjectMovers
 
         private void OnObjectDisabled(ObjectDisabledSignal signal)
         {
-            if (_objectTokens.ContainsKey(signal.GameObject))
-            {
-                var objectToken = _objectTokens[signal.GameObject];
-                objectToken.Cancel();
-                _objectTokens.Remove(signal.GameObject);
-            }   
+            if (!_objectTokens.TryGetValue(signal.GameObject, out var objectToken)) return;
+            objectToken.Cancel();
+            _objectTokens.Remove(signal.GameObject);
         }
         
     }

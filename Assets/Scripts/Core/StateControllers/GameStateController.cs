@@ -16,7 +16,6 @@ namespace Core.StateControllers
         private void Construct(
             GameStartController gameStartController, 
             GameOverController gameOverController,
-            GameScreen gameScreen,
             SignalBus signalBus)
         {
             _gameStartController = gameStartController;

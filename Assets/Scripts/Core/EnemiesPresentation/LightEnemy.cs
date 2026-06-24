@@ -56,7 +56,7 @@ namespace Core.EnemiesPresentation
         private void Die()
         {
             _signalBus.Fire<LightEnemyDiedSignal>();
-            PlayExplosionEffect();
+            EffectsController.ExplodeEnemy(transform);
             gameObject.SetActive(false);     
         }   
     }

@@ -72,8 +72,8 @@ namespace UI.Views
         
         private void OnDisable()
         {
-            _startButton.onClick.RemoveAllListeners(); 
-            _quitButton.onClick.RemoveAllListeners();
+            _startButton.onClick.RemoveListener(OnStart); 
+            _quitButton.onClick.RemoveListener(OnQuit);
             SafeCancelAndDispose();
         }
 

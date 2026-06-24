@@ -1,7 +1,8 @@
-﻿using Core.AsteroidsPresentation;
+﻿using System;
+using System.Collections.Generic;
+using Core.AsteroidsPresentation;
 using Core.Configs;
 using Core.EnemiesPresentation;
-using Core.ObjectFactories;
 using Core.ProjectilesPresentation;
 using Zenject;
 
@@ -12,6 +13,7 @@ namespace Core.ObjectPools
         private AsteroidsData _asteroidsData;
         private ProjectilesData _projectilesData;
         private EnemiesData _enemiesData;
+        private Dictionary<Type, IPoolSettings.Settings> _settings;
 
         [Inject]
         private void Construct(AsteroidsData asteroidsData, ProjectilesData projectilesData, EnemiesData enemiesData)
@@ -19,34 +21,48 @@ namespace Core.ObjectPools
             _asteroidsData = asteroidsData;
             _projectilesData = projectilesData;
             _enemiesData = enemiesData;
+            
+            CreateSettings();
         }
         
-        public IPoolSettings.Settings GetSettings<T>() where T : new()
+        private void CreateSettings()
         {
-            var settings = new IPoolSettings.Settings();
-            
-            var typeT = typeof(T);
-            
-            if (typeT.IsSubclassOf(typeof(Asteroid)))
+            _settings = new Dictionary<Type, IPoolSettings.Settings>();
+
+            var largeAsteroidSettings = new IPoolSettings.Settings
             {
-                settings.Count = typeT == typeof(LargeAsteroid) ? 
-                    _asteroidsData.LargeAsteroidPoolSize :
-                    _asteroidsData.MediumAsteroidPoolSize;
-                settings.Container = _asteroidsData.AsteroidsContainer;    
-            } else if (typeT.IsSubclassOf(typeof(Projectile)))
-            {
-                settings.Count = _projectilesData.MagazineSize;
-                settings.Container = _projectilesData.BulletsContainer;    
-            }
-            else if(typeT.IsSubclassOf(typeof(Enemy)))
-            {
-                settings.Count = typeT == typeof(LightEnemy) ? 
-                    _enemiesData.LightEnemyPoolSize :
-                    _enemiesData.MediumEnemyPoolSize;
-                settings.Container = _enemiesData.EnemiesContainer;        
-            }
+                Container = _asteroidsData.AsteroidsContainer,
+                Count = _asteroidsData.LargeAsteroidPoolSize
+            };
             
-            return settings;
+            var mediumAsteroidSettings = new IPoolSettings.Settings
+            {
+                Container = _asteroidsData.AsteroidsContainer,
+                Count = _asteroidsData.MediumAsteroidCount
+            };
+            
+            var projectileSettings = new IPoolSettings.Settings
+            {
+                Count = _projectilesData.MagazineSize,
+                Container = _projectilesData.BulletsContainer  
+            };
+            
+            var lightEnemySettings = new IPoolSettings.Settings
+            {
+                Count = _enemiesData.LightEnemyPoolSize,
+                Container = _enemiesData.EnemiesContainer 
+            };
+            
+            _settings.Add(typeof(LargeAsteroid), largeAsteroidSettings);
+            _settings.Add(typeof(MediumAsteroid), mediumAsteroidSettings);
+            _settings.Add(typeof(Bullet), projectileSettings);
+            _settings.Add(typeof(LightEnemy), lightEnemySettings);
+        }
+        
+        public IPoolSettings.Settings GetSettings<T>()
+        {
+            return !_settings.TryGetValue(typeof(T), out var settings) ? 
+                throw new KeyNotFoundException($"Key {typeof(T).Name} does not exist in settings pool") : settings;
         }
     }
 }

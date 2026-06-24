@@ -80,11 +80,5 @@ namespace Core.PlayerLogic
             }
             _playerSpriteController.SetPlayerIdleSprite();
         }
-        
-        private void Update()
-        {
-            
-        }
-        
     }
 }

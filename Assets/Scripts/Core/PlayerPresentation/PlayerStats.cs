@@ -10,7 +10,7 @@ namespace Core.PlayerPresentation
     public class PlayerStats : IInitializable, IDisposable
     {
         public HealthStats HealthStats;
-        public int CurrentHealth() => HealthStats.CurrentHealth;
+        public int CurrentHealth => HealthStats.CurrentHealth;
         public SpeedStats SpeedStats;
         public bool IsImmortal;
         public float InvincibilityTime;

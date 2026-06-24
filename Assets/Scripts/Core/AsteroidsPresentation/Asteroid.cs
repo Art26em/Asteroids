@@ -10,7 +10,7 @@ namespace Core.AsteroidsPresentation
 {
     public abstract class Asteroid : MonoBehaviour
     {
-        private EffectsController _effectsController;
+        protected EffectsController EffectsController;
         public SpeedStats SpeedStats;
         protected int Score;
         protected SignalBus SignalBus;
@@ -19,15 +19,7 @@ namespace Core.AsteroidsPresentation
         private void Construct(SignalBus signalBus, EffectsController effectsController)
         {
             SignalBus = signalBus;
-            _effectsController = effectsController;
-        }
-
-        private void PlayExplosionEffect()
-        {
-            var explosion = Instantiate(
-                _effectsController.AsteroidExplosionEffect, transform.position, Quaternion.identity);
-            explosion.Play();
-            Destroy(explosion.gameObject, explosion.main.duration + explosion.main.startLifetime.constant);
+            EffectsController = effectsController;
         }
         
         private void OnCollisionEnter2D(Collision2D other)
@@ -37,7 +29,7 @@ namespace Core.AsteroidsPresentation
             if (other.gameObject.TryGetComponent(out Projectile _))
             {
                 FireSignals(other);
-                PlayExplosionEffect();
+                EffectsController.ExplodeAsteroid(transform);
                 gameObject.SetActive(false);
             }
             else

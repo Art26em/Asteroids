@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core.ObjectFactories
+namespace Core.ObjectPools
 {
     public interface IPoolSettings
     {
@@ -10,7 +10,6 @@ namespace Core.ObjectFactories
             public Transform Container;
         }
 
-        public Settings GetSettings<T>() where T : new();
-
+        public Settings GetSettings<T>();
     }
 }
